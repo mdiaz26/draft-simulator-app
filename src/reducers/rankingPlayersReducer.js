@@ -8,9 +8,9 @@ export const rankingPlayersReducer = (state = {rankingPlayers: [], requesting: f
                 requesting: true
             }
         case 'POPULATE_RANKING_PLAYERS':
-            return {
+        return {
                 ...state,
-                rankingPlayers: action.rankingPlayers,
+                rankingPlayers: action.ranking_players,
                 requesting: false
             }
         default:

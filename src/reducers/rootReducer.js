@@ -7,7 +7,7 @@ import {draftReducer} from './draftReducer'
 const rootReducer = combineReducers({
     players: playersReducer,
     franchises: franchisesReducer,
-    rankingPlayers: rankingPlayersReducer,
+    rankingPlayersInfo: rankingPlayersReducer,
     nominationData: draftReducer
 })
 

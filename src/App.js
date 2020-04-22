@@ -1,5 +1,5 @@
 import React from 'react';
-import JSONAPIAdapter from './JSONAPIAdapter'
+import { fetchRankingPlayers } from './JSONAPIAdapter'
 import PlayersContainer from './containers/PlayersContainer'
 import DraftLobby from './containers/DraftLobby'
 import { connect } from 'react-redux'
@@ -11,19 +11,10 @@ class App extends React.Component {
     this.props.populatePlayers()
     this.props.populateFranchises()
     
-    this.fetchRankingPlayers()
+    this.props.fetchRankingPlayers()
   }
 
-  fetchRankingPlayers(){
-    const adapter = new JSONAPIAdapter('http://localhost:3000/api/v1/')
-    return (dispatch) => {
-      dispatch({ type: 'START_POPULATING_PLAYERS_REQUEST'})
-      adapter.getAll('ranking_players')
-      .then(ranking_players => dispatch({
-        type: 'POPULATE_PLAYERS', ranking_players
-      }))
-    }
-  }
+
 
   // onDragEnd = result => {
   //   const { destination, source, draggableId } = result
@@ -53,7 +44,7 @@ class App extends React.Component {
     return (
       <div className="App">
         My football app
-          <PlayersContainer id="playersContainer" players={this.props.players}/>
+          <PlayersContainer id="playersContainer" players={this.props.players} rankingPlayers={this.props.rankingPlayers}/>
           <DraftLobby/>
       </div>
     );
@@ -62,7 +53,8 @@ class App extends React.Component {
 
 const mapStateToProps = state => {
   return {
-      players: state.players
+      players: state.players,
+      rankingPlayers: state.rankingPlayersInfo.rankingPlayers
   }
 }
 
@@ -71,7 +63,7 @@ const mapDispatchToProps = dispatch => {
     populatePlayers: () => dispatch({type: 'POPULATE_PLAYERS'}),
     populateFranchises: () => dispatch({type: 'POPULATE_FRANCHISES'}),
     updateQueue: (newQueue) => dispatch({type: 'UPDATE_QUEUE', payload: newQueue}),
-    fetchRankingPlayers: () => dispatch(this.fetchRankingPlayers())
+    fetchRankingPlayers: () => dispatch(fetchRankingPlayers())
   }
 }
 

@@ -15,8 +15,8 @@ const Player = props => {
     return(
         <div>
             <strong>{props.player.name}</strong> 
-            ({props.player.nfl_team} - {props.player.position})
-            Value: ${props.player.value}
+            ({props.player.pro_team} - {props.player.position})
+            Value: ${props.rPlayer.value}
             <button onClick={() => props.nominatePlayer(props.player, props.franchises)}>Nominate</button>
         </div>
     )

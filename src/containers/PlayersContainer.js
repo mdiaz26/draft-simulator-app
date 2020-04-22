@@ -35,7 +35,7 @@ const PlayersContainer = props => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        nominatePlayer: (playerObj, franchises) => dispatch({type: 'NOMINATE_PLAYER', player: playerObj, franchises: franchises})
+        nominatePlayer: (playerObj, franchises) => dispatch({type: 'NOMINATE_PLAYER', rPlayer: playerObj, franchises: franchises})
     }
 }
 

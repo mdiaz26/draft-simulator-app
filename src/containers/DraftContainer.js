@@ -1,8 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-// import { randomFactor } from '../draftLogic'
 
-class DraftLobby extends React.Component {
+class Draft extends React.Component {
     
     state = {
         currentBid: 1,
@@ -20,17 +19,20 @@ class DraftLobby extends React.Component {
         })
     }
 
-
+    // I think this belongs IN DRAFTCONTAINER
     filterFranchisesByBid = () => {
         return this.props.valuations.filter(valueObj => valueObj.valuation > this.state.currentBid)
     }
 
+    // I think this belongs IN DRAFTCONTAINER
     startBidding = () => {
         console.log(this.props.valuations)
         const biddingTrigger = setInterval(() => this.teamBids(), 400)
         this.setState({biddingTrigger})
     }
 
+    // I think this belongs in DRAFTLOGIC
+    // But I can't move it because it's using methods that are in DRAFTCONTAINER and DRAFTCONTAINER'S state
     teamBids = () => {
         // This creates a new array each time it is run. The array will shrink as currentBid increases.
         let bidders = this.filterFranchisesByBid()
@@ -72,14 +74,11 @@ class DraftLobby extends React.Component {
             clearInterval(this.state.biddingTrigger)
             this.setState({biddingTrigger: ""})
         }
-
-    render(){
-        return(
+    
+    render() {
+        return (
             <div>
-                Draft Lobby
-                {/* <button onClick={this.logValuations}>Log Valuations</button> */}
                 <button onClick={this.startBidding}>Start Bidding</button>
-                <button onClick={() => this.teamBids({franchiseId: 1, valuation: 30})}>Will Team Bid?</button>
                 <button onClick={this.stopBidding}>Stop Bidding</button>
                 <p>Current Bid is ${this.state.currentBid}</p>
             </div>
@@ -89,10 +88,8 @@ class DraftLobby extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        franchises: state.franchises,
-        nominatedPlayer: state.nominationData.nominatedPlayer,
         valuations: state.nominationData.valuations
     }
 }
 
-export default connect(mapStateToProps)(DraftLobby)
+export default connect(mapStateToProps)(Draft)

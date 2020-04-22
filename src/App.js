@@ -1,14 +1,17 @@
 import React from 'react';
 import { fetchRankingPlayers } from './JSONAPIAdapter'
-import PlayersContainer from './containers/PlayersContainer'
-import DraftLobby from './containers/DraftLobby'
+import DraftLobbyContainer from './containers/DraftLobbyContainer'
+import RankingsContainer from './containers/RankingsContainer'
+import DraftsContainer from './containers/DraftsContainer'
+import Navbar from './components/Navbar'
 import { connect } from 'react-redux'
+import {Switch, Route} from 'react-router-dom'
 // import { DragDropContext } from 'react-beautiful-dnd'
 
 class App extends React.Component {
 
   componentDidMount(){
-    this.props.populatePlayers()
+    // this.props.populatePlayers()
     this.props.populateFranchises()
     
     this.props.fetchRankingPlayers()
@@ -43,18 +46,20 @@ class App extends React.Component {
   render(){
     return (
       <div className="App">
-        My football app
-          <PlayersContainer id="playersContainer" players={this.props.players} rankingPlayers={this.props.rankingPlayers}/>
-          <DraftLobby/>
+          <Navbar/>
+          <Switch>
+            <Route path="/draft" render={() => 
+              <DraftLobbyContainer/>
+            }/>
+            <Route path="/rankings" render={() => 
+              <RankingsContainer/>
+            }/>
+            <Route path="/drafts" render={() => 
+              <DraftsContainer/>
+            }/>
+          </Switch>
       </div>
     );
-  }
-}
-
-const mapStateToProps = state => {
-  return {
-      players: state.players,
-      rankingPlayers: state.rankingPlayersInfo.rankingPlayers
   }
 }
 
@@ -67,4 +72,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(null, mapDispatchToProps)(App);

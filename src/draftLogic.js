@@ -1,9 +1,3 @@
-// export const maxPositionSpots = position => {draft.rosterConfig[position]}
-
-// const remainingPositionSpots = (position, playersAtPosition) => {
-//     maxPositionSpots(position) - playersAtPosition.length
-// }
-
 export const calculateValuations = (franchises, nominatedPlayer) => {
     let valuations = franchises.map(franchise => {
         return {franchiseId: franchise.id, valuation: randomFactor(nominatedPlayer)}
@@ -22,8 +16,15 @@ export const randomFactor = (nominatedPlayer) => {
 }  
 
 
-// const valuations = franchises.map(franchise => {
-// 	randomFactor =  ( ((Math.floor(Math.random() * 21)) + (Math.floor(Math.random() * 21)) -20 )/ 100 ) * nominatedPlayer.value  // see Speaker Notes 1
+
+
+// export const maxPositionSpots = position => {draft.rosterConfig[position]}
+
+// const remainingPositionSpots = (position, playersAtPosition) => {
+//     maxPositionSpots(position) - playersAtPosition.length
+// }
+
+
 // 	playersAtPosition = franchise.franchisePlayers.filter(fPlayer => fPlayer.player.position === nominatedPlayer.player.position)
 // 	demandFactor = 1 - ( Math.sqrt(
 // abs((1/maxPositionSpots - 1/remainingPositionSpots(nominatedPlayer.player.position, playersAtPosition))))

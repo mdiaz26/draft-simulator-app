@@ -47,7 +47,7 @@ class DraftLobby extends React.Component {
                 console.log(`${franchise.name} has bid $${this.state.currentBid + 1}`)
                 this.setState(prevState => ({currentBid: prevState.currentBid + 1, bidLeaderId: franchise.id}))
                 bidders.length === 1 && this.declareWinner()
-            } else if (valueObj.franchiseId === this.state.bidLeaderId) {
+            } else if (valueObj.franchiseId === this.state.bidLeaderId && bidders.length === 1) {
                 this.declareWinner()
             }
 

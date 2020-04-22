@@ -17,6 +17,7 @@ class DraftLobbyContainer extends React.Component {
                 <DraftContainer nominatedPlayer={this.props.nominatedPlayer} franchises={this.props.franchises}/>
                 <FranchisesContainer/>
                 <SingleTeamContainer/>
+                {/* {console.log(this.props)} */}
                 <PlayersContainer id="playersContainer" rankingPlayers={this.props.rankingPlayers}/>
 
             </div>

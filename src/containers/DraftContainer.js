@@ -1,5 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import Bids from '../components/Bids'
+import Player from '../components/Player'
+import BidOptions from '../components/BidOptions'
 
 class Draft extends React.Component {
     
@@ -80,6 +83,16 @@ class Draft extends React.Component {
             <div>
                 <button onClick={this.startBidding}>Start Bidding</button>
                 <button onClick={this.stopBidding}>Stop Bidding</button>
+                {this.props.nominatedPlayer !== '' ? 
+                    <Player
+                    player={this.props.nominatedPlayer.player}
+                    rPlayer={this.props.nominatedPlayer}
+                    inNominationQueue={false}
+                    /> :
+                    "Nomination Pending"
+                }
+                <BidOptions/>
+                <Bids/>
                 <p>Current Bid is ${this.state.currentBid}</p>
             </div>
         )
@@ -88,6 +101,7 @@ class Draft extends React.Component {
 
 const mapStateToProps = state => {
     return {
+        nominatedPlayer: state.nominationData.nominatedPlayer,
         valuations: state.nominationData.valuations
     }
 }

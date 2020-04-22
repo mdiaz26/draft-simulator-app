@@ -20,10 +20,12 @@ const PlayersContainer = props => {
     return(
         <div>
             <h2>Nomination Queue</h2>
-            {props.players.map(player => (
+            {console.log(props)}
+            {props.rankingPlayers.map(rPlayer => (
                 <Player 
-                    key={player.id} 
-                    player={player} 
+                    key={rPlayer.id} 
+                    player={rPlayer.player}
+                    rPlayer={rPlayer} 
                     nominatePlayer={props.nominatePlayer}
                 />
             ))}
@@ -33,7 +35,7 @@ const PlayersContainer = props => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        nominatePlayer: (playerObj, franchises) => dispatch({type: 'NOMINATE_PLAYER', player: playerObj, franchises: franchises})
+        nominatePlayer: (playerObj, franchises) => dispatch({type: 'NOMINATE_PLAYER', rPlayer: playerObj, franchises: franchises})
     }
 }
 

@@ -12,6 +12,12 @@ export const draftsReducer = (state = {drafts: [], requesting: false}, action) =
                 drafts: action.drafts,
                 requesting: false
             }
+        case 'ADD_DRAFT':
+            return {
+                ...state,
+                drafts: [...state.drafts, action.draft],
+                requesting: false
+            }
         default:
             return state
     }

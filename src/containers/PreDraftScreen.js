@@ -1,11 +1,7 @@
 import React from 'react'
+import { Redirect } from "react-router-dom"
 import { connect } from 'react-redux'
-import PlayersContainer from './PlayersContainer'
-import DraftContainer from './DraftContainer'
-import SingleTeamContainer from './SingleTeamContainer'
-import FranchisesContainer from './FranchisesContainer'
 import JSONAPIAdapter from '../JSONAPIAdapter'
-// import { startBidding } from '../draftLogic'
 
 const adapter = new JSONAPIAdapter('http://localhost:3000/api/v1/')
 const franchiseNames = [
@@ -21,31 +17,24 @@ const franchiseNames = [
     'Your Team'
 ]
 
-var franchisesArray = []
-
 class PreDraftScreen extends React.Component {
 
     state = {
-        activeDraft: false,
         draftObj: {},
-        franchises: [],
         redirect: ''
     }
 
 
     initiateDraft = () => {
-        if (!this.state.draftObj.id) {
             //create a new instance of Draft
             this.createNewDraft()
+            //create ten new instances of Franchise
+            .then(draftObj => {
+                franchiseNames.map(franchise => this.createFranchise(franchise, draftObj.id))
+                return draftObj
+            })
             //redirect to that draft's page
             .then(draftObj => this.setState({redirect: `/draft/${draftObj.id}`}))
-            //create ten new instances of Franchise
-            // .then(draftObj => franchiseNames.map(franchise => this.createFranchise(franchise, draftObj.id)))
-
-            // this.setState({activeDraft: true})
-        }
-
-        //kick off logic that nominates a player and starts bidding
     }
 
     createNewDraft = () => {
@@ -55,6 +44,7 @@ class PreDraftScreen extends React.Component {
         }
         return adapter.post('drafts', body)
         .then(draftObj => {
+            this.props.addDraft(draftObj)
             this.setState({draftObj})
             return draftObj
         })
@@ -67,55 +57,28 @@ class PreDraftScreen extends React.Component {
             draft_id: draftId
         }
         adapter.post('franchises', body)
-        .then(franchiseObj => franchisesArray.push(franchiseObj))
-        .then(() => this.shuffleFranchises(franchisesArray))
-    }
-
-    shuffleFranchises = (franchises) => {
-        let n = franchises.length
-        let t
-        let i
-        while (n) {
-            i = Math.floor(Math.random() * n--)
-            t = franchises[n]
-            franchises[n] = franchises[i]
-            franchises[i] = t
-        }
-        this.setState({franchises})
+        .then(franchiseObj => this.props.addFranchise(franchiseObj))
     }
 
     render(){
+        if (this.state.redirect) {
+            return <Redirect to={this.state.redirect}/>
+        }
         return(
             <div>
                 <button onClick={() => console.log(this.state)}>See State</button>
-                Draft Lobby
+                Draft Settings
                 <button onClick={this.initiateDraft}>Start Draft</button>
-                <button>Simulate Remainder</button>
-                <DraftContainer 
-                    nominatedPlayer={this.props.nominatedPlayer} 
-                    franchises={this.state.franchises}
-                    activeDraft={this.state.activeDraft}
-                />
-                <FranchisesContainer franchises={this.state.franchises}/>
-                <SingleTeamContainer/>
-                <PlayersContainer 
-                    franchises={this.state.franchises}
-                    rankingPlayers={this.props.rankingPlayers} 
-                    activeDraft={this.state.activeDraft}
-                />
-
             </div>
         )
     }
 }
 
-const mapStateToProps = state => {
+const mapDispatchToProps = dispatch => {
     return {
-        // franchises: state.franchises.franchises,
-        nominatedPlayer: state.nominationData.nominatedPlayer,
-        valuations: state.nominationData.valuations,
-        rankingPlayers: state.rankingPlayersInfo.rankingPlayers
+        addDraft: (draft) => dispatch({type: 'ADD_DRAFT', draft}),
+        addFranchise: (franchise) => dispatch({type: 'ADD_FRANCHISE', franchise})
     }
 }
 
-export default connect(mapStateToProps)(PreDraftScreen)
+export default connect(null, mapDispatchToProps)(PreDraftScreen)

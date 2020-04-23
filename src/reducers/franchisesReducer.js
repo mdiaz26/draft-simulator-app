@@ -12,6 +12,12 @@ export const franchisesReducer = (state = {franchises: [], requesting: false}, a
                 franchises: action.franchises,
                 requesting: false
             }
+        case 'ADD_FRANCHISE':
+            return {
+                ...state,
+                franchises: [...state.franchises, action.franchise],
+                requesting: false
+            }
         default:
             return state
     }

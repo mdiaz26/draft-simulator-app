@@ -4,10 +4,10 @@ import PlayersContainer from './PlayersContainer'
 import DraftContainer from './DraftContainer'
 import SingleTeamContainer from './SingleTeamContainer'
 import FranchisesContainer from './FranchisesContainer'
-import JSONAPIAdapter from '../JSONAPIAdapter'
+// import JSONAPIAdapter from '../JSONAPIAdapter'
 // import { startBidding } from '../draftLogic'
 
-const adapter = new JSONAPIAdapter('http://localhost:3000/api/v1/')
+// const adapter = new JSONAPIAdapter('http://localhost:3000/api/v1/')
 
 
 class DraftLobbyContainer extends React.Component {
@@ -44,13 +44,19 @@ class DraftLobbyContainer extends React.Component {
         return franchises
     }
 
+    draftName = () => {
+        const draftId = this.props.match.params.id
+        const draft = this.props.drafts.find(draft => draft.id === parseInt(draftId))
+        return draft ? draft.name : null
+    }
+
     render(){
         const draftFranchises = this.draftFranchises()
         return(
             <div>
                 <button onClick={() => console.log(this.state)}>See State</button>
                 <button onClick={() => console.log(this.props)}>See Props</button>
-                Draft Lobby
+                Draft Lobby: {this.draftName()}
                 <button onClick={this.startDraft}>Draft!</button>
                 <button onClick={this.toggleActiveDraft}>Toggle Active Draft</button>
                 <button>Simulate Remainder</button>

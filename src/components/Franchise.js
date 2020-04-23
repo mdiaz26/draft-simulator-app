@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { fetchFranchise } from '../JSONAPIAdapter'
 
 const Franchise = props => {
     return (
@@ -13,7 +14,7 @@ const Franchise = props => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        franchiseFocus: franchise => dispatch({type: 'CHANGE_FOCUS', franchise})
+        franchiseFocus: franchise => dispatch(fetchFranchise(franchise.id))
     }
 }
 

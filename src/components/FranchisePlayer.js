@@ -3,7 +3,7 @@ import React from 'react'
 const FranchisePlayer = props => {
     return (
         <div>
-            An instance of a FranchisePlayer
+            {props.position} - {props.player.name}
         </div>
     )
 }

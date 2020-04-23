@@ -1,8 +1,10 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { fetchFranchise } from '../JSONAPIAdapter'
 
 const Franchise = props => {
     return (
-        <div>
+        <div onClick={() => props.franchiseFocus(props.franchise)}>
             Name: {props.franchise.name}
             id: {props.franchise.id}
             draft_id: {props.franchise.draft_id}
@@ -10,4 +12,10 @@ const Franchise = props => {
     )
 }
 
-export default Franchise
+const mapDispatchToProps = dispatch => {
+    return {
+        franchiseFocus: franchise => dispatch(fetchFranchise(franchise.id))
+    }
+}
+
+export default connect(null, mapDispatchToProps)(Franchise)

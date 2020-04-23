@@ -4,16 +4,17 @@ import PlayersContainer from './PlayersContainer'
 import DraftContainer from './DraftContainer'
 import SingleTeamContainer from './SingleTeamContainer'
 import FranchisesContainer from './FranchisesContainer'
-// import JSONAPIAdapter from '../JSONAPIAdapter'
+import { fetchDraft } from '../JSONAPIAdapter'
 // import { startBidding } from '../draftLogic'
-
-// const adapter = new JSONAPIAdapter('http://localhost:3000/api/v1/')
-
 
 class DraftLobbyContainer extends React.Component {
 
     state = {
         activeDraft: false
+    }
+
+    componentDidMount(){
+        this.props.fetchDraft(this.props.match.params.id)
     }
 
     toggleActiveDraft = () => {
@@ -45,8 +46,7 @@ class DraftLobbyContainer extends React.Component {
     }
 
     draftName = () => {
-        const draftId = this.props.match.params.id
-        const draft = this.props.drafts.find(draft => draft.id === parseInt(draftId))
+        const draft = this.props.currentDraft
         return draft ? draft.name : null
     }
 
@@ -82,9 +82,17 @@ const mapStateToProps = state => {
         franchises: state.franchises.franchises,
         nominatedPlayer: state.nominationData.nominatedPlayer,
         valuations: state.nominationData.valuations,
+        franchiseFocus: state.nominationData.franchiseFocus,
         rankingPlayers: state.rankingPlayersInfo.rankingPlayers,
-        drafts: state.drafts.drafts
+        currentDraft: state.nominationData.currentDraft
     }
 }
 
-export default connect(mapStateToProps)(DraftLobbyContainer)
+const mapDispatchToProps = dispatch => {
+    return {
+    populatePlayers: () => dispatch({type: 'POPULATE_PLAYERS'}),
+    fetchDraft: (draftId) => dispatch(fetchDraft(draftId))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DraftLobbyContainer)

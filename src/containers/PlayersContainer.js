@@ -11,9 +11,11 @@ const PlayersContainer = props => {
                 <Player 
                     key={rPlayer.id} 
                     player={rPlayer.player}
-                    rPlayer={rPlayer} 
+                    rPlayer={rPlayer}
+                    franchises={props.franchises}
                     nominatePlayer={props.nominatePlayer}
                     inNominationQueue={true}
+                    activeDraft={props.activeDraft}
                 />
             ))}
         </div>

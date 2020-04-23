@@ -3,7 +3,7 @@ import React from 'react'
 const Draft = props => {
     return (
         <div>
-            An instance of a draft
+            {props.draft.name}
         </div>
     )
 }

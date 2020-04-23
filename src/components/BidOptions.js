@@ -3,7 +3,10 @@ import React from 'react'
 const BidOptions = props => {
     return (
         <div>
-            Bid Options
+            Budget Remaining: {props.budget}
+            Max Bid: {props.budget - props.openRosterSpots}
+            <button>Bid</button>
+            <button>Pass</button>
         </div>
     )
 }

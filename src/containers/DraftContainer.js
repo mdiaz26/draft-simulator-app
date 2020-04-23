@@ -7,24 +7,34 @@ import BidOptions from '../components/BidOptions'
 class Draft extends React.Component {
     
     state = {
-        currentBid: 1,
         bidderIndex: 0,
-        bidLeaderId: "",
-        biddingTrigger: ""
+        biddingTrigger: "",
+        bids: []
     }
 
     setStateToDefault = () => {
         this.setState({
-            currentBid: 1,
             bidderIndex: 0,
-            bidLeaderId: "",
-            biddingTrigger: ""
+            biddingTrigger: "",
+            bids: []
         })
+    }
+
+    mostRecentBid = () => {
+        if (this.state.bids.length > 0) {
+            return this.state.bids[this.state.bids.length - 1]
+        } else {
+            return {franchiseId: 0, bidAmount: 1}
+        }
     }
 
     // I think this belongs IN DRAFTCONTAINER
     filterFranchisesByBid = () => {
-        return this.props.valuations.filter(valueObj => valueObj.valuation > this.state.currentBid)
+        if (this.state.bids.length > 0) {
+            return this.props.valuations.filter(valueObj => valueObj.valuation > this.mostRecentBid().bidAmount)
+        } else {
+            return this.props.valuations
+        }
     }
 
     // I think this belongs IN DRAFTCONTAINER
@@ -37,7 +47,7 @@ class Draft extends React.Component {
     // I think this belongs in DRAFTLOGIC
     // But I can't move it because it's using methods that are in DRAFTCONTAINER and DRAFTCONTAINER'S state
     teamBids = () => {
-        // This creates a new array each time it is run. The array will shrink as currentBid increases.
+        // This creates a new array each time it is run. The array will shrink as mostRecentBid().bidAmount increases.
         let bidders = this.filterFranchisesByBid()
         // debugger
         if (bidders.length === 0) {
@@ -48,11 +58,15 @@ class Draft extends React.Component {
             let valueObj = bidders[this.state.bidderIndex]
             let franchise = this.props.franchises.find(franchise => franchise.id === valueObj.franchiseId)
             // the franchise will bid if their valuation is higher than the current bid
-            if (valueObj.franchiseId !== this.state.bidLeaderId && valueObj.valuation > this.state.currentBid) {
-                console.log(`${franchise.name} has bid $${this.state.currentBid + 1}`)
-                this.setState(prevState => ({currentBid: prevState.currentBid + 1, bidLeaderId: franchise.id}))
+            if (valueObj.franchiseId !== this.mostRecentBid().franchiseId && valueObj.valuation > this.mostRecentBid().bidAmount) {
+                console.log(`${franchise.name} has bid $${this.mostRecentBid().bidAmount + 1}`)
+                this.setState(prevState => (
+                    {bids: prevState.bids.concat(
+                        {franchiseId: franchise.id, bidAmount: this.mostRecentBid().bidAmount + 1})
+                    }
+                ))
                 bidders.length === 1 && this.declareWinner()
-            } else if (valueObj.franchiseId === this.state.bidLeaderId && bidders.length === 1) {
+            } else if (valueObj.franchiseId === this.mostRecentBid().franchiseId && bidders.length === 1) {
                 this.declareWinner()
             }
 
@@ -67,8 +81,8 @@ class Draft extends React.Component {
 
         declareWinner = () => {
             const winningFranchise = this.props.franchises.find(franchise => (
-                franchise.id === this.state.bidLeaderId))
-            console.log(`${winningFranchise.name} has won with a bid of $${this.state.currentBid}`)
+                franchise.id === this.mostRecentBid().franchiseId))
+            console.log(`${winningFranchise.name} has won with a bid of $${this.mostRecentBid().bidAmount}`)
             this.stopBidding()
             this.setStateToDefault()
         }
@@ -91,9 +105,13 @@ class Draft extends React.Component {
                     /> :
                     "Nomination Pending"
                 }
-                <BidOptions/>
+                <BidOptions
+                //** THIS NEEDS TO BE DYNAMIC. Values are placeholders for now */
+                    budget="300"
+                    openRosterSpots="18"
+                />
                 <Bids/>
-                <p>Current Bid is ${this.state.currentBid}</p>
+                <p>Current Bid is ${this.mostRecentBid().bidAmount}</p>
             </div>
         )
     }

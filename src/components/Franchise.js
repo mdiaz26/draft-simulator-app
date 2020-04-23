@@ -3,7 +3,9 @@ import React from 'react'
 const Franchise = props => {
     return (
         <div>
-            An instance of a Franchise
+            Name: {props.franchise.name}
+            id: {props.franchise.id}
+            draft_id: {props.franchise.draft_id}
         </div>
     )
 }

@@ -1,6 +1,7 @@
 import React from 'react';
-import { fetchRankingPlayers } from './JSONAPIAdapter'
+import { fetchRankingPlayers, fetchRankings, fetchFranchises, fetchDrafts } from './JSONAPIAdapter'
 import DraftLobbyContainer from './containers/DraftLobbyContainer'
+import PreDraftScreen from './containers/PreDraftScreen'
 import RankingsContainer from './containers/RankingsContainer'
 import DraftsContainer from './containers/DraftsContainer'
 import Navbar from './components/Navbar'
@@ -12,9 +13,11 @@ class App extends React.Component {
 
   componentDidMount(){
     // this.props.populatePlayers()
-    this.props.populateFranchises()
     
+    this.props.fetchDrafts()
+    this.props.fetchFranchises()
     this.props.fetchRankingPlayers()
+    this.props.fetchRankings()
   }
 
 
@@ -48,8 +51,13 @@ class App extends React.Component {
       <div className="App">
           <Navbar/>
           <Switch>
+            <Route path="/draft/:id" render={(routerProps) => 
+                <DraftLobbyContainer
+                  {...routerProps}
+                />
+              }/>
             <Route path="/draft" render={() => 
-              <DraftLobbyContainer/>
+              <PreDraftScreen/>
             }/>
             <Route path="/rankings" render={() => 
               <RankingsContainer/>
@@ -66,9 +74,11 @@ class App extends React.Component {
 const mapDispatchToProps = dispatch => {
   return {
     populatePlayers: () => dispatch({type: 'POPULATE_PLAYERS'}),
-    populateFranchises: () => dispatch({type: 'POPULATE_FRANCHISES'}),
     updateQueue: (newQueue) => dispatch({type: 'UPDATE_QUEUE', payload: newQueue}),
-    fetchRankingPlayers: () => dispatch(fetchRankingPlayers())
+    fetchFranchises: () => dispatch(fetchFranchises()),
+    fetchRankingPlayers: () => dispatch(fetchRankingPlayers()),
+    fetchRankings: () => dispatch(fetchRankings()),
+    fetchDrafts: () => dispatch(fetchDrafts())
   }
 }
 

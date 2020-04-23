@@ -95,4 +95,16 @@ export const fetchRankingPlayers = () => {
     }
   }
 
+  export const fetchDraft = (draftId) => {
+    console.log("fetching draft")
+    const adapter = new JSONAPIAdapter('http://localhost:3000/api/v1/')
+    return (dispatch) => {
+      dispatch({ type: 'START_POPULATING_DRAFT_REQUEST'})
+      adapter.getOne('drafts', draftId)
+      .then(draft => dispatch({
+        type: 'ASSIGN_DRAFT', draft
+      }))
+    }
+  }
+
 export default JSONAPIAdapter

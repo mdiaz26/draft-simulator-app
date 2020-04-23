@@ -82,6 +82,7 @@ const mapStateToProps = state => {
         franchises: state.franchises.franchises,
         nominatedPlayer: state.nominationData.nominatedPlayer,
         valuations: state.nominationData.valuations,
+        franchiseFocus: state.nominationData.franchiseFocus,
         rankingPlayers: state.rankingPlayersInfo.rankingPlayers,
         drafts: state.drafts.drafts
     }

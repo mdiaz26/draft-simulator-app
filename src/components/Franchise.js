@@ -1,8 +1,9 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
 const Franchise = props => {
     return (
-        <div>
+        <div onClick={() => props.franchiseFocus(props.franchise)}>
             Name: {props.franchise.name}
             id: {props.franchise.id}
             draft_id: {props.franchise.draft_id}
@@ -10,4 +11,10 @@ const Franchise = props => {
     )
 }
 
-export default Franchise
+const mapDispatchToProps = dispatch => {
+    return {
+        franchiseFocus: franchise => dispatch({type: 'CHANGE_FOCUS', franchise})
+    }
+}
+
+export default connect(null, mapDispatchToProps)(Franchise)

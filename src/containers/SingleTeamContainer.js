@@ -1,13 +1,21 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
 class SingleTeamContainer extends React.Component {
     render() {
         return (
             <div>
-                The players already owned/drafted by a single team
+                {this.props.franchiseFocus.name}
             </div>
         )
     }
 }
 
-export default SingleTeamContainer
+const mapStateToProps = state => {
+    return {
+        franchises: state.franchises.franchises,
+        franchiseFocus: state.nominationData.franchiseFocus,
+    }
+}
+
+export default connect(mapStateToProps)(SingleTeamContainer)

@@ -4,7 +4,7 @@ import PlayersContainer from './PlayersContainer'
 import DraftContainer from './DraftContainer'
 import SingleTeamContainer from './SingleTeamContainer'
 import FranchisesContainer from './FranchisesContainer'
-import { fetchDraft } from '../JSONAPIAdapter'
+import { fetchDraft, fetchFranchisePlayers } from '../JSONAPIAdapter'
 // import { startBidding } from '../draftLogic'
 
 class DraftLobbyContainer extends React.Component {
@@ -15,6 +15,7 @@ class DraftLobbyContainer extends React.Component {
 
     componentDidMount(){
         this.props.fetchDraft(this.props.match.params.id)
+        this.props.fetchFranchisePlayers(this.props.match.params.id)
     }
 
     toggleActiveDraft = () => {
@@ -91,7 +92,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
     populatePlayers: () => dispatch({type: 'POPULATE_PLAYERS'}),
-    fetchDraft: (draftId) => dispatch(fetchDraft(draftId))
+    fetchDraft: (draftId) => dispatch(fetchDraft(draftId)),
+    fetchFranchisePlayers: (draftId) => dispatch(fetchFranchisePlayers(draftId))
     }
 }
 

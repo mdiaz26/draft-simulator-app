@@ -119,4 +119,16 @@ export const fetchRankingPlayers = () => {
     }
   }
 
+  export const fetchFranchisePlayers = (draftId) => {
+    console.log("fetching players")
+    return (dispatch) => {
+      dispatch({ type: 'START_POPULATING_DRAFT_FRANCHISE_PLAYERS'})
+      fetch(`http://localhost:3000/api/v1/drafts/${draftId}/franchise_players`)
+      .then(response => response.json())
+      .then(players => dispatch({
+        type: 'POPULATE_DRAFT_FRANCHISE_PLAYERS', players
+      }))
+    }
+  }
+
 export default JSONAPIAdapter

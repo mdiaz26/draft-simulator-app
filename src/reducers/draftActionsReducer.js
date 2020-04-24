@@ -5,6 +5,7 @@ export const draftActionsReducer = (state = {
     franchiseFocus: '', 
     nominatedPlayer: '', 
     valuations: [],
+    draftFranchisePlayers: [],
     requesting: false
 }, action) => {
     switch (action.type) {
@@ -16,6 +17,16 @@ export const draftActionsReducer = (state = {
         case 'ASSIGN_DRAFT':
             return {...state,
                 currentDraft: action.draft,
+                requesting: false
+            }
+        case 'START_POPULATING_DRAFT_FRANCHISE_PLAYERS':
+            return {...state,
+                draftFranchisePlayers: [],
+                requesting: true
+            }
+        case 'POPULATE_DRAFT_FRANCHISE_PLAYERS':
+            return {...state,
+                draftFranchisePlayers: action.players,
                 requesting: false
             }
         case 'NOMINATE_PLAYER':

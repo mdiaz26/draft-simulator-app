@@ -98,9 +98,7 @@ class Draft extends React.Component {
                 franchise_id: this.mostRecentBid().franchiseId,
                 salary: this.mostRecentBid().bidAmount
             }
-            // console.log(body)
             adapter.post('franchise_players', body)
-            .then(console.log)
         }
 
         stopBidding = () => {

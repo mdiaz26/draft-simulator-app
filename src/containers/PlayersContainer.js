@@ -4,15 +4,16 @@ import { connect } from 'react-redux'
 
 const PlayersContainer = props => {
     const filterRankingPlayers = () => {
-        const franchisePlayerIds = props.franchisePlayers.map(fPlayer => fPlayer.playerid)
-        const newArray = props.rankingPlayers.filter(rankingPlayer => !franchisePlayerIds.includes(rankingPlayer.player.id))
+        const franchisePlayerIds = props.draftFranchisePlayers.map(fPlayer => fPlayer.player_id)
+        const newArray = props.rankingPlayers.filter(rankingPlayer => !franchisePlayerIds.includes(rankingPlayer.player_id))
         return newArray
     }
 
     return(
         <div>
             <h2>Nomination Queue</h2>
-            {/* {filterRankingPlayers().map(rPlayer => (
+            {/* {filterRankingPlayers()} */}
+            {filterRankingPlayers().map(rPlayer => (
                 <Player 
                     key={rPlayer.id} 
                     player={rPlayer.player}
@@ -22,9 +23,15 @@ const PlayersContainer = props => {
                     inNominationQueue={true}
                     activeDraft={props.activeDraft}
                 />
-            ))} */}
+            ))}
         </div>
     )
+}
+
+const mapStateToProps = state => {
+    return {
+        draftFranchisePlayers: state.nominationData.draftFranchisePlayers
+    }
 }
 
 const mapDispatchToProps = dispatch => {
@@ -33,4 +40,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(PlayersContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(PlayersContainer)

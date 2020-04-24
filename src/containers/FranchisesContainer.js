@@ -15,8 +15,6 @@ class FranchisesContainer extends React.Component {
             <div>
                 <h3>Nomination Order</h3>
                     <ol>
-                        {console.log("draft franchises:",this.draftFranchises())}
-                        {console.log(this.props.draftFranchisePlayers)}
                         {this.draftFranchises().map(franchise => 
                             <Franchise 
                                 key={franchise.id} 

@@ -2,11 +2,14 @@ export const calculateValuations = (rosterConfig, franchises, nominatedPlayer) =
     let valuations = franchises.map(franchise => {
         return {franchiseId: 
             franchise.id, 
-            valuation: bidLimiter(rosterConfig, franchise, randomFactor(nominatedPlayer))}
+            valuation: Math.floor(
+                bidLimiter(rosterConfig, franchise, 
+                    randomFactor(nominatedPlayer) * franchiseNeedFactor(rosterConfig, franchise, nominatedPlayer)
+                )
+            )
+        }
     })
-    // WRITE LOGIC THAT PREVENTS A TEAM FROM BIDDING IF THE PRICE EXCEEDS THEIR MAX BID
     return valuations
-    // this.setState({valuations: valuations}, () => console.log(this.state))
 }
 
 export const randomFactor = (nominatedPlayer) => {
@@ -39,7 +42,7 @@ export const calculateBudget = (startingBudget, playersArray) => {
     return startingBudget - totalSalaries
 }
 
-const totalRosterSpots = rosterConfig => {
+export const totalRosterSpots = rosterConfig => {
     return rosterConfig.qb +
     rosterConfig.rb +
     rosterConfig.wr +
@@ -52,19 +55,41 @@ const totalRosterSpots = rosterConfig => {
     rosterConfig.bench
 }
 
+// This function takes into account the players a franchise already has on their roster
+const franchiseNeedFactor = (rosterConfig, franchise, rPlayer) => {
+    const maxPositionSpots = calculateMaxPositionSpots(rosterConfig, rosterConfig[rPlayer.player.position.toLowerCase()])
+    const franchisePlayersAtPosition = franchise.franchise_players.filter(fPlayer => fPlayer.player.position === rPlayer.player.position)
+    const remainingPositionSpots = maxPositionSpots - franchisePlayersAtPosition.length
+    const demandFactor = ((-0.2 * Math.pow(remainingPositionSpots, 2)) + 2 * remainingPositionSpots)/5
+    console.log("demand factor:", demandFactor)
+    return demandFactor
+}
 
+const calculateMaxPositionSpots = (rosterConfig, position) => {
+    switch (position) {
+        case 'qb':
+            const startingQBs =  rosterConfig['qb'] + rosterConfig['superflex']
+            return startingQBs +  benchAllocation(rosterConfig, startingQBs)
+        case 'rb':
+            const startingRBs = rosterConfig['rb'] + rosterConfig['rb_wr']
+            return startingRBs + benchAllocation(rosterConfig, startingRBs)
+        case 'wr':
+            const startingWRs = rosterConfig['wr'] + rosterConfig['rb_wr'] + rosterConfig['wr_te']
+            return startingWRs + benchAllocation(rosterConfig, startingWRs)
+        case 'te':
+            const startingTEs = rosterConfig['te'] + rosterConfig['wr_te']
+            return startingTEs
+        case 'def':
+            return 1
+        case 'k':
+            return 1
+        default:
+            return 4
+    }
+}
 
-
-
-// export const maxPositionSpots = position => {draft.rosterConfig[position]}
-
-// const remainingPositionSpots = (position, playersAtPosition) => {
-//     maxPositionSpots(position) - playersAtPosition.length
-// }
-
-
-// 	playersAtPosition = franchise.franchisePlayers.filter(fPlayer => fPlayer.player.position === nominatedPlayer.player.position)
-// 	demandFactor = 1 - ( Math.sqrt(
-// abs((1/maxPositionSpots - 1/remainingPositionSpots(nominatedPlayer.player.position, playersAtPosition))))
-// highestBid = (nominatedPlayer.value + randomFactor) * demandFactor
-// return {franchise.id: highestBid}
+const benchAllocation = (rosterConfig, numOfStartersAtPosition) => {
+    const totalRosterSpots = this.totalRosterSpots(rosterConfig)
+    const startingSpots = totalRosterSpots - rosterConfig.bench
+    return Math.ceil(rosterConfig.bench * (numOfStartersAtPosition / startingSpots))
+}

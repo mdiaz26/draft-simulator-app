@@ -31,6 +31,12 @@ class Draft extends React.Component {
         }
     }
 
+    findYourFranchise = () => {
+        const draftFranchises = this.props.franchises.filter(franchise => franchise.draft_id === parseInt(this.props.draftId))
+        const yourFranchise = draftFranchises.find(franchise => franchise.name === "Your Team")
+        return yourFranchise
+    }
+
     // I think this belongs IN DRAFTCONTAINER
     filterFranchisesByBid = () => {
         if (this.state.bids.length > 0) {
@@ -108,6 +114,7 @@ class Draft extends React.Component {
         }
     
     render() {
+        const yourFranchise = this.findYourFranchise()
         return (
             <div>
                 <button onClick={this.startBidding}>Start Bidding</button>
@@ -120,11 +127,9 @@ class Draft extends React.Component {
                     /> :
                     "Nomination Pending"
                 }
-                <BidOptions
-                //** THIS NEEDS TO BE DYNAMIC. Values are placeholders for now */
-                    budget="300"
-                    openRosterSpots="18"
-                />
+                {yourFranchise && 
+                    <BidOptions franchise={yourFranchise}/>
+                    }
                 <Bids/>
                 <p>Current Bid is ${this.mostRecentBid().bidAmount}</p>
             </div>
@@ -134,8 +139,10 @@ class Draft extends React.Component {
 
 const mapStateToProps = state => {
     return {
+        franchises: state.franchises.franchises,
         nominatedPlayer: state.nominationData.nominatedPlayer,
-        valuations: state.nominationData.valuations
+        valuations: state.nominationData.valuations,
+        currentDraft: state.nominationData.currentDraft
     }
 }
 

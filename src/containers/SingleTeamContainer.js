@@ -27,8 +27,6 @@ class SingleTeamContainer extends React.Component {
     render() {
         return (
             <div>
-                {this.props.franchiseFocus.name}
-                {console.log(this.franchisePlayers())}
                 {this.props.franchiseFocus !== "" ? this.franchisePlayers().map((fPlayer, idx) => (
                     <FranchisePlayer key={idx} player={fPlayer.player} fPlayer={fPlayer}/>
                 )) : 

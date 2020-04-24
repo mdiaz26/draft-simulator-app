@@ -4,11 +4,10 @@ import { fetchFranchise } from '../JSONAPIAdapter'
 
 const Franchise = props => {
     return (
-        <div onClick={() => props.franchiseFocus(props.franchise)}>
-            Name: {props.franchise.name}
-            id: {props.franchise.id}
-            draft_id: {props.franchise.draft_id}
-        </div>
+        <li onClick={() => props.franchiseFocus(props.franchise)}>
+            <span><strong>{props.franchise.name}</strong> Budget: ${props.budget} id: {props.franchise.id}
+            </span>
+        </li>
     )
 }
 

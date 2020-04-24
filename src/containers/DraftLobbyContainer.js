@@ -62,7 +62,7 @@ class DraftLobbyContainer extends React.Component {
                 <button>Simulate Remainder</button>
                 <DraftContainer 
                     nominatedPlayer={this.props.nominatedPlayer} 
-                    franchises={draftFranchises}
+                    draftId={this.props.match.params.id}
                     activeDraft={this.state.activeDraft}
                 />
                 <FranchisesContainer draftId={this.props.match.params.id}/>

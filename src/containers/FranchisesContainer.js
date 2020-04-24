@@ -1,24 +1,28 @@
 import React from 'react'
 import Franchise from '../components/Franchise'
+import { calculateBudget, maxBid } from '../draftLogic'
+import { connect } from 'react-redux'
 
 class FranchisesContainer extends React.Component {
     
-    calculateBudget = (startingBudget, playersArray) => {
-        const sumFunction = (total, playerObj) => total + playerObj.salary
-        const totalSalaries = playersArray.reduce(sumFunction, 0)
-        return startingBudget - totalSalaries
+    draftFranchises = () => {
+        const franchises = this.props.franchises.filter(franchise => franchise.draft_id === parseInt(this.props.draftId))
+        return franchises
     }
-    
+
     render() {
         return (
             <div>
                 <h3>Nomination Order</h3>
                     <ol>
-                        {this.props.franchises.map(franchise => 
+                        {console.log("draft franchises:",this.draftFranchises())}
+                        {console.log(this.props.draftFranchisePlayers)}
+                        {this.draftFranchises().map(franchise => 
                             <Franchise 
                                 key={franchise.id} 
                                 franchise={franchise} 
-                                budget={this.calculateBudget(franchise.budget, franchise.franchise_players)}
+                                budget={calculateBudget(franchise.budget, franchise.franchise_players)}
+                                maxBid={maxBid(this.props.currentDraft.roster_config, franchise)}
                             />)}
                     </ol>
             </div>
@@ -26,4 +30,12 @@ class FranchisesContainer extends React.Component {
     }
 }
 
-export default FranchisesContainer
+const mapStateToProps = state => {
+    return {
+        franchises: state.franchises.franchises,
+        currentDraft: state.nominationData.currentDraft,
+        draftFranchisePlayers: state.nominationData.draftFranchisePlayers
+    }
+}
+
+export default connect(mapStateToProps)(FranchisesContainer)

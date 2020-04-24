@@ -36,7 +36,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        nominatePlayer: (playerObj, franchises) => dispatch({type: 'NOMINATE_PLAYER', rPlayer: playerObj, franchises: franchises})
+        nominatePlayer: (rosterConfig, playerObj, franchises) => dispatch({type: 'NOMINATE_PLAYER', rosterConfig, rPlayer: playerObj, franchises: franchises})
     }
 }
 

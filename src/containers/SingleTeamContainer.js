@@ -29,8 +29,8 @@ class SingleTeamContainer extends React.Component {
             <div>
                 {this.props.franchiseFocus.name}
                 {console.log(this.franchisePlayers())}
-                {this.props.franchiseFocus !== "" ? this.franchisePlayers().map((player, idx) => (
-                    <FranchisePlayer key={idx} player={player}/>
+                {this.props.franchiseFocus !== "" ? this.franchisePlayers().map((fPlayer, idx) => (
+                    <FranchisePlayer key={idx} player={fPlayer.player} fPlayer={fPlayer}/>
                 )) : 
                 <div>loading...</div>}
             </div>

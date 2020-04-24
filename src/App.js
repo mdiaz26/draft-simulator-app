@@ -36,6 +36,9 @@ class App extends React.Component {
             <Route path="/drafts" render={() => 
               <DraftsContainer/>
             }/>
+            <Route path="/" render={() => 
+              <PreDraftScreen/>
+            }/>
           </Switch>
       </div>
     );

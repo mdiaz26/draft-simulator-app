@@ -3,11 +3,16 @@ import Player from '../components/Player'
 import { connect } from 'react-redux'
 
 const PlayersContainer = props => {
-    
+    const filterRankingPlayers = () => {
+        const franchisePlayerIds = props.franchisePlayers.map(fPlayer => fPlayer.playerid)
+        const newArray = props.rankingPlayers.filter(rankingPlayer => !franchisePlayerIds.includes(rankingPlayer.player.id))
+        return newArray
+    }
+
     return(
         <div>
             <h2>Nomination Queue</h2>
-            {props.rankingPlayers.map(rPlayer => (
+            {/* {filterRankingPlayers().map(rPlayer => (
                 <Player 
                     key={rPlayer.id} 
                     player={rPlayer.player}
@@ -17,7 +22,7 @@ const PlayersContainer = props => {
                     inNominationQueue={true}
                     activeDraft={props.activeDraft}
                 />
-            ))}
+            ))} */}
         </div>
     )
 }

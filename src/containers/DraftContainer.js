@@ -3,6 +3,9 @@ import { connect } from 'react-redux'
 import Bids from '../components/Bids'
 import Player from '../components/Player'
 import BidOptions from '../components/BidOptions'
+import JSONAPIAdapter from '../JSONAPIAdapter'
+
+const adapter = new JSONAPIAdapter('http://localhost:3000/api/v1/')
 
 class Draft extends React.Component {
     
@@ -83,8 +86,21 @@ class Draft extends React.Component {
             const winningFranchise = this.props.franchises.find(franchise => (
                 franchise.id === this.mostRecentBid().franchiseId))
             console.log(`${winningFranchise.name} has won with a bid of $${this.mostRecentBid().bidAmount}`)
+            this.postFranchisePlayer()
             this.stopBidding()
             this.setStateToDefault()
+        }
+
+        // POST for FranchisePlayer
+        postFranchisePlayer = () => {
+            const body = {
+                player_id: this.props.nominatedPlayer.id,
+                franchise_id: this.mostRecentBid().franchiseId,
+                salary: this.mostRecentBid().bidAmount
+            }
+            // console.log(body)
+            adapter.post('franchise_players', body)
+            .then(console.log)
         }
 
         stopBidding = () => {

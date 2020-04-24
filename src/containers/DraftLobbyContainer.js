@@ -16,6 +16,7 @@ class DraftLobbyContainer extends React.Component {
     componentDidMount(){
         this.props.fetchDraft(this.props.match.params.id)
         this.props.fetchFranchisePlayers(this.props.match.params.id)
+        this.props.populateDraftFranchises(this.draftFranchises())
     }
 
     toggleActiveDraft = () => {
@@ -55,8 +56,6 @@ class DraftLobbyContainer extends React.Component {
         const draftFranchises = this.draftFranchises()
         return(
             <div>
-                <button onClick={() => console.log(this.state)}>See State</button>
-                <button onClick={() => console.log(this.props)}>See Props</button>
                 Draft Lobby: {this.draftName()}
                 <button onClick={this.startDraft}>Draft!</button>
                 <button onClick={this.toggleActiveDraft}>Toggle Active Draft</button>
@@ -66,7 +65,7 @@ class DraftLobbyContainer extends React.Component {
                     franchises={draftFranchises}
                     activeDraft={this.state.activeDraft}
                 />
-                <FranchisesContainer franchises={draftFranchises}/>
+                <FranchisesContainer draftId={this.props.match.params.id}/>
                 <SingleTeamContainer/>
                 <PlayersContainer 
                     franchises={draftFranchises}
@@ -93,7 +92,8 @@ const mapDispatchToProps = dispatch => {
     return {
     populatePlayers: () => dispatch({type: 'POPULATE_PLAYERS'}),
     fetchDraft: (draftId) => dispatch(fetchDraft(draftId)),
-    fetchFranchisePlayers: (draftId) => dispatch(fetchFranchisePlayers(draftId))
+    fetchFranchisePlayers: (draftId) => dispatch(fetchFranchisePlayers(draftId)),
+    populateDraftFranchises: franchises => dispatch({type: 'POPULATE_DRAFT_FRANCHISES', franchises})
     }
 }
 

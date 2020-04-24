@@ -43,7 +43,7 @@ class Draft extends React.Component {
     // I think this belongs IN DRAFTCONTAINER
     startBidding = () => {
         console.log(this.props.valuations)
-        const biddingTrigger = setInterval(() => this.teamBids(), 400)
+        const biddingTrigger = setInterval(() => this.teamBids(), 200)
         this.setState({biddingTrigger})
     }
 
@@ -99,6 +99,7 @@ class Draft extends React.Component {
                 salary: this.mostRecentBid().bidAmount
             }
             adapter.post('franchise_players', body)
+            .then(this.props.addFranchisePlayer)
         }
 
         stopBidding = () => {
@@ -138,4 +139,10 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(Draft)
+const mapDispatchToProps = dispatch => {
+    return {
+        addFranchisePlayer: (playerObj) => dispatch({type: 'ADD_FRANCHISE_PLAYER', playerObj})
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Draft)

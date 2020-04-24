@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
 const Player = props => {
     return(
@@ -7,7 +8,13 @@ const Player = props => {
             ({props.player.pro_team} - {props.player.position})
             Value: ${props.rPlayer.value}
             {props.inNominationQueue && 
-                <button disabled={!props.activeDraft} onClick={() => props.nominatePlayer(props.rPlayer, props.franchises)}>
+                <button disabled={!props.activeDraft} onClick={() => 
+                    props.nominatePlayer(
+                        props.currentDraft.roster_config, 
+                        props.rPlayer, 
+                        props.franchises
+                    )
+                }>
                     Nominate
                 </button>
             }
@@ -15,4 +22,10 @@ const Player = props => {
     )
 }
 
-export default Player
+const mapStateToProps = state => {
+    return {
+        currentDraft: state.nominationData.currentDraft
+    }
+}
+
+export default connect(mapStateToProps)(Player)

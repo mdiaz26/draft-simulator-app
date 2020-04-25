@@ -16,7 +16,6 @@ class DraftLobbyContainer extends React.Component {
     componentDidMount(){
         this.props.fetchDraft(this.props.match.params.id)
         this.props.fetchFranchisePlayers(this.props.match.params.id)
-        this.props.populateDraftFranchises(this.draftFranchises())
     }
 
     toggleActiveDraft = () => {
@@ -25,6 +24,8 @@ class DraftLobbyContainer extends React.Component {
 
     startDraft = () => {
         //kick off logic that nominates a player and starts bidding
+        this.props.populateDraftFranchises(this.draftFranchises())
+        this.props.assignNominator(this.draftFranchises()[0])
     }
 
     shuffleFranchises = (franchises) => {
@@ -93,7 +94,8 @@ const mapDispatchToProps = dispatch => {
     populatePlayers: () => dispatch({type: 'POPULATE_PLAYERS'}),
     fetchDraft: (draftId) => dispatch(fetchDraft(draftId)),
     fetchFranchisePlayers: (draftId) => dispatch(fetchFranchisePlayers(draftId)),
-    populateDraftFranchises: franchises => dispatch({type: 'POPULATE_DRAFT_FRANCHISES', franchises})
+    populateDraftFranchises: franchises => dispatch({type: 'POPULATE_DRAFT_FRANCHISES', franchises}),
+    assignNominator: (franchise) => dispatch({type: 'ASSIGN_NOMINATOR', franchise})
     }
 }
 

@@ -5,7 +5,8 @@ import { connect } from 'react-redux'
 const PlayersContainer = props => {
     const filterRankingPlayers = () => {
         const franchisePlayerIds = props.draftFranchisePlayers.map(fPlayer => fPlayer.player_id)
-        const newArray = props.rankingPlayers.filter(rankingPlayer => !franchisePlayerIds.includes(rankingPlayer.player_id))
+        let newArray = props.rankingPlayers.filter(rankingPlayer => !franchisePlayerIds.includes(rankingPlayer.player_id))
+        
         return newArray
     }
 

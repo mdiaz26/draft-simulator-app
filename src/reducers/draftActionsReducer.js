@@ -3,7 +3,8 @@ import { calculateValuations } from '../draftLogic'
 export const draftActionsReducer = (state = {
     currentDraft: '', 
     franchiseFocus: '', 
-    nominatedPlayer: '', 
+    nominatedPlayer: '',
+    nominatingFranchise: '',
     valuations: [],
     draftFranchisePlayers: [],
     draftFranchises: [],
@@ -30,8 +31,14 @@ export const draftActionsReducer = (state = {
                 draftFranchisePlayers: action.players,
                 requesting: false
             }
+        case 'ASSIGN_NOMINATOR':
+        return {
+                ...state,
+                nominatingFranchise: action.franchise.name
+            }
         case 'NOMINATE_PLAYER':
-            console.log(`${action.rPlayer.player.name} has been nominated`)
+            console.log(`${state.nominatingFranchise.name} has nominated ${action.rPlayer.player.name} `)
+            // also this should be a trigger to start bidding
             return {...state,
                 nominatedPlayer: action.rPlayer, 
                 valuations: calculateValuations(action.rosterConfig, action.franchises, action.rPlayer)

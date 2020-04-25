@@ -125,7 +125,7 @@ class Draft extends React.Component {
                     rPlayer={this.props.nominatedPlayer}
                     inNominationQueue={false}
                     /> :
-                    "Nomination Pending"
+                    `${this.props.nominatingFranchise} nominates next`
                 }
                 {yourFranchise && 
                     <BidOptions franchise={yourFranchise}/>
@@ -141,6 +141,7 @@ const mapStateToProps = state => {
     return {
         franchises: state.franchises.franchises,
         nominatedPlayer: state.nominationData.nominatedPlayer,
+        nominatingFranchise: state.nominationData.nominatingFranchise,
         valuations: state.nominationData.valuations,
         currentDraft: state.nominationData.currentDraft
     }

@@ -4,7 +4,8 @@ export const draftActionsReducer = (state = {
     currentDraft: '', 
     franchiseFocus: '', 
     nominatedPlayer: '',
-    nominatingFranchise: '',
+    nominatingFranchise: {},
+    biddingTrigger: '',
     valuations: [],
     draftFranchisePlayers: [],
     draftFranchises: [],
@@ -32,16 +33,23 @@ export const draftActionsReducer = (state = {
                 requesting: false
             }
         case 'ASSIGN_NOMINATOR':
+        console.log(action)
         return {
                 ...state,
-                nominatingFranchise: action.franchise.name
+                nominatingFranchise: action.franchise
             }
         case 'NOMINATE_PLAYER':
-            console.log(`${state.nominatingFranchise.name} has nominated ${action.rPlayer.player.name} `)
+            let valuations
+        if (action.rPlayer !== '') {
+                valuations = calculateValuations(action.rosterConfig, action.franchises, action.rPlayer)
+                console.log('valuations:', valuations)
+            } else {
+                valuations = []
+            }
             // also this should be a trigger to start bidding
             return {...state,
                 nominatedPlayer: action.rPlayer, 
-                valuations: calculateValuations(action.rosterConfig, action.franchises, action.rPlayer)
+                valuations: valuations
             }
         case 'CHANGE_FOCUS':
             return {...state,

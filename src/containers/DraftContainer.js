@@ -17,10 +17,10 @@ class Draft extends React.Component {
 
     setStateToDefault = () => {
         this.setState({
-            bidderIndex: 0,
             biddingTrigger: "",
             bids: []
         })
+        this.props.nominatePlayer(this.props.currentDraft.draft_config, '', this.props.draftFranchises)
     }
 
     mostRecentBid = () => {
@@ -48,9 +48,12 @@ class Draft extends React.Component {
 
     // I think this belongs IN DRAFTCONTAINER
     startBidding = () => {
-        console.log(this.props.valuations)
+        // console.log(this.props.valuations)
         const biddingTrigger = setInterval(() => this.teamBids(), 200)
         this.setState({biddingTrigger})
+        console.log(`${this.props.nominatingFranchise.name} has nominated ${this.props.nominatedPlayer} for $1`)
+        const nominatorIndex = this.props.draftFranchises.findIndex(franchise => franchise.id === this.props.nominatingFranchise.id)
+        this.setState({bidderIndex: nominatorIndex})
     }
 
     // I think this belongs in DRAFTLOGIC
@@ -58,7 +61,8 @@ class Draft extends React.Component {
     teamBids = () => {
         // This creates a new array each time it is run. The array will shrink as mostRecentBid().bidAmount increases.
         let bidders = this.filterFranchisesByBid()
-        // debugger
+        this.nextBidder()
+
         if (bidders.length === 0) {
             // multiple teams are tied valuating the player at the current bid.
             // Whoever last bid is the winner
@@ -79,6 +83,11 @@ class Draft extends React.Component {
                 this.declareWinner()
             }
 
+            
+    }
+}
+
+    nextBidder = () => {
         if (this.state.bidderIndex >= this.filterFranchisesByBid().length - 1) {
             // the pool of interested parties has shrunk and we can't increase the index
             this.setState({bidderIndex: 0})
@@ -86,32 +95,31 @@ class Draft extends React.Component {
             this.setState(prevState => ({bidderIndex: prevState.bidderIndex + 1}))
         }
     }
-}
 
-        declareWinner = () => {
-            const winningFranchise = this.props.franchises.find(franchise => (
-                franchise.id === this.mostRecentBid().franchiseId))
-            console.log(`${winningFranchise.name} has won with a bid of $${this.mostRecentBid().bidAmount}`)
-            this.postFranchisePlayer()
-            this.stopBidding()
-            this.setStateToDefault()
-        }
+    declareWinner = () => {
+        const winningFranchise = this.props.franchises.find(franchise => (
+            franchise.id === this.mostRecentBid().franchiseId))
+        console.log(`${winningFranchise.name} has won with a bid of $${this.mostRecentBid().bidAmount}`)
+        this.postFranchisePlayer()
+        this.stopBidding()
+        this.setStateToDefault()
+    }
 
-        // POST for FranchisePlayer
-        postFranchisePlayer = () => {
-            const body = {
-                player_id: this.props.nominatedPlayer.id,
-                franchise_id: this.mostRecentBid().franchiseId,
-                salary: this.mostRecentBid().bidAmount
-            }
-            adapter.post('franchise_players', body)
-            .then(this.props.addFranchisePlayer)
+    // POST for FranchisePlayer
+    postFranchisePlayer = () => {
+        const body = {
+            player_id: this.props.nominatedPlayer.id,
+            franchise_id: this.mostRecentBid().franchiseId,
+            salary: this.mostRecentBid().bidAmount
         }
+        adapter.post('franchise_players', body)
+        .then(this.props.addFranchisePlayer)
+    }
 
-        stopBidding = () => {
-            clearInterval(this.state.biddingTrigger)
-            this.setState({biddingTrigger: ""})
-        }
+    stopBidding = () => {
+        clearInterval(this.state.biddingTrigger)
+        this.setState({biddingTrigger: ""})
+    }
     
     render() {
         const yourFranchise = this.findYourFranchise()
@@ -125,7 +133,7 @@ class Draft extends React.Component {
                     rPlayer={this.props.nominatedPlayer}
                     inNominationQueue={false}
                     /> :
-                    `${this.props.nominatingFranchise} nominates next`
+                    `${this.props.nominatingFranchise.name} nominates next`
                 }
                 {yourFranchise && 
                     <BidOptions franchise={yourFranchise}/>
@@ -140,6 +148,7 @@ class Draft extends React.Component {
 const mapStateToProps = state => {
     return {
         franchises: state.franchises.franchises,
+        draftFranchises: state.nominationData.draftFranchises,
         nominatedPlayer: state.nominationData.nominatedPlayer,
         nominatingFranchise: state.nominationData.nominatingFranchise,
         valuations: state.nominationData.valuations,
@@ -149,7 +158,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        addFranchisePlayer: (playerObj) => dispatch({type: 'ADD_FRANCHISE_PLAYER', playerObj})
+        addFranchisePlayer: (playerObj) => dispatch({type: 'ADD_FRANCHISE_PLAYER', playerObj}),
+        nominatePlayer: (rosterConfig, playerObj, franchises) => dispatch({type: 'NOMINATE_PLAYER', rosterConfig, rPlayer: playerObj, franchises: franchises})
     }
 }
 

@@ -20,7 +20,7 @@ const PlayersContainer = props => {
                     player={rPlayer.player}
                     rPlayer={rPlayer}
                     franchises={props.franchises}
-                    nominatePlayer={props.nominatePlayer}
+                    // nominatePlayer={props.nominatePlayer}
                     inNominationQueue={true}
                     activeDraft={props.activeDraft}
                 />

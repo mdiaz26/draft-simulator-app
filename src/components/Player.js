@@ -14,6 +14,7 @@ const Player = props => {
                         props.rPlayer, 
                         props.franchises
                     )
+                    props.resetBids()
                 }}>
                     Nominate
                 </button>
@@ -32,7 +33,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        nominatePlayer: (rosterConfig, playerObj, franchises) => dispatch({type: 'NOMINATE_PLAYER', rosterConfig, rPlayer: playerObj, franchises: franchises})
+        nominatePlayer: (rosterConfig, playerObj, franchises) => dispatch({type: 'NOMINATE_PLAYER', rosterConfig, rPlayer: playerObj, franchises: franchises}),
+        resetBids: () => dispatch({type: 'RESET_BIDS'})
     }
 }
 

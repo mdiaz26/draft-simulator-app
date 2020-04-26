@@ -6,6 +6,8 @@ export const draftActionsReducer = (state = {
     nominatedPlayer: '',
     nominatingFranchise: {},
     biddingTrigger: '',
+    bids: [],
+    bidWinners: [],
     valuations: [],
     draftFranchisePlayers: [],
     draftFranchises: [],
@@ -38,7 +40,6 @@ export const draftActionsReducer = (state = {
                 requesting: false
             }
         case 'ASSIGN_NOMINATOR':
-        console.log(action)
         return {
                 ...state,
                 nominatingFranchise: action.franchise
@@ -60,6 +61,16 @@ export const draftActionsReducer = (state = {
             return {
                 ...state,
                 nominatingFranchise: state.draftFranchises[action.index]
+            }
+        case 'UPDATE_BIDS':
+            return {
+                ...state,
+                bids: [...state.bids, action.bidData]
+            }
+        case 'RESET_BIDS':
+            return {
+                ...state,
+                bids: []
             }
         case 'CHANGE_FOCUS':
             return {...state,

@@ -82,10 +82,8 @@ class Draft extends React.Component {
             } else if (valueObj.franchiseId === this.mostRecentBid().franchiseId && bidders.length === 1) {
                 this.declareWinner()
             }
-
-            
+        }
     }
-}
 
     nextBidder = () => {
         if (this.state.bidderIndex >= this.filterFranchisesByBid().length - 1) {
@@ -102,7 +100,17 @@ class Draft extends React.Component {
         console.log(`${winningFranchise.name} has won with a bid of $${this.mostRecentBid().bidAmount}`)
         this.postFranchisePlayer()
         this.stopBidding()
+        this.newNominatorIndex()
         this.setStateToDefault()
+    }
+
+    newNominatorIndex = () => {
+        const nominatorIndex = this.props.draftFranchises.findIndex(franchise => franchise.id === this.props.nominatingFranchise.id)
+        if (nominatorIndex >= this.props.draftFranchises.length - 1) {
+            this.props.updateNominatingFranchise(0)
+        } else {
+            this.props.updateNominatingFranchise(nominatorIndex + 1)
+        }
     }
 
     // POST for FranchisePlayer
@@ -159,7 +167,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         addFranchisePlayer: (playerObj) => dispatch({type: 'ADD_FRANCHISE_PLAYER', playerObj}),
-        nominatePlayer: (rosterConfig, playerObj, franchises) => dispatch({type: 'NOMINATE_PLAYER', rosterConfig, rPlayer: playerObj, franchises: franchises})
+        nominatePlayer: (rosterConfig, playerObj, franchises) => dispatch({type: 'NOMINATE_PLAYER', rosterConfig, rPlayer: playerObj, franchises: franchises}),
+        updateNominatingFranchise: (index) => dispatch({type: 'UPDATE_NOMINATING_FRANCHISE', index})
     }
 }
 

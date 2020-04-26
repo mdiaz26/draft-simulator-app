@@ -25,6 +25,7 @@ const Player = props => {
 const mapStateToProps = state => {
     return {
         currentDraft: state.nominationData.currentDraft,
+        franchises: state.nominationData.draftFranchises,
         valuations: state.nominationData.valuations
     }
 }

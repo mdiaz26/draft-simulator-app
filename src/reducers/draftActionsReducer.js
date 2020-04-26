@@ -17,6 +17,11 @@ export const draftActionsReducer = (state = {
                 currentDraft: '',
                 requesting: true
             }
+        case 'ADD_DRAFT':
+            return {...state,
+                currentDraft: action.draft,
+                requesting: false
+            }
         case 'ASSIGN_DRAFT':
             return {...state,
                 currentDraft: action.draft,
@@ -50,6 +55,11 @@ export const draftActionsReducer = (state = {
             return {...state,
                 nominatedPlayer: action.rPlayer, 
                 valuations: valuations
+            }
+        case 'UPDATE_NOMINATING_FRANCHISE':
+            return {
+                ...state,
+                nominatingFranchise: state.draftFranchises[action.index]
             }
         case 'CHANGE_FOCUS':
             return {...state,

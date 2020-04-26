@@ -26,6 +26,7 @@ class DraftLobbyContainer extends React.Component {
         //kick off logic that nominates a player and starts bidding
         this.props.populateDraftFranchises(this.draftFranchises())
         this.props.assignNominator(this.draftFranchises()[0])
+        this.toggleActiveDraft()
     }
 
     shuffleFranchises = (franchises) => {
@@ -54,12 +55,14 @@ class DraftLobbyContainer extends React.Component {
     }
 
     render(){
-        const draftFranchises = this.draftFranchises()
         return(
             <div>
+                {this.state.activeDraft ? 
+                <button onClick={() => this.toggleActiveDraft()}>Pause Draft</button>
+                :
+                <button onClick={this.startDraft}>Start/Resume Draft</button>
+            }
                 Draft Lobby: {this.draftName()}
-                <button onClick={this.startDraft}>Draft!</button>
-                <button onClick={this.toggleActiveDraft}>Toggle Active Draft</button>
                 <button>Simulate Remainder</button>
                 <DraftContainer 
                     nominatedPlayer={this.props.nominatedPlayer} 
@@ -69,7 +72,6 @@ class DraftLobbyContainer extends React.Component {
                 <FranchisesContainer draftId={this.props.match.params.id}/>
                 <SingleTeamContainer/>
                 <PlayersContainer 
-                    franchises={draftFranchises}
                     rankingPlayers={this.props.rankingPlayers} 
                     activeDraft={this.state.activeDraft}
                 />

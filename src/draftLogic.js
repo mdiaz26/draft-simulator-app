@@ -64,7 +64,7 @@ const franchiseNeedFactor = (rosterConfig, franchise, rPlayer) => {
     // NORMAL PARABOLA VERSION BELOW //
     // const demandFactor = ((-0.2 * Math.pow(remainingPositionSpots, 2)) + 2 * remainingPositionSpots)/5
     
-    // SIGMOIND FUNCTION VERSION BELOW //
+    // SIGMOID FUNCTION VERSION BELOW //
     const demandFactor = (1.1 - (1 / 1 + Math.pow(2.7, (-1 * remainingPositionSpots - 1)))) * 10
     console.log("demand factor:", demandFactor)
     return demandFactor

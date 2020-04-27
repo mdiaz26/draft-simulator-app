@@ -1,11 +1,29 @@
 import React from 'react'
+// import { Redirect } from "react-router-dom"
 
-const Draft = props => {
-    return (
-        <div>
-            {props.draft.name}
-        </div>
-    )
+
+class Draft extends React.Component {
+
+    // state = {
+    //     redirect: ''
+    // }
+
+    // redirectToDraftDetails = () => {
+    //     this.setState({
+    //         redirect: `/drafts/${this.props.draft.id}`
+    //     })
+    // }
+
+    render() {
+        // if (this.state.redirect) {
+        //     return <Redirect to={this.state.redirect}/>
+        // }
+        return(
+            <div>
+                <h1>Draft {this.props.draft.id} - {this.props.draft.name}</h1>
+            </div>
+        )
+    }
 }
 
 export default Draft

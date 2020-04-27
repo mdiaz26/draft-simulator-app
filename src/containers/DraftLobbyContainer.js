@@ -62,19 +62,25 @@ class DraftLobbyContainer extends React.Component {
                 :
                 <button onClick={this.startDraft}>Start/Resume Draft</button>
             }
-                Draft Lobby: {this.draftName()}
-                <button>Simulate Remainder</button>
-                <DraftContainer 
-                    nominatedPlayer={this.props.nominatedPlayer} 
-                    draftId={this.props.match.params.id}
-                    activeDraft={this.state.activeDraft}
-                />
-                <FranchisesContainer draftId={this.props.match.params.id}/>
-                <SingleTeamContainer/>
-                <PlayersContainer 
-                    rankingPlayers={this.props.rankingPlayers} 
-                    activeDraft={this.state.activeDraft}
-                />
+                {this.props.currentDraft === '' ? 
+                    <div>loading...</div>
+                    :
+                    <div>
+                        Draft Lobby: {this.draftName()}
+                        <button>Simulate Remainder</button>
+                        <DraftContainer 
+                            nominatedPlayer={this.props.nominatedPlayer} 
+                            draftId={this.props.match.params.id}
+                            activeDraft={this.state.activeDraft}
+                        />
+                        <FranchisesContainer draftId={this.props.match.params.id}/>
+                        <SingleTeamContainer/>
+                        <PlayersContainer 
+                            rankingPlayers={this.props.rankingPlayers} 
+                            activeDraft={this.state.activeDraft}
+                        />
+                    </div>
+                }
             </div>
         )
     }

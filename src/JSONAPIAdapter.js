@@ -47,17 +47,29 @@ class JSONAPIAdapter {
 
 }
 
-export const fetchRankingPlayers = () => {
-    console.log("fetching ranking players")
-    const adapter = new JSONAPIAdapter('http://localhost:3000/api/v1/')
-    return (dispatch) => {
-      dispatch({ type: 'START_POPULATING_PLAYERS_REQUEST'})
-      adapter.getAll('ranking_players')
-      .then(ranking_players => dispatch({
-        type: 'POPULATE_RANKING_PLAYERS', ranking_players
-      }))
-    }
+export const fetchRankingPlayers = (rankingId) => {
+  console.log("fetching ranking players")
+  return (dispatch) => {
+    dispatch({ type: 'START_POPULATING_PLAYERS_REQUEST'})
+    fetch(`http://localhost:3000/api/v1/rankings/${rankingId}/ranking_players`)
+    .then(response => response.json())
+    .then(ranking_players => dispatch({
+      type: 'POPULATE_RANKING_PLAYERS', ranking_players
+    }))
   }
+}
+
+// export const fetchRankingPlayers = () => {
+//     console.log("fetching ranking players")
+//     const adapter = new JSONAPIAdapter('http://localhost:3000/api/v1/')
+//     return (dispatch) => {
+//       dispatch({ type: 'START_POPULATING_PLAYERS_REQUEST'})
+//       adapter.getAll('ranking_players')
+//       .then(ranking_players => dispatch({
+//         type: 'POPULATE_RANKING_PLAYERS', ranking_players
+//       }))
+//     }
+//   }
 
   export const fetchRankings = () => {
     console.log("fetching rankings")

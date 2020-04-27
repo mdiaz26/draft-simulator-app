@@ -10,8 +10,14 @@ export const rankingPlayersReducer = (state = {rankingPlayers: [], requesting: f
         case 'POPULATE_RANKING_PLAYERS':
             return {
                 ...state,
+                // rankingPlayers: action.ranking_players,
                 rankingPlayers: action.ranking_players.sort((playerA, playerB) => playerB.value - playerA.value),
                 requesting: false
+            }
+        case 'ORDER_RANKING_PLAYERS':
+            return {
+                ...state,
+                rankingPlayers: [...state.rankingPlayers].sort((playerA, playerB) => playerB.value - playerA.value)
             }
         case 'CHANGE_VALUE':
             let newArray = state.rankingPlayers.map(rPlayer => {
@@ -29,7 +35,8 @@ export const rankingPlayersReducer = (state = {rankingPlayers: [], requesting: f
                 updatedArray.push(action.rPlayer)
         return {
                 ...state,
-                rankingPlayers: newArray.sort((playerA, playerB) => playerB.value - playerA.value),
+                rankingPlayers: newArray,
+                // rankingPlayers: newArray.sort((playerA, playerB) => playerB.value - playerA.value),
                 updatedPlayers: updatedArray
             }
         default:

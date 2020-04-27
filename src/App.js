@@ -14,7 +14,7 @@ class App extends React.Component {
   componentDidMount(){
     this.props.fetchDrafts()
     this.props.fetchFranchises()
-    this.props.fetchRankingPlayers()
+    this.props.fetchRankingPlayers(1)
     this.props.fetchRankings()
   }
 
@@ -56,7 +56,7 @@ const mapDispatchToProps = dispatch => {
     populatePlayers: () => dispatch({type: 'POPULATE_PLAYERS'}),
     updateQueue: (newQueue) => dispatch({type: 'UPDATE_QUEUE', payload: newQueue}),
     fetchFranchises: () => dispatch(fetchFranchises()),
-    fetchRankingPlayers: () => dispatch(fetchRankingPlayers()),
+    fetchRankingPlayers: (rankingId) => dispatch(fetchRankingPlayers(rankingId)),
     fetchRankings: () => dispatch(fetchRankings()),
     fetchDrafts: () => dispatch(fetchDrafts())
   }

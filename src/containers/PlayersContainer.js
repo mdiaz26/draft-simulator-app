@@ -7,8 +7,8 @@ const PlayersContainer = props => {
     const filterRankingPlayers = () => {
         const franchisePlayerIds = props.draftFranchisePlayers.map(fPlayer => fPlayer.player_id)
         let newArray = props.rankingPlayers.filter(rankingPlayer => !franchisePlayerIds.includes(rankingPlayer.player_id))
-        
-        return newArray
+
+        return newArray.sort((playerA, playerB) => playerB.value - playerA.value)
     }
 
     return(

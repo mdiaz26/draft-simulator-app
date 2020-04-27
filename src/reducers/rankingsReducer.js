@@ -25,6 +25,20 @@ export const rankingsReducer = (state = {rankings: [], requesting: false, curren
                 currentRanking: action.ranking,
                 requesting: false
             }
+        case 'CHANGE_VALUE':
+            return {
+                ...state,
+                currentRanking: {
+                    ...state.currentRanking, 
+                    ranking_players: state.currentRanking.ranking_players.map(rPlayer => {
+                        if (rPlayer.id === action.rPlayer.id) {
+                            return action.rPlayer
+                        } else {
+                            return rPlayer
+                        }
+                    })
+                }
+            }
         default:
             return state
     }

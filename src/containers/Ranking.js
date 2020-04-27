@@ -10,16 +10,28 @@ class Ranking extends React.Component {
         this.props.fetchRanking(this.props.match.params.id)
     }
 
+    saveRankings = () => {
+        // PATCH request
+        // body of the request is the current state of ranking
+        // so when someone clicks the + or  - button, it changes the state. When they hit save, it sends the patch
+    }
+
     render(){
         return (
             <div>
             {this.props.ranking !== '' ? 
                 <div>
                     <button onClick={() => console.log(this.props)}>See Props</button>
+                    <button onClick={this.saveRankings}>Save Rankings</button>
                     <h2>{this.props.ranking.name}</h2>
                     <SearchBar/>
                     {this.props.ranking.ranking_players.map(rPlayer =>
-                        <Player key={rPlayer.id} player={rPlayer.player} rPlayer={rPlayer} inNominationQueue={false}/>)}
+                        <Player 
+                            key={rPlayer.id} 
+                            player={rPlayer.player} 
+                            rPlayer={rPlayer} 
+                            onEditPage={true}
+                        />)}
                 </div>
                 :
                 <div>loading...</div>

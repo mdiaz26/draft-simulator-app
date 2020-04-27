@@ -8,13 +8,14 @@ const Player = props => {
             ({props.player.pro_team} - {props.player.position})
             Value: ${props.rPlayer.value}
             {props.inNominationQueue && 
-                <button disabled={!props.activeDraft} onClick={() => 
+                <button disabled={!props.activeDraft} onClick={() => {
                     props.nominatePlayer(
                         props.currentDraft.roster_config, 
                         props.rPlayer, 
                         props.franchises
                     )
-                }>
+                    props.resetBids()
+                }}>
                     Nominate
                 </button>
             }
@@ -24,8 +25,17 @@ const Player = props => {
 
 const mapStateToProps = state => {
     return {
-        currentDraft: state.nominationData.currentDraft
+        currentDraft: state.nominationData.currentDraft,
+        franchises: state.nominationData.draftFranchises,
+        valuations: state.nominationData.valuations
     }
 }
 
-export default connect(mapStateToProps)(Player)
+const mapDispatchToProps = dispatch => {
+    return {
+        nominatePlayer: (rosterConfig, playerObj, franchises) => dispatch({type: 'NOMINATE_PLAYER', rosterConfig, rPlayer: playerObj, franchises: franchises}),
+        resetBids: () => dispatch({type: 'RESET_BIDS'})
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Player)

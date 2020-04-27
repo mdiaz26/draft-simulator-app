@@ -16,7 +16,6 @@ class DraftLobbyContainer extends React.Component {
     componentDidMount(){
         this.props.fetchDraft(this.props.match.params.id)
         this.props.fetchFranchisePlayers(this.props.match.params.id)
-        this.props.populateDraftFranchises(this.draftFranchises())
     }
 
     toggleActiveDraft = () => {
@@ -25,6 +24,9 @@ class DraftLobbyContainer extends React.Component {
 
     startDraft = () => {
         //kick off logic that nominates a player and starts bidding
+        this.props.populateDraftFranchises(this.draftFranchises())
+        this.props.assignNominator(this.draftFranchises()[0])
+        this.toggleActiveDraft()
     }
 
     shuffleFranchises = (franchises) => {
@@ -53,25 +55,32 @@ class DraftLobbyContainer extends React.Component {
     }
 
     render(){
-        const draftFranchises = this.draftFranchises()
         return(
             <div>
-                Draft Lobby: {this.draftName()}
-                <button onClick={this.startDraft}>Draft!</button>
-                <button onClick={this.toggleActiveDraft}>Toggle Active Draft</button>
-                <button>Simulate Remainder</button>
-                <DraftContainer 
-                    nominatedPlayer={this.props.nominatedPlayer} 
-                    draftId={this.props.match.params.id}
-                    activeDraft={this.state.activeDraft}
-                />
-                <FranchisesContainer draftId={this.props.match.params.id}/>
-                <SingleTeamContainer/>
-                <PlayersContainer 
-                    franchises={draftFranchises}
-                    rankingPlayers={this.props.rankingPlayers} 
-                    activeDraft={this.state.activeDraft}
-                />
+                {this.state.activeDraft ? 
+                <button onClick={() => this.toggleActiveDraft()}>Pause Draft</button>
+                :
+                <button onClick={this.startDraft}>Start/Resume Draft</button>
+            }
+                {this.props.currentDraft === '' ? 
+                    <div>loading...</div>
+                    :
+                    <div>
+                        Draft Lobby: {this.draftName()}
+                        <button>Simulate Remainder</button>
+                        <DraftContainer 
+                            nominatedPlayer={this.props.nominatedPlayer} 
+                            draftId={this.props.match.params.id}
+                            activeDraft={this.state.activeDraft}
+                        />
+                        <FranchisesContainer draftId={this.props.match.params.id}/>
+                        <SingleTeamContainer/>
+                        <PlayersContainer 
+                            rankingPlayers={this.props.rankingPlayers} 
+                            activeDraft={this.state.activeDraft}
+                        />
+                    </div>
+                }
             </div>
         )
     }
@@ -93,7 +102,8 @@ const mapDispatchToProps = dispatch => {
     populatePlayers: () => dispatch({type: 'POPULATE_PLAYERS'}),
     fetchDraft: (draftId) => dispatch(fetchDraft(draftId)),
     fetchFranchisePlayers: (draftId) => dispatch(fetchFranchisePlayers(draftId)),
-    populateDraftFranchises: franchises => dispatch({type: 'POPULATE_DRAFT_FRANCHISES', franchises})
+    populateDraftFranchises: franchises => dispatch({type: 'POPULATE_DRAFT_FRANCHISES', franchises}),
+    assignNominator: (franchise) => dispatch({type: 'ASSIGN_NOMINATOR', franchise})
     }
 }
 

@@ -3,7 +3,11 @@ import { calculateValuations } from '../draftLogic'
 export const draftActionsReducer = (state = {
     currentDraft: '', 
     franchiseFocus: '', 
-    nominatedPlayer: '', 
+    nominatedPlayer: '',
+    nominatingFranchise: {},
+    biddingTrigger: '',
+    bids: [],
+    bidWinners: [],
     valuations: [],
     draftFranchisePlayers: [],
     draftFranchises: [],
@@ -14,6 +18,11 @@ export const draftActionsReducer = (state = {
             return {...state,
                 currentDraft: '',
                 requesting: true
+            }
+        case 'ADD_DRAFT':
+            return {...state,
+                currentDraft: action.draft,
+                requesting: false
             }
         case 'ASSIGN_DRAFT':
             return {...state,
@@ -30,11 +39,38 @@ export const draftActionsReducer = (state = {
                 draftFranchisePlayers: action.players,
                 requesting: false
             }
+        case 'ASSIGN_NOMINATOR':
+        return {
+                ...state,
+                nominatingFranchise: action.franchise
+            }
         case 'NOMINATE_PLAYER':
-            console.log(`${action.rPlayer.player.name} has been nominated`)
+            let valuations
+        if (action.rPlayer !== '') {
+                valuations = calculateValuations(action.rosterConfig, action.franchises, action.rPlayer)
+                console.log('valuations:', valuations)
+            } else {
+                valuations = []
+            }
+            // also this should be a trigger to start bidding
             return {...state,
                 nominatedPlayer: action.rPlayer, 
-                valuations: calculateValuations(action.rosterConfig, action.franchises, action.rPlayer)
+                valuations: valuations
+            }
+        case 'UPDATE_NOMINATING_FRANCHISE':
+            return {
+                ...state,
+                nominatingFranchise: state.draftFranchises[action.index]
+            }
+        case 'UPDATE_BIDS':
+            return {
+                ...state,
+                bids: [...state.bids, action.bidData]
+            }
+        case 'RESET_BIDS':
+            return {
+                ...state,
+                bids: []
             }
         case 'CHANGE_FOCUS':
             return {...state,

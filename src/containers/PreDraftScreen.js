@@ -39,7 +39,7 @@ class PreDraftScreen extends React.Component {
 
     createNewDraft = () => {
         const body = {
-            name: Date.now(),
+            name: new Date(),
             roster_config_id: 1
         }
         return adapter.post('drafts', body)
@@ -66,7 +66,7 @@ class PreDraftScreen extends React.Component {
         }
         return(
             <div>
-                <button onClick={() => console.log(this.state)}>See State</button>
+                {/* <button onClick={() => console.log(this.state)}>See State</button> */}
                 Draft Settings
                 <button onClick={this.initiateDraft}>Start Draft</button>
             </div>

@@ -1,5 +1,5 @@
 
-export const rankingsReducer = (state = {rankings: [], requesting: false, currentRanking: ''}, action) => {
+export const rankingsReducer = (state = {rankings: [], requesting: false, currentRanking: '', searchBarValue: ''}, action) => {
     switch (action.type) {
         case 'START_POPULATING_RANKINGS_REQUEST':
             return {
@@ -38,6 +38,11 @@ export const rankingsReducer = (state = {rankings: [], requesting: false, curren
                         }
                     })
                 }
+            }
+        case 'UPDATE_SEARCH_BAR':
+            return {
+                ...state,
+                searchBarValue: action.content
             }
         default:
             return state

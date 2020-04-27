@@ -22,6 +22,10 @@ class Ranking extends React.Component {
         return rankingPlayers.sort((playerA, playerB) => playerB.value - playerA.value)
     }
 
+    withFilters = rankingPlayers => {
+        return rankingPlayers.filter(rPlayer => rPlayer.player.name.toLowerCase().includes(this.props.searchBar.toLowerCase()))
+    }
+
     render(){
         return (
             <div>
@@ -31,7 +35,7 @@ class Ranking extends React.Component {
                     <button onClick={this.saveRankings}>Save Rankings</button>
                     <h2>{this.props.ranking.name}</h2>
                     <SearchBar/>
-                    {this.props.rankingPlayers.map(rPlayer =>
+                    {this.withFilters(this.props.rankingPlayers).map(rPlayer =>
                         <Player 
                             key={rPlayer.id} 
                             player={rPlayer.player} 
@@ -51,7 +55,8 @@ class Ranking extends React.Component {
         return {
             ranking: state.rankingsInfo.currentRanking,
             rankingPlayers: state.rankingPlayersInfo.rankingPlayers,
-            editedRankingPlayers: state.rankingPlayersInfo.updatedPlayers
+            editedRankingPlayers: state.rankingPlayersInfo.updatedPlayers,
+            searchBar: state.rankingsInfo.searchBarValue
         }
     }
 

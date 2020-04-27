@@ -4,11 +4,10 @@ import DraftLobbyContainer from './containers/DraftLobbyContainer'
 import PreDraftScreen from './containers/PreDraftScreen'
 import RankingsContainer from './containers/RankingsContainer'
 import DraftsContainer from './containers/DraftsContainer'
-// import ExistingDraftContainer from './containers/ExistingDraftContainer'
+import Ranking from './containers/Ranking'
 import Navbar from './components/Navbar'
 import { connect } from 'react-redux'
 import {Switch, Route} from 'react-router-dom'
-import Draft from './components/Draft';
 
 class App extends React.Component {
 
@@ -25,15 +24,15 @@ class App extends React.Component {
           <Navbar/>
           <Switch>
             <Route path="/draft/:id" render={(routerProps) => 
-                <DraftLobbyContainer
-                  {...routerProps}
-                />
-              }/>
-            <Route path="/drafts/:id" render={(routerProps) => 
-                <Draft
-                  {...routerProps}
-                />
-              }/>
+              <DraftLobbyContainer
+                {...routerProps}
+              />
+            }/>
+            <Route path="/rankings/:id" render={(routerProps) => 
+              <Ranking
+                {...routerProps}
+              />
+            }/>
             <Route path="/draft" render={() => 
               <PreDraftScreen/>
             }/>

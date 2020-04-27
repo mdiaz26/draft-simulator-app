@@ -71,6 +71,18 @@ export const fetchRankingPlayers = () => {
     }
   }
 
+  export const fetchRanking = (rankingId) => {
+    console.log("fetching ranking")
+    const adapter = new JSONAPIAdapter('http://localhost:3000/api/v1/')
+    return (dispatch) => {
+      dispatch({ type: 'START_FETCHING_RANKING_REQUEST'})
+      adapter.getOne('rankings', rankingId)
+      .then(ranking => dispatch({
+        type: 'FETCH_RANKING', ranking
+      }))
+    }
+  }
+
   export const fetchDrafts = () => {
     console.log("fetching drafts")
     const adapter = new JSONAPIAdapter('http://localhost:3000/api/v1/')

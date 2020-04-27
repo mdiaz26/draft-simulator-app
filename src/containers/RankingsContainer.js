@@ -1,17 +1,28 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Ranking from '../components/Ranking'
+import { Redirect } from 'react-router-dom'
 
 class RankingsContainer extends React.Component {
+    state = {
+        redirect: ''
+    }
+
+    redirectToRanking = (event) => {
+        this.setState({
+            redirect: `/rankings/${event.target.id}`
+        })
+    }
+
     render(){
+        if (this.state.redirect) {
+            return <Redirect to={this.state.redirect}/>
+        }
         return (
             <div>
                 <h1>Rankings Container</h1>
-                {this.props.rankings.map(ranking => 
-                    <Ranking 
-                        key={ranking.id} 
-                        ranking={ranking}
-                        players={this.props.rankingPlayers.filter(player => player.ranking_id === ranking.id)}/>)}
+                {this.props.rankings.map(ranking => (
+                    <h3 key={ranking.id} id={ranking.id} onClick={this.redirectToRanking}>{ranking.name}</h3>
+                ))}
             </div>
         )
     }

@@ -7,6 +7,8 @@ const Player = props => {
             <strong>{props.player.name}</strong> 
             ({props.player.pro_team} - {props.player.position})
             Value: ${props.rPlayer.value}
+            Tier: {props.rPlayer.tier}
+            
             {props.inNominationQueue && 
                 <button disabled={!props.activeDraft} onClick={() => {
                     props.nominatePlayer(

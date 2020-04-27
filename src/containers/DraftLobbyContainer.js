@@ -5,7 +5,6 @@ import DraftContainer from './DraftContainer'
 import SingleTeamContainer from './SingleTeamContainer'
 import FranchisesContainer from './FranchisesContainer'
 import { fetchDraft, fetchFranchisePlayers } from '../JSONAPIAdapter'
-// import { startBidding } from '../draftLogic'
 
 class DraftLobbyContainer extends React.Component {
 

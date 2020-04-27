@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Player from '../components/Player'
 import SearchBar from '../components/SearchBar'
-import { fetchRanking } from  '../JSONAPIAdapter'
+import { fetchRanking, saveRankingsPlayer } from  '../JSONAPIAdapter'
 
 class Ranking extends React.Component {
 
@@ -11,9 +11,13 @@ class Ranking extends React.Component {
     }
 
     saveRankings = () => {
-        // PATCH request
-        // body of the request is the current state of ranking
-        // so when someone clicks the + or  - button, it changes the state. When they hit save, it sends the patch
+        this.props.editedRankingPlayers.map(rPlayer => (
+            saveRankingsPlayer(rPlayer)
+        ))
+    }
+
+    orderRankingPlayers = rankingPlayers => {
+        return rankingPlayers.sort((playerA, playerB) => playerB.value - playerA.value)
     }
 
     render(){
@@ -25,7 +29,7 @@ class Ranking extends React.Component {
                     <button onClick={this.saveRankings}>Save Rankings</button>
                     <h2>{this.props.ranking.name}</h2>
                     <SearchBar/>
-                    {this.props.ranking.ranking_players.map(rPlayer =>
+                    {this.orderRankingPlayers(this.props.ranking.ranking_players).map(rPlayer =>
                         <Player 
                             key={rPlayer.id} 
                             player={rPlayer.player} 
@@ -43,7 +47,8 @@ class Ranking extends React.Component {
 
     const mapStateToProps = state => {
         return {
-            ranking: state.rankingsInfo.currentRanking
+            ranking: state.rankingsInfo.currentRanking,
+            editedRankingPlayers: state.rankingPlayersInfo.updatedPlayers
         }
     }
 

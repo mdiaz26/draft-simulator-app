@@ -83,6 +83,12 @@ export const fetchRankingPlayers = () => {
     }
   }
 
+  export const saveRankingsPlayer = (rPlayer) => {
+    const adapter = new JSONAPIAdapter('http://localhost:3000/api/v1/')
+    adapter.update('ranking_players', rPlayer.id, rPlayer)
+    .then(console.log)
+  }
+
   export const fetchDrafts = () => {
     console.log("fetching drafts")
     const adapter = new JSONAPIAdapter('http://localhost:3000/api/v1/')

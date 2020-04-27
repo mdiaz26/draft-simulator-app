@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-// import Draft from '../components/Draft'
 import { Redirect } from "react-router-dom"
 
 
@@ -11,8 +10,6 @@ class DraftsContainer extends React.Component {
     }
 
     redirectToDraftDetails = (event) => {
-        // event.persist()
-        // console.log(event.target)
         this.setState({
             redirect: `/draft/${event.target.id}`
         })

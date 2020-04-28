@@ -88,35 +88,44 @@ class Draft extends React.Component {
         this.nextBidder()
         let valueObj = bidders[this.state.bidderIndex]
         let franchise = this.props.franchises.find(franchise => franchise.id === valueObj.franchiseId)
+        // if (franchise.id === this.findYourFranchise().id && !this.props.userHasPassed) {
+        //     console.log("inside first conditional")
+        //     this.askForInput()
+        // }
+
         if (franchise.id === this.findYourFranchise().id && !this.props.userHasPassed) {
-            console.log("inside first conditional")
-            this.askForInput()
-            // return
-        }
-
-        else if (bidders.length === 1) {
             console.log("inside second conditional")
-            // multiple teams are tied valuating the player at the current bid.
-            // Check to see if the user wants to bid
-            this.props.userHasPassed ? this.declareWinner() : this.askForInput()
+            // it's the user's turn to bid, if they haven't passed already
+            // if the user is the only bidder left and they were the most recent bid, they win.
+            // otherwise, they will be prompted to bid.
+            // if they bid, the function will run again and declare them the winner.
+            // if they pass, the function will run again
+            bidders.length === 1 && this.mostRecentBid().franchise.id === this.findYourFranchise().id 
+                ? 
+                this.declareWinner() 
+                : 
+                this.askForInput()
+            }
 
-        } else if (bidders.length > 1) {
+        else if (bidders.length > 1) {
             // the franchise will bid if their valuation is higher than the current bid
             if (
                 valueObj.franchiseId !== this.mostRecentBid().franchise.id && 
                 franchise.franchise_players.length < totalRosterSpots(this.props.currentDraft.roster_config) &&
                 valueObj.valuation > this.mostRecentBid().bidAmount
                 ) {
-                    // console.log(`${franchise.name} has bid $${this.mostRecentBid().bidAmount + 1}`)
                     this.props.updateBids({franchise, bidAmount: this.mostRecentBid().bidAmount + 1})
                     console.log("inside third conditional")
-                    if (bidders.length === 1){
+                    if (bidders.length === 2){
                         this.props.userHasPassed ? this.declareWinner() : this.askForInput()
                     } 
 
             } else if (valueObj.franchiseId === this.mostRecentBid().franchise.id && bidders.length === 2) {
                 console.log("inside fourth conditional")
                 this.props.userHasPassed ? this.declareWinner() : this.askForInput()
+            }
+            else if (bidders.length === 1 && this.props.userHasPassed) {
+                this.declareWinner()
             }
         }
     }

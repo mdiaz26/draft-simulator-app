@@ -22,7 +22,7 @@ class App extends React.Component {
   render(){
     return (
       <div className="App">
-          <Navbar/>
+          {/* <Navbar/> */}
           <Switch>
             <Route path="/draft/:id" render={(routerProps) => 
               <DraftLobbyContainer

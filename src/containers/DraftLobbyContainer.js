@@ -1,6 +1,7 @@
 import React from 'react'
 import '../styles/DraftLobby.css'
 import { connect } from 'react-redux'
+import Navbar from '../components/Navbar'
 import PlayersContainer from './PlayersContainer'
 import DraftContainer from './DraftContainer'
 import SingleTeamContainer from './SingleTeamContainer'
@@ -57,17 +58,20 @@ class DraftLobbyContainer extends React.Component {
     render(){
         return(
             <div className="draft-lobby">
+                <div className="navbar-locator">
+                    <Navbar/>
+                </div>
                 {this.state.activeDraft ? 
-                    <button className="control-button" onClick={() => this.toggleActiveDraft()}>Pause Draft</button>
+                    <button className="activate-button" onClick={() => this.toggleActiveDraft()}>Pause Draft</button>
                     :
-                    <button className="control-button" onClick={this.startDraft}>Start/Resume Draft</button>
+                    <button className="activate-button" onClick={this.startDraft}>Start/Resume Draft</button>
                 }
                 {this.props.currentDraft === '' ? 
                     <div>loading...</div>
                     :
                     <React.Fragment>
-                        Draft Lobby: {this.draftName()}
-                        <button className="control-button" >Simulate Remainder</button>
+                        <h1 className="draft-title">Draft Lobby: {this.draftName()}</h1>
+                        <button className="simulate-button" >Simulate Remainder</button>
                         <div className='draft-container-locator'>
                         <DraftContainer 
                             nominatedPlayer={this.props.nominatedPlayer} 

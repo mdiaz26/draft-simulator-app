@@ -1,4 +1,5 @@
 import React from 'react'
+import '../styles/DraftContainer.css'
 import { connect } from 'react-redux'
 import Bids from '../components/Bids'
 import Player from '../components/Player'
@@ -126,7 +127,7 @@ class Draft extends React.Component {
     render() {
         const yourFranchise = this.findYourFranchise()
         return (
-            <div>
+            <div className='draft-container'>
                 <button disabled={this.props.nominatedPlayer === ''} onClick={this.startBidding}>Start Bidding</button>
                 <button onClick={this.stopBidding}>Stop Bidding</button>
                 {this.props.nominatedPlayer !== '' ? 

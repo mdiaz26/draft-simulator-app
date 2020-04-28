@@ -16,6 +16,10 @@ class Draft extends React.Component {
         biddingTrigger: "",
     }
 
+    componentWillUnmount(){
+        clearInterval(this.state.biddingTrigger)
+    }
+
     setStateToDefault = () => {
         this.setState({
             biddingTrigger: ""
@@ -38,32 +42,65 @@ class Draft extends React.Component {
         return yourFranchise
     }
 
+    // remove the user from the valuations array so that they can bid for themselves
+    removeUser = valuations => {
+        let yourFranchise = this.findYourFranchise()
+        return valuations.filter(valueObj => valueObj.franchiseId !== yourFranchise.id)
+    }
+
+    // shorten the valuations array to only teams that are willing to spend more than the most recent bid
     filterFranchisesByBid = () => {
+        let yourFranchise = this.findYourFranchise()
         if (this.props.bids.length > 0) {
-            return this.props.valuations.filter(valueObj => valueObj.valuation > this.mostRecentBid().bidAmount)
+            return this.props.valuations.filter(valueObj => {
+                if (valueObj.valuation > this.mostRecentBid().bidAmount || valueObj.franchiseId === yourFranchise.id) {
+                    return true
+                }
+                return false
+            })
         } else {
             return this.props.valuations
         }
     }
 
+    //check to see if the user wants to bid
+    askForInput = () => {
+        clearInterval(this.state.biddingTrigger)
+        console.log('would you like to bid?')
+        // setTimeout()
+    }
+
     startBidding = () => {
-        const biddingTrigger = setInterval(() => this.teamBids(), 200)
+        const biddingTrigger = setInterval(() => this.teamBids(), 500)
         this.setState({biddingTrigger})
         const nominatorIndex = this.props.draftFranchises.findIndex(franchise => franchise.id === this.props.nominatingFranchise.id)
         this.setState({bidderIndex: nominatorIndex})
+    }
+
+    resumeBidding = () => {
+        const biddingTrigger = setInterval(() => this.teamBids(), 500)
+        this.setState({biddingTrigger})
     }
 
     teamBids = () => {
         // This creates a new array each time it is run. The array will shrink as mostRecentBid().bidAmount increases.
         let bidders = this.filterFranchisesByBid()
         this.nextBidder()
-        if (bidders.length === 0) {
+        let valueObj = bidders[this.state.bidderIndex]
+        let franchise = this.props.franchises.find(franchise => franchise.id === valueObj.franchiseId)
+        if (franchise.id === this.findYourFranchise().id && !this.props.userHasPassed) {
+            console.log("inside first conditional")
+            this.askForInput()
+            // return
+        }
+
+        else if (bidders.length === 1) {
+            console.log("inside second conditional")
             // multiple teams are tied valuating the player at the current bid.
-            // Whoever last bid is the winner
-            this.declareWinner()
-        } else if (bidders.length > 0) {
-            let valueObj = bidders[this.state.bidderIndex]
-            let franchise = this.props.franchises.find(franchise => franchise.id === valueObj.franchiseId)
+            // Check to see if the user wants to bid
+            this.props.userHasPassed ? this.declareWinner() : this.askForInput()
+
+        } else if (bidders.length > 1) {
             // the franchise will bid if their valuation is higher than the current bid
             if (
                 valueObj.franchiseId !== this.mostRecentBid().franchise.id && 
@@ -72,10 +109,14 @@ class Draft extends React.Component {
                 ) {
                     // console.log(`${franchise.name} has bid $${this.mostRecentBid().bidAmount + 1}`)
                     this.props.updateBids({franchise, bidAmount: this.mostRecentBid().bidAmount + 1})
-                    
-                    bidders.length === 1 && this.declareWinner()
-            } else if (valueObj.franchiseId === this.mostRecentBid().franchise.id && bidders.length === 1) {
-                this.declareWinner()
+                    console.log("inside third conditional")
+                    if (bidders.length === 1){
+                        this.props.userHasPassed ? this.declareWinner() : this.askForInput()
+                    } 
+
+            } else if (valueObj.franchiseId === this.mostRecentBid().franchise.id && bidders.length === 2) {
+                console.log("inside fourth conditional")
+                this.props.userHasPassed ? this.declareWinner() : this.askForInput()
             }
         }
     }
@@ -140,7 +181,10 @@ class Draft extends React.Component {
                 }
                 {yourFranchise && 
                     <div className='bid-options-locator'>
-                        <BidOptions franchise={yourFranchise}/>
+                        <BidOptions 
+                            franchise={yourFranchise} 
+                            mostRecentBid={this.mostRecentBid()}
+                            resumeBidding={this.resumeBidding}/>
                     </div>
                     }
                 <Bids/>
@@ -159,7 +203,8 @@ const mapStateToProps = state => {
         valuations: state.nominationData.valuations,
         bids: state.nominationData.bids,
         currentDraft: state.nominationData.currentDraft,
-        draftFranchisePlayers: state.nominationData.draftFranchisePlayers
+        draftFranchisePlayers: state.nominationData.draftFranchisePlayers,
+        userHasPassed: state.nominationData.userHasPassed
     }
 }
 

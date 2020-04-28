@@ -11,7 +11,8 @@ export const draftActionsReducer = (state = {
     valuations: [],
     draftFranchisePlayers: [],
     draftFranchises: [],
-    requesting: false
+    requesting: false,
+    userHasPassed: false
 }, action) => {
     switch (action.type) {
         case 'START_POPULATING_DRAFT_REQUEST':
@@ -58,7 +59,8 @@ export const draftActionsReducer = (state = {
             // also this should be a trigger to start bidding
             return {...state,
                 nominatedPlayer: action.rPlayer, 
-                valuations: valuations
+                valuations: valuations,
+                userHasPassed: false
             }
         case 'UPDATE_NOMINATING_FRANCHISE':
             return {
@@ -83,6 +85,11 @@ export const draftActionsReducer = (state = {
             return {
                 ...state,
                 draftFranchisePlayers: [...state.draftFranchisePlayers, action.playerObj]
+            }
+        case 'USER_HAS_PASSED':
+            return {
+                ...state,
+                userHasPassed: true
             }
         // case 'POPULATE_DRAFT_FRANCHISES':
         //     const yourTeam = action.franchises.find(franchise => franchise.name === "Your Team")

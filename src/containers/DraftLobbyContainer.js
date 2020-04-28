@@ -1,7 +1,6 @@
 import React from 'react'
 import '../styles/DraftLobby.css'
 import { connect } from 'react-redux'
-import Navbar from '../components/Navbar'
 import PlayersContainer from './PlayersContainer'
 import DraftContainer from './DraftContainer'
 import SingleTeamContainer from './SingleTeamContainer'
@@ -25,7 +24,6 @@ class DraftLobbyContainer extends React.Component {
 
     startDraft = () => {
         //kick off logic that nominates a player and starts bidding
-        this.props.populateDraftFranchises(this.draftFranchises())
         this.props.assignNominator(this.draftFranchises()[0])
         this.toggleActiveDraft()
     }
@@ -58,9 +56,9 @@ class DraftLobbyContainer extends React.Component {
     render(){
         return(
             <div className="draft-lobby">
-                <div className="navbar-locator">
+                {/* <div className="navbar-locator">
                     <Navbar/>
-                </div>
+                </div> */}
                 {this.state.activeDraft ? 
                     <button className="activate-button" onClick={() => this.toggleActiveDraft()}>Pause Draft</button>
                     :
@@ -114,7 +112,6 @@ const mapDispatchToProps = dispatch => {
     populatePlayers: () => dispatch({type: 'POPULATE_PLAYERS'}),
     fetchDraft: (draftId) => dispatch(fetchDraft(draftId)),
     fetchFranchisePlayers: (draftId) => dispatch(fetchFranchisePlayers(draftId)),
-    populateDraftFranchises: franchises => dispatch({type: 'POPULATE_DRAFT_FRANCHISES', franchises}),
     assignNominator: (franchise) => dispatch({type: 'ASSIGN_NOMINATOR', franchise})
     }
 }

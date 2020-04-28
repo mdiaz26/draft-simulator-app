@@ -1,26 +1,12 @@
 import React from 'react'
+import '../styles/SearchBar.css'
 import { connect } from 'react-redux'
 
 class SearchBar extends React.Component {
 
-    // uniqueFilter = (total, object, idx, array) => {
-    //     if (idx === 0) {
-    //         return total + 1
-    //     }
-    //     else if (object.tier !== array[idx - 1].tier) {
-    //         return total + 1
-    //     } else if (object.tier === array[idx -1].tier) {
-    //         return total
-    //     }
-    // }
-
-    // getFilterOptions = () => {
-    //     const sortedRankings = this.props.rankingPlayers.sort((playerA, playerB) => playerA.tier - playerB.tier)
-    //     const numberOfTiers = sortedRankings.reduce(this.uniqueFilter, 0)
-    //     const tiersArray = Array.from(Array(numberOfTiers), (e, i) => i+ 1)
-    //     const filterOptions = ['QB', 'RB', 'WR', 'TE', 'DEF', 'K'].concat(tiersArray)
-    //     return filterOptions
-    // }
+    state = {
+        showAdditionalFilters: true
+    }
 
     filterChoices = ['QB', 'RB', 'WR', 'TE', 'DST', 'K', 'Tier 1', 'Tier 2', 'Tier 3', 'Tier 4', 'Tier 5', 'Tier 6', 'Tier 7', 'Tier 8', 'Tier 9', 'Tier 10']
 
@@ -73,16 +59,27 @@ class SearchBar extends React.Component {
                         onChange={event => this.props.updateSearchBar(event)}
                         placeholder="search player"
                     />
-                    {this.filterChoices.map((checkboxElement, idx) => (
-                        <label key={idx}>{checkboxElement}
-                            <input
-                                name={checkboxElement}
-                                type="checkbox"
-                                checked={this.props.filterStatus[checkboxElement]}
-                                onChange={event => this.props.updateFilterBoxes(this.handleCheckboxChange(event))}
-                            />
-                        </label>
-                    ))}
+                    {this.state.showAdditionalFilters ? 
+                        <React.Fragment>
+                            <button onClick={() => this.setState(prevState => ({showAdditionalFilters: !prevState.showAdditionalFilters}))}>Hide Filters</button>
+                            <div className="filters">
+                                {this.filterChoices.map((checkboxElement, idx) => (
+                                    <div key={idx} className={checkboxElement.replace(/\s/g, '')}>
+                                    <label >{checkboxElement}
+                                        <input
+                                            name={checkboxElement}
+                                            type="checkbox"
+                                            checked={this.props.filterStatus[checkboxElement]}
+                                            onChange={event => this.props.updateFilterBoxes(this.handleCheckboxChange(event))}
+                                        />
+                                    </label>
+                                    </div>
+                                ))}
+                            </div>
+                        </React.Fragment>
+                        :
+                        <button onClick={() => this.setState(prevState => ({showAdditionalFilters: !prevState.showAdditionalFilters}))}>Show Additional Filters</button>
+                    }
                 </form>
             </div>
         )

@@ -5,6 +5,10 @@
     height: 70px;
 }
 
+.franchises-list {
+    list-style-type:none
+}
+
 .franchises-list li {
     float: left;
     padding: 10px;

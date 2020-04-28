@@ -1,0 +1,14 @@
+.player-tile {
+    height: 14px;
+    width: 100%;
+    padding: 12px;
+}
+
+.ranking-options {
+    position: relative;
+    top: 2px;
+}
+
+.ranking-btn {
+    margin: 1px
+}

@@ -25,7 +25,6 @@ class Ranking extends React.Component {
     withFilters = rankingPlayers => {
         let filteredByPosition = rankingPlayers.filter(rPlayer => this.props.checkboxes[rPlayer.player.position])
         let filteredByTier = [...filteredByPosition].filter(rPlayer => this.props.checkboxes[`Tier ${rPlayer.tier}`])
-        console.log(filteredByTier)
         let filteredByAll = [...filteredByTier].filter(rPlayer => rPlayer.player.name.toLowerCase().includes(this.props.searchBar.toLowerCase()))
         return filteredByAll
     }

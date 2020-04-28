@@ -25,8 +25,11 @@ export const draftActionsReducer = (state = {
                 requesting: false
             }
         case 'ASSIGN_DRAFT':
+            const yourTeam = action.draft.franchises.find(franchise => franchise.name === "Your Team")
             return {...state,
                 currentDraft: action.draft,
+                draftFranchises: action.draft.franchises,
+                franchiseFocus: yourTeam,
                 requesting: false
             }
         case 'START_POPULATING_DRAFT_FRANCHISE_PLAYERS':
@@ -81,14 +84,14 @@ export const draftActionsReducer = (state = {
                 ...state,
                 draftFranchisePlayers: [...state.draftFranchisePlayers, action.playerObj]
             }
-        case 'POPULATE_DRAFT_FRANCHISES':
-            const yourTeam = action.franchises.find(franchise => franchise.name === "Your Team")
-            console.log('franchises:', action.franchises)
-            return {
-                ...state,
-                draftFranchises: action.franchises,
-                franchiseFocus: yourTeam
-            }
+        // case 'POPULATE_DRAFT_FRANCHISES':
+        //     const yourTeam = action.franchises.find(franchise => franchise.name === "Your Team")
+        //     console.log('franchises:', action.franchises)
+        //     return {
+        //         ...state,
+        //         draftFranchises: action.franchises,
+        //         franchiseFocus: yourTeam
+        //     }
         default:
             return state
     }

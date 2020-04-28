@@ -1,0 +1,78 @@
+.filters {
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    grid-template-rows: 16% 16% 16% 16% 16% 16%;
+    width: 50%;
+}
+
+input[type=checkbox]{
+    width: 100%;
+    padding: 12px 10px;
+    margin: 1px 0;
+    /* display: inline-block */
+}
+
+.QB {
+    grid-column-start: 1;
+    grid-row-start: 1;
+}
+.RB {
+    grid-column-start: 1;
+    grid-row-start: 2;
+}
+.WR {
+    grid-column-start: 1;
+    grid-row-start: 3;
+}
+.TE {
+    grid-column-start: 1;
+    grid-row-start: 4;
+}
+.DST {
+    grid-column-start: 1;
+    grid-row-start: 5;
+}
+.K {
+    grid-column-start: 1;
+    grid-row-start: 6;
+}
+.Tier1 {
+    grid-column-start: 2;
+    grid-row-start: 1;
+}
+.Tier2 {
+    grid-column-start: 2;
+    grid-row-start: 2;
+}
+.Tier3 {
+    grid-column-start: 2;
+    grid-row-start: 3;
+}
+.Tier4 {
+    grid-column-start: 2;
+    grid-row-start: 4;
+}
+.Tier5 {
+    grid-column-start: 2;
+    grid-row-start: 5;
+}
+.Tier6 {
+    grid-column-start: 3;
+    grid-row-start: 1;
+}
+.Tier7 {
+    grid-column-start: 3;
+    grid-row-start: 2;
+}
+.Tier8 {
+    grid-column-start: 3;
+    grid-row-start: 3;
+}
+.Tier9 {
+    grid-column-start: 3;
+    grid-row-start: 4;
+}
+.Tier10 {
+    grid-column-start: 3;
+    grid-row-start: 5;
+}

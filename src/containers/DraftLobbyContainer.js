@@ -24,7 +24,6 @@ class DraftLobbyContainer extends React.Component {
 
     startDraft = () => {
         //kick off logic that nominates a player and starts bidding
-        this.props.populateDraftFranchises(this.draftFranchises())
         this.props.assignNominator(this.draftFranchises()[0])
         this.toggleActiveDraft()
     }
@@ -57,17 +56,20 @@ class DraftLobbyContainer extends React.Component {
     render(){
         return(
             <div className="draft-lobby">
+                {/* <div className="navbar-locator">
+                    <Navbar/>
+                </div> */}
                 {this.state.activeDraft ? 
-                    <button className="control-button" onClick={() => this.toggleActiveDraft()}>Pause Draft</button>
+                    <button className="activate-button" onClick={() => this.toggleActiveDraft()}>Pause Draft</button>
                     :
-                    <button className="control-button" onClick={this.startDraft}>Start/Resume Draft</button>
+                    <button className="activate-button" onClick={this.startDraft}>Start/Resume Draft</button>
                 }
                 {this.props.currentDraft === '' ? 
                     <div>loading...</div>
                     :
                     <React.Fragment>
-                        Draft Lobby: {this.draftName()}
-                        <button className="control-button" >Simulate Remainder</button>
+                        <h1 className="draft-title">Draft Lobby: {this.draftName()}</h1>
+                        <button className="simulate-button" >Simulate Remainder</button>
                         <div className='draft-container-locator'>
                         <DraftContainer 
                             nominatedPlayer={this.props.nominatedPlayer} 
@@ -110,7 +112,6 @@ const mapDispatchToProps = dispatch => {
     populatePlayers: () => dispatch({type: 'POPULATE_PLAYERS'}),
     fetchDraft: (draftId) => dispatch(fetchDraft(draftId)),
     fetchFranchisePlayers: (draftId) => dispatch(fetchFranchisePlayers(draftId)),
-    populateDraftFranchises: franchises => dispatch({type: 'POPULATE_DRAFT_FRANCHISES', franchises}),
     assignNominator: (franchise) => dispatch({type: 'ASSIGN_NOMINATOR', franchise})
     }
 }

@@ -1,4 +1,5 @@
 import React from 'react'
+import '../styles/Player.css'
 import { connect } from 'react-redux'
 
 const newPlayerObj = (playerObj, actionType) => {
@@ -36,7 +37,7 @@ const newPlayerObj = (playerObj, actionType) => {
 
 const Player = props => {
     return(
-        <div>
+        <div className="player-tile">
             <strong>{props.player.name}</strong> 
             ({props.player.pro_team} - {props.player.position})
             
@@ -56,18 +57,14 @@ const Player = props => {
                 </React.Fragment>
             }
             {props.onEditPage && 
-                <React.Fragment>
-                    <p>
+                <div className="ranking-options">
                         Value: ${props.rPlayer.value}
-                        <button onClick={() => props.changeRankingInfo(newPlayerObj(props.rPlayer, '+ value'))}>+</button>
-                        <button onClick={() => props.changeRankingInfo(newPlayerObj(props.rPlayer, '- value'))}>-</button>
-                    </p>
-                    <p>
+                        <button className="ranking-btn" onClick={() => props.changeRankingInfo(newPlayerObj(props.rPlayer, '+ value'))}>+</button>
+                        <button className="ranking-btn" onClick={() => props.changeRankingInfo(newPlayerObj(props.rPlayer, '- value'))}>-</button>
                         Tier: {props.rPlayer.tier}
-                        <button onClick={() => props.changeRankingInfo(newPlayerObj(props.rPlayer, '+ tier'))}>+</button>
-                        <button onClick={() => props.changeRankingInfo(newPlayerObj(props.rPlayer, '- tier'))}>-</button>
-                    </p>
-                </React.Fragment>
+                        <button className="ranking-btn" onClick={() => props.changeRankingInfo(newPlayerObj(props.rPlayer, '+ tier'))}>+</button>
+                        <button className="ranking-btn" onClick={() => props.changeRankingInfo(newPlayerObj(props.rPlayer, '- tier'))}>-</button>
+                </div>
             }
         </div>
     )

@@ -1,7 +1,7 @@
 .draft-lobby {
     display: grid;
-    grid-template-columns: 20% 20% 20% 40%;
-    grid-template-rows: 10% 10% auto;
+    grid-template-columns: 28% 20% 20% 28%;
+    grid-template-rows: 5% 10% 10% auto;
     grid-gap: 1rem;
 }
 
@@ -10,16 +10,39 @@ body {
     font: 12px system-ui;
 }
 
-.control-button {
+.navbar-locator {
+    grid-column-start: 1;
+    grid-row-start: 1;
+    position: absolute;
+    top: 2px;
+}
+
+.draft-title {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    position: absolute;
+    top: 20px;
+}
+
+.activate-button {
+    grid-column-start: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    position: relative;
+    top: 2px;
+}
+
+.simulate-button {
     grid-column-start: 4;
     grid-row-start: 1;
     grid-row-end: 2;
 }
 
 .draft-container-locator {
+    grid-row-start: 3;
     grid-column-start: 2;
     grid-column-end: 4;
-    grid-row-start: 3;
 }
 
 .franchises-container-locator {
@@ -34,6 +57,7 @@ body {
 }
 
 .players-container-locator {
+    grid-row-start: 3;
     grid-column-start: 1;
-    grid-row-start: 3
+    grid-column-end: 2;
 }

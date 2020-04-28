@@ -1,7 +1,12 @@
 .franchises-container {
-    background-color: #fed9ff;
+    /* background-color: #fed9ff; */
+    border: solid black;
     width: 100%;
-    height: 50px;
+    height: 70px;
+}
+
+.franchises-list {
+    list-style-type:none
 }
 
 .franchises-list li {

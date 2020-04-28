@@ -1,4 +1,5 @@
 import React from 'react'
+import '../styles/DraftContainer.css'
 import { connect } from 'react-redux'
 import Bids from '../components/Bids'
 import Player from '../components/Player'
@@ -126,9 +127,9 @@ class Draft extends React.Component {
     render() {
         const yourFranchise = this.findYourFranchise()
         return (
-            <div>
-                <button disabled={this.props.nominatedPlayer === ''} onClick={this.startBidding}>Start Bidding</button>
-                <button onClick={this.stopBidding}>Stop Bidding</button>
+            <div className='draft-container'>
+                <button className='start-bidding-btn' disabled={this.props.nominatedPlayer === ''} onClick={this.startBidding}>Start Bidding</button>
+                <button className='stop-bidding-btn' onClick={this.stopBidding}>Stop Bidding</button>
                 {this.props.nominatedPlayer !== '' ? 
                     <Player
                     player={this.props.nominatedPlayer.player}
@@ -138,11 +139,12 @@ class Draft extends React.Component {
                     'Nomination Pending'
                 }
                 {yourFranchise && 
-                    <BidOptions franchise={yourFranchise}/>
+                    <div className='bid-options-locator'>
+                        <BidOptions franchise={yourFranchise}/>
+                    </div>
                     }
                 <Bids/>
-                <button onClick={() => console.log(this.props.draftFranchisePlayers)}>show franchise_players</button>
-                {/* <p>Current Bid is ${this.mostRecentBid().bidAmount}</p> */}
+                {/* <button onClick={() => console.log(this.props.draftFranchisePlayers)}>show franchise_players</button> */}
             </div>
         )
     }

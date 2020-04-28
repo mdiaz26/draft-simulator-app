@@ -1,4 +1,5 @@
 import React from 'react'
+import '../styles/FranchisesContainer.css'
 import Franchise from '../components/Franchise'
 import { calculateBudget, maxBid } from '../draftLogic'
 import { connect } from 'react-redux'
@@ -12,17 +13,16 @@ class FranchisesContainer extends React.Component {
 
     render() {
         return (
-            <div>
-                <h3>Nomination Order</h3>
-                    <ol>
-                        {this.draftFranchises().map(franchise => 
-                            <Franchise 
-                                key={franchise.id} 
-                                franchise={franchise} 
-                                budget={calculateBudget(franchise.budget, franchise.franchise_players)}
-                                maxBid={maxBid(this.props.currentDraft.roster_config, franchise)}
-                            />)}
-                    </ol>
+            <div className='franchises-container'>
+                <ol className='franchises-list'>
+                    {this.draftFranchises().map(franchise => 
+                        <Franchise 
+                            key={franchise.id} 
+                            franchise={franchise} 
+                            budget={calculateBudget(franchise.budget, franchise.franchise_players)}
+                            maxBid={maxBid(this.props.currentDraft.roster_config, franchise)}
+                        />)}
+                </ol>
             </div>
         )
     }

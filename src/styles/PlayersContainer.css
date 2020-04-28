@@ -1,0 +1,7 @@
+.players-container {
+    background-color: #fed9ff;
+    width: 300px;
+    height: 600px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}

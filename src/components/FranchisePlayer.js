@@ -4,7 +4,7 @@ const FranchisePlayer = props => {
     return (
         <div>
             {console.log(props)}
-            {props.player.position} - {props.player.name} - {props.fPlayer.salary}
+            {props.player.position} - {props.player.name} - ${props.fPlayer.salary}
         </div>
     )
 }

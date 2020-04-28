@@ -1,0 +1,39 @@
+.draft-lobby {
+    display: grid;
+    grid-template-columns: 20% 20% 20% 40%;
+    grid-template-rows: 10% 10% auto;
+    grid-gap: 1rem;
+}
+
+body {
+    margin: 2rem;
+    font: 12px system-ui;
+}
+
+.control-button {
+    grid-column-start: 4;
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+
+.draft-container-locator {
+    grid-column-start: 2;
+    grid-column-end: 4;
+    grid-row-start: 3;
+}
+
+.franchises-container-locator {
+    grid-row-start: 2;
+    grid-column-start: 1;
+    grid-column-end: 5;
+}
+
+.single-team-container-locator {
+    grid-row-start: 3;
+    grid-column-start: 4;
+}
+
+.players-container-locator {
+    grid-column-start: 1;
+    grid-row-start: 3
+}

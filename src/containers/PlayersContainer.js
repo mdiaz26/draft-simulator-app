@@ -1,4 +1,5 @@
 import React from 'react'
+import '../styles/PlayersContainer.css'
 import Player from '../components/Player'
 import { connect } from 'react-redux'
 
@@ -12,7 +13,7 @@ const PlayersContainer = props => {
     }
 
     return(
-        <div>
+        <div className="players-container">
             <h2>Nomination Queue</h2>
             {filterRankingPlayers().map(rPlayer => (
                 <Player 

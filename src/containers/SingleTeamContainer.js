@@ -4,6 +4,14 @@ import FranchisePlayer from '../components/FranchisePlayer'
 
 class SingleTeamContainer extends React.Component {
 
+    // componentDidMount() {
+    //     if (this.props.franchiseFocus === '' && this.props.draftFranchises.length > 0) {
+    //         console.log(this.props.draftFranchises)
+    //         let yourTeam = this.props.draftFranchises.find(franchise => franchise.name === 'Your Team')
+    //         this.props.changeFocus(yourTeam)
+    //     }
+    // }
+
     objectKeysToArray = () => {
         const keys = Object.keys(this.props.currentDraft.roster_config)
         return keys
@@ -27,7 +35,8 @@ class SingleTeamContainer extends React.Component {
     render() {
         return (
             <div>
-                {this.props.franchiseFocus !== "" ? this.franchisePlayers().map((fPlayer, idx) => (
+                <h2>{this.props.franchiseFocus.name}</h2>
+                {this.props.franchiseFocus !== "" ? this.props.franchiseFocus.franchise_players.map((fPlayer, idx) => (
                     <FranchisePlayer key={idx} player={fPlayer.player} fPlayer={fPlayer}/>
                 )) : 
                 <div>loading...</div>}
@@ -39,9 +48,16 @@ class SingleTeamContainer extends React.Component {
 const mapStateToProps = state => {
     return {
         franchises: state.franchises.franchises,
+        draftFranchises: state.nominationData.draftFranchises,
         franchiseFocus: state.nominationData.franchiseFocus,
         currentDraft: state.nominationData.currentDraft
     }
 }
 
-export default connect(mapStateToProps)(SingleTeamContainer)
+const mapDispatchToProps = dispatch => {
+    return {
+        changeFocus: franchise => dispatch({type: 'CHANGE_FOCUS', franchise})
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SingleTeamContainer)

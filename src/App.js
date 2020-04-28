@@ -1,4 +1,5 @@
 import React from 'react';
+import './styles/DraftLobby.css'
 import { fetchRankingPlayers, fetchRankings, fetchFranchises, fetchDrafts } from './JSONAPIAdapter'
 import DraftLobbyContainer from './containers/DraftLobbyContainer'
 import PreDraftScreen from './containers/PreDraftScreen'

@@ -1,4 +1,5 @@
 import React from 'react'
+import '../styles/DraftLobby.css'
 import { connect } from 'react-redux'
 import PlayersContainer from './PlayersContainer'
 import DraftContainer from './DraftContainer'
@@ -55,30 +56,38 @@ class DraftLobbyContainer extends React.Component {
 
     render(){
         return(
-            <div>
+            <div className="draft-lobby">
                 {this.state.activeDraft ? 
-                <button onClick={() => this.toggleActiveDraft()}>Pause Draft</button>
-                :
-                <button onClick={this.startDraft}>Start/Resume Draft</button>
-            }
+                    <button className="control-button" onClick={() => this.toggleActiveDraft()}>Pause Draft</button>
+                    :
+                    <button className="control-button" onClick={this.startDraft}>Start/Resume Draft</button>
+                }
                 {this.props.currentDraft === '' ? 
                     <div>loading...</div>
                     :
-                    <div>
+                    <React.Fragment>
                         Draft Lobby: {this.draftName()}
-                        <button>Simulate Remainder</button>
+                        <button className="control-button" >Simulate Remainder</button>
+                        <div className='draft-container-locator'>
                         <DraftContainer 
                             nominatedPlayer={this.props.nominatedPlayer} 
                             draftId={this.props.match.params.id}
                             activeDraft={this.state.activeDraft}
                         />
-                        <FranchisesContainer draftId={this.props.match.params.id}/>
-                        <SingleTeamContainer/>
-                        <PlayersContainer 
-                            rankingPlayers={this.props.rankingPlayers} 
-                            activeDraft={this.state.activeDraft}
-                        />
-                    </div>
+                        </div>
+                        <div className='franchises-container-locator'>
+                            <FranchisesContainer draftId={this.props.match.params.id}/>
+                        </div>
+                        <div className='single-team-container-locator'>
+                            <SingleTeamContainer/>
+                        </div>
+                        <div className='players-container-locator'>
+                            <PlayersContainer
+                                rankingPlayers={this.props.rankingPlayers} 
+                                activeDraft={this.state.activeDraft}
+                            />
+                        </div>
+                    </React.Fragment>
                 }
             </div>
         )

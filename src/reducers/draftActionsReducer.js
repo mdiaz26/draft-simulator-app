@@ -82,9 +82,12 @@ export const draftActionsReducer = (state = {
                 draftFranchisePlayers: [...state.draftFranchisePlayers, action.playerObj]
             }
         case 'POPULATE_DRAFT_FRANCHISES':
+            const yourTeam = action.franchises.find(franchise => franchise.name === "Your Team")
+            console.log('franchises:', action.franchises)
             return {
                 ...state,
-                draftFranchises: action.franchises
+                draftFranchises: action.franchises,
+                franchiseFocus: yourTeam
             }
         default:
             return state

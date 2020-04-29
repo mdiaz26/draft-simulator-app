@@ -24,7 +24,7 @@ class Draft extends React.Component {
         this.setState({
             biddingTrigger: ""
         })
-        this.props.nominatePlayer(this.props.currentDraft.draft_config, '', this.props.draftFranchises)
+        // this.props.nominatePlayer(this.props.currentDraft.draft_config, '', this.props.draftFranchises)
         // this.props.resetBids()
     }
 
@@ -51,7 +51,7 @@ class Draft extends React.Component {
     // shorten the valuations array to only teams that are willing to spend more than the most recent bid
     filterFranchisesByBid = () => {
         let yourFranchise = this.findYourFranchise()
-        if (this.props.bids.length > 0) {
+        if (this.props.bids.length > 1) {
             return this.props.valuations.filter(valueObj => {
                 if (valueObj.valuation > this.mostRecentBid().bidAmount || valueObj.franchiseId === yourFranchise.id) {
                     return true
@@ -59,7 +59,7 @@ class Draft extends React.Component {
                 return false
             })
         } else {
-            return this.props.valuations
+            return this.props.valuations.filter(valueObj => valueObj.valuation > 1)
         }
     }
 
@@ -67,18 +67,22 @@ class Draft extends React.Component {
     askForInput = () => {
         clearInterval(this.state.biddingTrigger)
         console.log('would you like to bid?')
+        this.props.yourTurn()
         // setTimeout()
     }
 
     startBidding = () => {
-        const biddingTrigger = setInterval(() => this.teamBids(), 500)
+        let interval
+        this.props.userHasPassed ? interval = 200 : interval = 500
+        const biddingTrigger = setInterval(() => this.teamBids(), interval)
         this.setState({biddingTrigger})
         const nominatorIndex = this.props.draftFranchises.findIndex(franchise => franchise.id === this.props.nominatingFranchise.id)
         this.setState({bidderIndex: nominatorIndex})
+        // this.props.updateBids({franchise: this.props.draftFranchises[nominatorIndex], bidAmount: 1, initialBid: true})
     }
 
-    resumeBidding = () => {
-        const biddingTrigger = setInterval(() => this.teamBids(), 500)
+    resumeBidding = (intervalAmout) => {
+        const biddingTrigger = setInterval(() => this.teamBids(), intervalAmout)
         this.setState({biddingTrigger})
     }
 
@@ -88,29 +92,38 @@ class Draft extends React.Component {
         this.nextBidder()
         let valueObj = bidders[this.state.bidderIndex]
         let franchise = this.props.franchises.find(franchise => franchise.id === valueObj.franchiseId)
+        // if (franchise.id === this.findYourFranchise().id && !this.props.userHasPassed) {
+        //     console.log("inside first conditional")
+        //     this.askForInput()
+        // }
+        console.log("bidders:", bidders)
         if (franchise.id === this.findYourFranchise().id && !this.props.userHasPassed) {
-            console.log("inside first conditional")
-            this.askForInput()
-            // return
-        }
-
-        else if (bidders.length === 1) {
             console.log("inside second conditional")
-            // multiple teams are tied valuating the player at the current bid.
-            // Check to see if the user wants to bid
-            this.props.userHasPassed ? this.declareWinner() : this.askForInput()
+            // it's the user's turn to bid, if they haven't passed already
+            // if the user is the only bidder left and they were the most recent bid, they win.
+            // otherwise, they will be prompted to bid.
+            // if they bid, the function will run again and declare them the winner.
+            // if they pass, the function will run again
+            bidders.length === 1 && this.mostRecentBid().franchise.id === this.findYourFranchise().id 
+                ? 
+                this.declareWinner() 
+                : 
+                this.askForInput()
+            } else if (bidders.length === 1 && this.props.userHasPassed) {
+                this.declareWinner()
+            }
 
-        } else if (bidders.length > 1) {
+        else if (bidders.length > 1) {
             // the franchise will bid if their valuation is higher than the current bid
             if (
                 valueObj.franchiseId !== this.mostRecentBid().franchise.id && 
                 franchise.franchise_players.length < totalRosterSpots(this.props.currentDraft.roster_config) &&
-                valueObj.valuation > this.mostRecentBid().bidAmount
+                valueObj.valuation > this.mostRecentBid().bidAmount &&
+                valueObj.franchiseId !== this.findYourFranchise().id
                 ) {
-                    // console.log(`${franchise.name} has bid $${this.mostRecentBid().bidAmount + 1}`)
                     this.props.updateBids({franchise, bidAmount: this.mostRecentBid().bidAmount + 1})
                     console.log("inside third conditional")
-                    if (bidders.length === 1){
+                    if (bidders.length === 2){
                         this.props.userHasPassed ? this.declareWinner() : this.askForInput()
                     } 
 
@@ -133,7 +146,9 @@ class Draft extends React.Component {
     declareWinner = () => {
         const winningFranchise = this.props.franchises.find(franchise => (
             franchise.id === this.mostRecentBid().franchise.id))
-        console.log(`${winningFranchise.name} has won with a bid of $${this.mostRecentBid().bidAmount}`)
+        // console.log(`${winningFranchise.name} has won with a bid of $${this.mostRecentBid().bidAmount}`)
+        console.log("winning franchise:",winningFranchise)
+        this.props.updateBids({franchise: winningFranchise, bidAmount: this.mostRecentBid().bidAmount, winningBid: true})
         this.postFranchisePlayer()
         this.stopBidding()
         this.newNominatorIndex()
@@ -214,7 +229,7 @@ const mapDispatchToProps = dispatch => {
         nominatePlayer: (rosterConfig, playerObj, franchises) => dispatch({type: 'NOMINATE_PLAYER', rosterConfig, rPlayer: playerObj, franchises: franchises}),
         updateNominatingFranchise: (index) => dispatch({type: 'UPDATE_NOMINATING_FRANCHISE', index}),
         updateBids: bidData => dispatch({type: 'UPDATE_BIDS', bidData}),
-        resetBids: () => dispatch({type: 'RESET_BIDS'})
+        yourTurn: () => dispatch({type: 'YOUR_TURN'})
     }
 }
 

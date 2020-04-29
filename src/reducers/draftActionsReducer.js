@@ -12,6 +12,7 @@ export const draftActionsReducer = (state = {
     draftFranchisePlayers: [],
     draftFranchises: [],
     requesting: false,
+    yourTurn: false,
     userHasPassed: false
 }, action) => {
     switch (action.type) {
@@ -57,9 +58,11 @@ export const draftActionsReducer = (state = {
                 valuations = []
             }
             // also this should be a trigger to start bidding
+            console.log(action.rPlayer)
             return {...state,
                 nominatedPlayer: action.rPlayer, 
                 valuations: valuations,
+                bids: [{franchise: state.nominatingFranchise, player: action.rPlayer.player, bidAmount: 1, initialBid: true}],
                 userHasPassed: false
             }
         case 'UPDATE_NOMINATING_FRANCHISE':
@@ -89,16 +92,19 @@ export const draftActionsReducer = (state = {
         case 'USER_HAS_PASSED':
             return {
                 ...state,
-                userHasPassed: true
+                userHasPassed: true,
+                yourTurn: false
             }
-        // case 'POPULATE_DRAFT_FRANCHISES':
-        //     const yourTeam = action.franchises.find(franchise => franchise.name === "Your Team")
-        //     console.log('franchises:', action.franchises)
-        //     return {
-        //         ...state,
-        //         draftFranchises: action.franchises,
-        //         franchiseFocus: yourTeam
-        //     }
+        case 'YOUR_TURN':
+            return {
+                ...state,
+                yourTurn: true
+            }
+        case 'NOT_YOUR_TURN':
+            return {
+                ...state,
+                yourTurn: false
+            }
         default:
             return state
     }

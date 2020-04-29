@@ -28,7 +28,7 @@ export const draftActionsReducer = (state = {
             }
         case 'ASSIGN_DRAFT':
             const yourTeam = action.draft.franchises.find(franchise => franchise.name === "Your Team")
-            console.log("assigning draft", action.draft)
+            console.log("assigning draft")
             return {...state,
                 currentDraft: action.draft,
                 draftFranchises: action.draft.franchises,
@@ -53,13 +53,12 @@ export const draftActionsReducer = (state = {
         case 'NOMINATE_PLAYER':
             let valuations
         if (action.rPlayer !== '') {
-                valuations = calculateValuations(action.rosterConfig, action.franchises, action.rPlayer)
+                valuations = calculateValuations(action.rosterConfig, action.franchises, action.rPlayer, action.rankingPlayers)
                 console.log('valuations:', valuations)
             } else {
                 valuations = []
             }
             // also this should be a trigger to start bidding
-            console.log(action.rPlayer)
             return {...state,
                 nominatedPlayer: action.rPlayer, 
                 valuations: valuations,

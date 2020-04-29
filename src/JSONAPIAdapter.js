@@ -59,18 +59,6 @@ export const fetchRankingPlayers = (rankingId) => {
   }
 }
 
-// export const fetchRankingPlayers = () => {
-//     console.log("fetching ranking players")
-//     const adapter = new JSONAPIAdapter('http://localhost:3000/api/v1/')
-//     return (dispatch) => {
-//       dispatch({ type: 'START_POPULATING_PLAYERS_REQUEST'})
-//       adapter.getAll('ranking_players')
-//       .then(ranking_players => dispatch({
-//         type: 'POPULATE_RANKING_PLAYERS', ranking_players
-//       }))
-//     }
-//   }
-
   export const fetchRankings = () => {
     console.log("fetching rankings")
     const adapter = new JSONAPIAdapter('http://localhost:3000/api/v1/')
@@ -98,7 +86,6 @@ export const fetchRankingPlayers = (rankingId) => {
   export const saveRankingsPlayer = (rPlayer) => {
     const adapter = new JSONAPIAdapter('http://localhost:3000/api/v1/')
     adapter.update('ranking_players', rPlayer.id, rPlayer)
-    .then(console.log)
   }
 
   export const fetchDrafts = () => {

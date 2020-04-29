@@ -66,7 +66,6 @@ class PreDraftScreen extends React.Component {
         }
         return(
             <div>
-                {/* <button onClick={() => console.log(this.state)}>See State</button> */}
                 Draft Settings
                 <button onClick={this.initiateDraft}>Start Draft</button>
             </div>

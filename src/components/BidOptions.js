@@ -5,7 +5,6 @@ import { calculateBudget, maxBid } from '../draftLogic'
 const BidOptions = props => {
     
     const userBids = () => {
-        // console.log('roster config:', props.currentDraft.roster_config, 'franchise', props.franchise)
         if (maxBid(props.currentDraft.roster_config, props.franchise) > props.mostRecentBid.bidAmount) {
             props.updateBids({franchise: props.franchise, bidAmount: props.mostRecentBid.bidAmount + 1})
             props.notYourTurn()
@@ -29,7 +28,6 @@ const BidOptions = props => {
                 onClick={userPasses}>Pass</button>
             {props.franchise && 
                 <React.Fragment>
-                    {console.log('inside bidoptions:', props.franchise, props.franchise.franchise_players)}
                     <p>Budget Remaining: ${calculateBudget(props.franchise.budget, props.franchise.franchise_players)}</p>
                     <p>Max Bid: ${maxBid(props.currentDraft.roster_config, props.franchise)}</p>
                 </React.Fragment>

@@ -4,14 +4,6 @@ import FranchisePlayer from '../components/FranchisePlayer'
 
 class SingleTeamContainer extends React.Component {
 
-    // componentDidMount() {
-    //     if (this.props.franchiseFocus === '' && this.props.draftFranchises.length > 0) {
-    //         console.log(this.props.draftFranchises)
-    //         let yourTeam = this.props.draftFranchises.find(franchise => franchise.name === 'Your Team')
-    //         this.props.changeFocus(yourTeam)
-    //     }
-    // }
-
     objectKeysToArray = () => {
         const keys = Object.keys(this.props.currentDraft.roster_config)
         return keys

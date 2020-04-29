@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import {playersReducer} from './playersReducer'
+// import {playersReducer} from './playersReducer'
 import {rankingPlayersReducer} from './rankingPlayersReducer'
 import {draftsReducer} from './draftsReducer'
 import {franchisesReducer} from './franchisesReducer'
@@ -8,7 +8,7 @@ import {rankingsReducer} from './rankingsReducer'
 import {filterReducer} from './filterReducer'
 
 const rootReducer = combineReducers({
-    players: playersReducer,
+    // players: playersReducer,
     drafts: draftsReducer,
     franchises: franchisesReducer,
     rankingPlayersInfo: rankingPlayersReducer,

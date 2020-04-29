@@ -24,8 +24,6 @@ class Draft extends React.Component {
         this.setState({
             biddingTrigger: ""
         })
-        // this.props.nominatePlayer(this.props.currentDraft.draft_config, '', this.props.draftFranchises)
-        // this.props.resetBids()
     }
 
     mostRecentBid = () => {
@@ -38,7 +36,6 @@ class Draft extends React.Component {
 
     findYourFranchise = () => {
         const yourFranchise = this.props.draftFranchises.find(franchise => franchise.name === "Your Team")
-        console.log('inside find your franchise',this.props.draftFranchises, yourFranchise)
         return yourFranchise
     }
 
@@ -66,7 +63,6 @@ class Draft extends React.Component {
     //check to see if the user wants to bid
     askForInput = () => {
         clearInterval(this.state.biddingTrigger)
-        console.log('would you like to bid?')
         this.props.yourTurn()
         // setTimeout()
     }
@@ -92,13 +88,10 @@ class Draft extends React.Component {
         this.nextBidder()
         let valueObj = bidders[this.state.bidderIndex]
         let franchise = this.props.franchises.find(franchise => franchise.id === valueObj.franchiseId)
-        // if (franchise.id === this.findYourFranchise().id && !this.props.userHasPassed) {
-        //     console.log("inside first conditional")
-        //     this.askForInput()
-        // }
+
         console.log("bidders:", bidders)
         if (franchise.id === this.findYourFranchise().id && !this.props.userHasPassed) {
-            console.log("inside second conditional")
+            console.log("inside first conditional")
             // it's the user's turn to bid, if they haven't passed already
             // if the user is the only bidder left and they were the most recent bid, they win.
             // otherwise, they will be prompted to bid.
@@ -122,13 +115,13 @@ class Draft extends React.Component {
                 valueObj.franchiseId !== this.findYourFranchise().id
                 ) {
                     this.props.updateBids({franchise, bidAmount: this.mostRecentBid().bidAmount + 1})
-                    console.log("inside third conditional")
+                    console.log("inside second conditional")
                     if (bidders.length === 2){
                         this.props.userHasPassed ? this.declareWinner() : this.askForInput()
                     } 
 
             } else if (valueObj.franchiseId === this.mostRecentBid().franchise.id && bidders.length === 2) {
-                console.log("inside fourth conditional")
+                console.log("inside third conditional")
                 this.props.userHasPassed ? this.declareWinner() : this.askForInput()
             }
         }
@@ -146,8 +139,6 @@ class Draft extends React.Component {
     declareWinner = () => {
         const winningFranchise = this.props.franchises.find(franchise => (
             franchise.id === this.mostRecentBid().franchise.id))
-        // console.log(`${winningFranchise.name} has won with a bid of $${this.mostRecentBid().bidAmount}`)
-        console.log("winning franchise:",winningFranchise)
         this.props.updateBids({franchise: winningFranchise, bidAmount: this.mostRecentBid().bidAmount, winningBid: true})
         this.postFranchisePlayer()
         this.stopBidding()
@@ -226,7 +217,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         addFranchisePlayer: (playerObj) => dispatch({type: 'ADD_FRANCHISE_PLAYER', playerObj}),
-        nominatePlayer: (rosterConfig, playerObj, franchises) => dispatch({type: 'NOMINATE_PLAYER', rosterConfig, rPlayer: playerObj, franchises: franchises}),
+        // nominatePlayer: (rosterConfig, playerObj, franchises) => dispatch({type: 'NOMINATE_PLAYER', rosterConfig, rPlayer: playerObj, franchises: franchises}),
         updateNominatingFranchise: (index) => dispatch({type: 'UPDATE_NOMINATING_FRANCHISE', index}),
         updateBids: bidData => dispatch({type: 'UPDATE_BIDS', bidData}),
         yourTurn: () => dispatch({type: 'YOUR_TURN'})

@@ -64,8 +64,7 @@ class DraftLobbyContainer extends React.Component {
                     :
                     <button className="activate-button" onClick={this.startDraft}>Start/Resume Draft</button>
                 }
-                {console.log('current draft:', this.props.currentDraft, 'draft franchises:', this.props.draftFranchises)}
-                {this.props.currentDraft === '' || this.props.draftFranchises.length < 9 ? 
+                {this.props.currentDraft === '' || this.props.draftFranchises.length < 10 ? 
                     <div>loading...</div>
                     :
                     <React.Fragment>

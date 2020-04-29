@@ -48,7 +48,8 @@ const Player = props => {
                         props.nominatePlayer(
                             props.currentDraft.roster_config, 
                             props.rPlayer, 
-                            props.franchises
+                            props.franchises,
+                            props.rankingPlayers
                         )
                         // props.resetBids()
                     }}>
@@ -74,13 +75,14 @@ const mapStateToProps = state => {
     return {
         currentDraft: state.nominationData.currentDraft,
         franchises: state.nominationData.draftFranchises,
-        valuations: state.nominationData.valuations
+        valuations: state.nominationData.valuations,
+        rankingPlayers: state.rankingPlayersInfo.rankingPlayers
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        nominatePlayer: (rosterConfig, playerObj, franchises) => dispatch({type: 'NOMINATE_PLAYER', rosterConfig, rPlayer: playerObj, franchises: franchises}),
+        nominatePlayer: (rosterConfig, playerObj, franchises, rankingPlayers) => dispatch({type: 'NOMINATE_PLAYER', rosterConfig, rPlayer: playerObj, franchises: franchises, rankingPlayers: rankingPlayers}),
         resetBids: () => dispatch({type: 'RESET_BIDS'}),
         changeRankingInfo: (rPlayer) => dispatch({type: 'CHANGE_VALUE', rPlayer})
     }

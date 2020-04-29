@@ -67,6 +67,7 @@ class Draft extends React.Component {
     askForInput = () => {
         clearInterval(this.state.biddingTrigger)
         console.log('would you like to bid?')
+        this.props.yourTurn()
         // setTimeout()
     }
 
@@ -78,8 +79,8 @@ class Draft extends React.Component {
         // this.props.updateBids({franchise: this.props.draftFranchises[nominatorIndex], bidAmount: 1, initialBid: true})
     }
 
-    resumeBidding = () => {
-        const biddingTrigger = setInterval(() => this.teamBids(), 500)
+    resumeBidding = (intervalAmout) => {
+        const biddingTrigger = setInterval(() => this.teamBids(), intervalAmout)
         this.setState({biddingTrigger})
     }
 
@@ -224,8 +225,8 @@ const mapDispatchToProps = dispatch => {
         addFranchisePlayer: (playerObj) => dispatch({type: 'ADD_FRANCHISE_PLAYER', playerObj}),
         nominatePlayer: (rosterConfig, playerObj, franchises) => dispatch({type: 'NOMINATE_PLAYER', rosterConfig, rPlayer: playerObj, franchises: franchises}),
         updateNominatingFranchise: (index) => dispatch({type: 'UPDATE_NOMINATING_FRANCHISE', index}),
-        updateBids: bidData => dispatch({type: 'UPDATE_BIDS', bidData})
-        // resetBids: () => dispatch({type: 'RESET_BIDS'})
+        updateBids: bidData => dispatch({type: 'UPDATE_BIDS', bidData}),
+        yourTurn: () => dispatch({type: 'YOUR_TURN'})
     }
 }
 

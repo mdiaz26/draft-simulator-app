@@ -39,6 +39,7 @@ export const maxBid = (rosterConfig, franchise) => {
 
 export const calculateBudget = (startingBudget, playersArray) => {
     const sumFunction = (total, playerObj) => total + playerObj.salary
+    console.log("inside draft logic:",playersArray)
     const totalSalaries = playersArray.reduce(sumFunction, 0)
     return startingBudget - totalSalaries
 }

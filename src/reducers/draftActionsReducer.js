@@ -28,6 +28,7 @@ export const draftActionsReducer = (state = {
             }
         case 'ASSIGN_DRAFT':
             const yourTeam = action.draft.franchises.find(franchise => franchise.name === "Your Team")
+            console.log("assigning draft", action.draft)
             return {...state,
                 currentDraft: action.draft,
                 draftFranchises: action.draft.franchises,

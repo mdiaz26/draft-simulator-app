@@ -5,6 +5,7 @@ import JSONAPIAdapter from '../JSONAPIAdapter'
 
 const adapter = new JSONAPIAdapter('http://localhost:3000/api/v1/')
 const franchiseNames = [
+    'Your Team',
     'Oakland', 
     'Great Kills', 
     'Virginia', 
@@ -13,8 +14,7 @@ const franchiseNames = [
     'Capital Region',
     'New England',
     'Mars',
-    'LIC',
-    'Your Team'
+    'LIC'
 ]
 
 class PreDraftScreen extends React.Component {

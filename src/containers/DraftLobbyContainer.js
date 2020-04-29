@@ -28,20 +28,6 @@ class DraftLobbyContainer extends React.Component {
         this.toggleActiveDraft()
     }
 
-    shuffleFranchises = (franchises) => {
-        let n = franchises.length
-        let t
-        let i
-        while (n) {
-            i = Math.floor(Math.random() * n--)
-            t = franchises[n]
-            franchises[n] = franchises[i]
-            franchises[i] = t
-        }
-        return franchises
-        // this.setState({franchises})
-    }
-
     // draftFranchises = () => {
     //     const draftId = this.props.match.params.id
     //     const franchises = this.props.franchises.filter(franchise => franchise.draft_id === parseInt(draftId))

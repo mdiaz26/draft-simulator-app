@@ -30,7 +30,7 @@ class PreDraftScreen extends React.Component {
             this.createNewDraft()
             //create ten new instances of Franchise
             .then(draftObj => {
-                franchiseNames.map(franchise => this.createFranchise(franchise, draftObj.id))
+                this.shuffleFranchises(franchiseNames).map((franchise, idx) => this.createFranchise(franchise, draftObj.id, idx))
                 return draftObj
             })
             //redirect to that draft's page
@@ -50,14 +50,29 @@ class PreDraftScreen extends React.Component {
         })
     }
 
-    createFranchise = (franchiseName, draftId) => {
+    createFranchise = (franchiseName, draftId, idx) => {
         const body = {
             name: franchiseName,
             budget: 300,
-            draft_id: draftId
+            draft_id: draftId,
+            draft_position: idx + 1,
+            is_nominating: false
         }
         adapter.post('franchises', body)
         .then(franchiseObj => this.props.addFranchise(franchiseObj))
+    }
+
+    shuffleFranchises = (franchises) => {
+        let n = franchises.length
+        let t
+        let i
+        while (n) {
+            i = Math.floor(Math.random() * n--)
+            t = franchises[n]
+            franchises[n] = franchises[i]
+            franchises[i] = t
+        }
+        return franchises
     }
 
     render(){

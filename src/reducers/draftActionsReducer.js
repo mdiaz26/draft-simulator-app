@@ -28,10 +28,11 @@ export const draftActionsReducer = (state = {
             }
         case 'ASSIGN_DRAFT':
             const yourTeam = action.draft.franchises.find(franchise => franchise.name === "Your Team")
+            const sortedFranchises = action.draft.franchises.sort((franA, franB) => franA.draft_position - franB.draft_position)
             console.log("assigning draft")
             return {...state,
                 currentDraft: action.draft,
-                draftFranchises: action.draft.franchises,
+                draftFranchises: sortedFranchises,
                 franchiseFocus: yourTeam,
                 requesting: false
             }

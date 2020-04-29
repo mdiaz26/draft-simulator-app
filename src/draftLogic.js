@@ -63,16 +63,16 @@ const franchiseNeedFactor = (rosterConfig, franchise, rPlayer, rankingPlayers) =
     const reducerFunction = (total, playerObj) => total + 1/(rankingPlayers.find(player => player.id === playerObj.id).tier + 0.0001)
     const startersScore = filterByPosition(franchise.franchise_players, rPlayer.player.position).reduce(reducerFunction, 0)
 
-    // current position grade ranges from 0 - 1. 0 occurs if they have no players at the position.
-    // 1 occurs with the best possible outcome. Three tier 1 RBs, two tier 1 QBs, etc.
-    // To calculate this, we'll count how many starters they have at the position and factor in their tier.
-    // Subtract current score (num of players * 1/tier) from best score (number of starting spots)
+    // starters score represents the number of players at a position and their relative tier.
+    // if a franchise has the perfect ratio of players (full starting lineup all tier 1),
+    // their score will be almost perfectly equal to the number of starting spots.
+    // the lower the score, the more likely they are to bid on a player. If the score is higher,
+    // it means they already have a very strong group of players at that position and are more likely
+    // to spend elsewhere.
     
     const currentPositionGrade = startingSpots - startersScore + 1
-    console.log("starters score:", franchise.name, startersScore)
-    // SIGMOID FUNCTION VERSION BELOW //
+    // console.log("starters score:", franchise.name, startersScore)
     const demandFactor = (1.1 - (1 / 1 + Math.pow(2.7, (-1 * currentPositionGrade - 1)))) * 10
-    // const demandFactor = (1.1 - (1 / 1 + Math.pow(2.7, (-1 * remainingPositionSpots - 1)))) * 10
     console.log("demand factor:", franchise.name, demandFactor)
     return demandFactor
 }
@@ -82,7 +82,6 @@ const calculateStartingPositionSpots = (rosterConfig, position) => {
         case 'qb':
             const startingQBs =  rosterConfig['qb'] + rosterConfig['superflex']
             return startingQBs
-            // return startingQBs +  benchAllocation(rosterConfig, startingQBs)
         case 'rb':
             const startingRBs = rosterConfig['rb'] + rosterConfig['rb_wr']
             return startingRBs
@@ -104,9 +103,3 @@ const calculateStartingPositionSpots = (rosterConfig, position) => {
 const filterByPosition = (franchisePlayersArray, position) => {
     return franchisePlayersArray.filter(fPlayer => fPlayer.player.position === position)
 }
-
-// const benchAllocation = (rosterConfig, numOfStartersAtPosition) => {
-//     const totalRosterSpots = this.totalRosterSpots(rosterConfig)
-//     const startingSpots = totalRosterSpots - rosterConfig.bench
-//     return Math.ceil(rosterConfig.bench * (numOfStartersAtPosition / startingSpots))
-// }

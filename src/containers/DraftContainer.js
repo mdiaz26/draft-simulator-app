@@ -24,7 +24,7 @@ class Draft extends React.Component {
         this.setState({
             biddingTrigger: ""
         })
-        this.props.nominatePlayer(this.props.currentDraft.draft_config, '', this.props.draftFranchises)
+        // this.props.nominatePlayer(this.props.currentDraft.draft_config, '', this.props.draftFranchises)
         // this.props.resetBids()
     }
 
@@ -51,7 +51,7 @@ class Draft extends React.Component {
     // shorten the valuations array to only teams that are willing to spend more than the most recent bid
     filterFranchisesByBid = () => {
         let yourFranchise = this.findYourFranchise()
-        if (this.props.bids.length > 0) {
+        if (this.props.bids.length > 1) {
             return this.props.valuations.filter(valueObj => {
                 if (valueObj.valuation > this.mostRecentBid().bidAmount || valueObj.franchiseId === yourFranchise.id) {
                     return true
@@ -59,7 +59,7 @@ class Draft extends React.Component {
                 return false
             })
         } else {
-            return this.props.valuations
+            return this.props.valuations.filter(valueObj => valueObj.valuation > 1)
         }
     }
 

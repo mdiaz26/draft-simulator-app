@@ -22,7 +22,8 @@ export const randomFactor = (nominatedPlayer) => {
 }
 
 const bidLimiter = (rosterConfig, franchise, valuation) => {
-        const peak = maxBid(rosterConfig, franchise)
+    const peak = maxBid(rosterConfig, franchise)
+    console.log("franchise:",franchise.name, "max bid:", peak)
     if (peak < valuation) {
         return peak
     } else {

@@ -93,7 +93,7 @@ class Draft extends React.Component {
         //     console.log("inside first conditional")
         //     this.askForInput()
         // }
-
+        console.log("bidders:", bidders)
         if (franchise.id === this.findYourFranchise().id && !this.props.userHasPassed) {
             console.log("inside second conditional")
             // it's the user's turn to bid, if they haven't passed already
@@ -106,6 +106,8 @@ class Draft extends React.Component {
                 this.declareWinner() 
                 : 
                 this.askForInput()
+            } else if (bidders.length === 1 && this.props.userHasPassed) {
+                this.declareWinner()
             }
 
         else if (bidders.length > 1) {
@@ -125,9 +127,6 @@ class Draft extends React.Component {
                 console.log("inside fourth conditional")
                 this.props.userHasPassed ? this.declareWinner() : this.askForInput()
             }
-            else if (bidders.length === 1 && this.props.userHasPassed) {
-                this.declareWinner()
-            }
         }
     }
 
@@ -143,7 +142,9 @@ class Draft extends React.Component {
     declareWinner = () => {
         const winningFranchise = this.props.franchises.find(franchise => (
             franchise.id === this.mostRecentBid().franchise.id))
-        console.log(`${winningFranchise.name} has won with a bid of $${this.mostRecentBid().bidAmount}`)
+        // console.log(`${winningFranchise.name} has won with a bid of $${this.mostRecentBid().bidAmount}`)
+        console.log("winning franchise:",winningFranchise)
+        this.props.updateBids({franchise: winningFranchise, bidAmount: this.mostRecentBid().bidAmount, winningBid: true})
         this.postFranchisePlayer()
         this.stopBidding()
         this.newNominatorIndex()
@@ -223,9 +224,8 @@ const mapDispatchToProps = dispatch => {
         addFranchisePlayer: (playerObj) => dispatch({type: 'ADD_FRANCHISE_PLAYER', playerObj}),
         nominatePlayer: (rosterConfig, playerObj, franchises) => dispatch({type: 'NOMINATE_PLAYER', rosterConfig, rPlayer: playerObj, franchises: franchises}),
         updateNominatingFranchise: (index) => dispatch({type: 'UPDATE_NOMINATING_FRANCHISE', index}),
-        updateBids: bidData => dispatch({type: 'UPDATE_BIDS', bidData}),
-        endBids: winData => dispatch({type: 'END_BIDS', winData}),
-        resetBids: () => dispatch({type: 'RESET_BIDS'})
+        updateBids: bidData => dispatch({type: 'UPDATE_BIDS', bidData})
+        // resetBids: () => dispatch({type: 'RESET_BIDS'})
     }
 }
 

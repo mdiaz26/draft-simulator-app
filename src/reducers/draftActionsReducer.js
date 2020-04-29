@@ -57,11 +57,11 @@ export const draftActionsReducer = (state = {
                 valuations = []
             }
             // also this should be a trigger to start bidding
-            console.log(state.nominatingFranchise)
+            console.log(action.rPlayer)
             return {...state,
                 nominatedPlayer: action.rPlayer, 
                 valuations: valuations,
-                bids: [{franchise: state.nominatingFranchise, bidAmount: 1, initialBid: true}],
+                bids: [{franchise: state.nominatingFranchise, player: action.rPlayer.player, bidAmount: 1, initialBid: true}],
                 userHasPassed: false
             }
         case 'UPDATE_NOMINATING_FRANCHISE':
@@ -74,8 +74,6 @@ export const draftActionsReducer = (state = {
                 ...state,
                 bids: [...state.bids, action.bidData]
             }
-        case 'CLOSE_BIDS':
-            return state;
         case 'RESET_BIDS':
             return {
                 ...state,

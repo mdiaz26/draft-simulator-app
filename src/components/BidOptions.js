@@ -27,10 +27,9 @@ const BidOptions = props => {
             <button 
                 // disabled={props.userHasPassed} 
                 onClick={userPasses}>Pass</button>
-            <p>
-                Budget Remaining: ${calculateBudget(props.franchise.budget, props.franchise.franchise_players)}
-                Max Bid: ${maxBid(props.currentDraft.roster_config, props.franchise)}
-            </p>
+            <p>Budget Remaining: ${calculateBudget(props.franchise.budget, props.franchise.franchise_players)}</p>
+            <p>Max Bid: ${maxBid(props.currentDraft.roster_config, props.franchise)}</p>
+            
         </div>
     )
 }

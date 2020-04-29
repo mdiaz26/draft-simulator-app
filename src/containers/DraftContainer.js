@@ -72,7 +72,9 @@ class Draft extends React.Component {
     }
 
     startBidding = () => {
-        const biddingTrigger = setInterval(() => this.teamBids(), 500)
+        let interval
+        this.props.userHasPassed ? interval = 200 : interval = 500
+        const biddingTrigger = setInterval(() => this.teamBids(), interval)
         this.setState({biddingTrigger})
         const nominatorIndex = this.props.draftFranchises.findIndex(franchise => franchise.id === this.props.nominatingFranchise.id)
         this.setState({bidderIndex: nominatorIndex})
@@ -116,7 +118,8 @@ class Draft extends React.Component {
             if (
                 valueObj.franchiseId !== this.mostRecentBid().franchise.id && 
                 franchise.franchise_players.length < totalRosterSpots(this.props.currentDraft.roster_config) &&
-                valueObj.valuation > this.mostRecentBid().bidAmount
+                valueObj.valuation > this.mostRecentBid().bidAmount &&
+                valueObj.franchiseId !== this.findYourFranchise().id
                 ) {
                     this.props.updateBids({franchise, bidAmount: this.mostRecentBid().bidAmount + 1})
                     console.log("inside third conditional")

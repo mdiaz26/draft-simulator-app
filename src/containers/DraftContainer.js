@@ -37,8 +37,8 @@ class Draft extends React.Component {
     }
 
     findYourFranchise = () => {
-        const draftFranchises = this.props.franchises.filter(franchise => franchise.draft_id === parseInt(this.props.draftId))
-        const yourFranchise = draftFranchises.find(franchise => franchise.name === "Your Team")
+        const yourFranchise = this.props.draftFranchises.find(franchise => franchise.name === "Your Team")
+        console.log('inside find your franchise',this.props.draftFranchises, yourFranchise)
         return yourFranchise
     }
 
@@ -181,7 +181,7 @@ class Draft extends React.Component {
     }
     
     render() {
-        const yourFranchise = this.findYourFranchise()
+        // const yourFranchise = this.findYourFranchise()
         return (
             <div className='draft-container'>
                 <button className='start-bidding-btn' disabled={this.props.nominatedPlayer === ''} onClick={this.startBidding}>Start Bidding</button>
@@ -194,10 +194,10 @@ class Draft extends React.Component {
                     /> :
                     'Nomination Pending'
                 }
-                {yourFranchise && 
+                {this.findYourFranchise() && 
                     <div className='bid-options-locator'>
                         <BidOptions 
-                            franchise={yourFranchise} 
+                            franchise={this.findYourFranchise()} 
                             mostRecentBid={this.mostRecentBid()}
                             resumeBidding={this.resumeBidding}/>
                     </div>

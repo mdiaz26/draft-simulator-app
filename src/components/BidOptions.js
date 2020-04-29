@@ -27,8 +27,13 @@ const BidOptions = props => {
             <button 
                 // disabled={props.userHasPassed} 
                 onClick={userPasses}>Pass</button>
-            <p>Budget Remaining: ${calculateBudget(props.franchise.budget, props.franchise.franchise_players)}</p>
-            <p>Max Bid: ${maxBid(props.currentDraft.roster_config, props.franchise)}</p>
+            {props.franchise && 
+                <React.Fragment>
+                    {console.log('inside bidoptions:', props.franchise, props.franchise.franchise_players)}
+                    <p>Budget Remaining: ${calculateBudget(props.franchise.budget, props.franchise.franchise_players)}</p>
+                    <p>Max Bid: ${maxBid(props.currentDraft.roster_config, props.franchise)}</p>
+                </React.Fragment>
+            }
             
         </div>
     )

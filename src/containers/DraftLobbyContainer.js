@@ -24,7 +24,7 @@ class DraftLobbyContainer extends React.Component {
 
     startDraft = () => {
         //kick off logic that nominates a player and starts bidding
-        this.props.assignNominator(this.draftFranchises()[0])
+        this.props.assignNominator(this.props.draftFranchises[0])
         this.toggleActiveDraft()
     }
 
@@ -42,11 +42,11 @@ class DraftLobbyContainer extends React.Component {
         // this.setState({franchises})
     }
 
-    draftFranchises = () => {
-        const draftId = this.props.match.params.id
-        const franchises = this.props.franchises.filter(franchise => franchise.draft_id === parseInt(draftId))
-        return franchises
-    }
+    // draftFranchises = () => {
+    //     const draftId = this.props.match.params.id
+    //     const franchises = this.props.franchises.filter(franchise => franchise.draft_id === parseInt(draftId))
+    //     return franchises
+    // }
 
     draftName = () => {
         const draft = this.props.currentDraft
@@ -64,7 +64,8 @@ class DraftLobbyContainer extends React.Component {
                     :
                     <button className="activate-button" onClick={this.startDraft}>Start/Resume Draft</button>
                 }
-                {this.props.currentDraft === '' ? 
+                {console.log('current draft:', this.props.currentDraft, 'draft franchises:', this.props.draftFranchises)}
+                {this.props.currentDraft === '' || this.props.draftFranchises.length < 9 ? 
                     <div>loading...</div>
                     :
                     <React.Fragment>
@@ -72,13 +73,12 @@ class DraftLobbyContainer extends React.Component {
                         <button className="simulate-button" >Simulate Remainder</button>
                         <div className='draft-container-locator'>
                         <DraftContainer 
-                            nominatedPlayer={this.props.nominatedPlayer} 
-                            draftId={this.props.match.params.id}
-                            activeDraft={this.state.activeDraft}
                         />
                         </div>
                         <div className='franchises-container-locator'>
-                            <FranchisesContainer draftId={this.props.match.params.id}/>
+                            <FranchisesContainer 
+                                // draftId={this.props.match.params.id}
+                                />
                         </div>
                         <div className='single-team-container-locator'>
                             <SingleTeamContainer/>
@@ -99,7 +99,7 @@ class DraftLobbyContainer extends React.Component {
 const mapStateToProps = state => {
     return {
         franchises: state.franchises.franchises,
-        nominatedPlayer: state.nominationData.nominatedPlayer,
+        draftFranchises: state.nominationData.draftFranchises,
         valuations: state.nominationData.valuations,
         franchiseFocus: state.nominationData.franchiseFocus,
         rankingPlayers: state.rankingPlayersInfo.rankingPlayers,

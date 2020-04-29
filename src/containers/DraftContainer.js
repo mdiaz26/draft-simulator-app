@@ -75,6 +75,7 @@ class Draft extends React.Component {
         this.setState({biddingTrigger})
         const nominatorIndex = this.props.draftFranchises.findIndex(franchise => franchise.id === this.props.nominatingFranchise.id)
         this.setState({bidderIndex: nominatorIndex})
+        // this.props.updateBids({franchise: this.props.draftFranchises[nominatorIndex], bidAmount: 1, initialBid: true})
     }
 
     resumeBidding = () => {
@@ -223,6 +224,7 @@ const mapDispatchToProps = dispatch => {
         nominatePlayer: (rosterConfig, playerObj, franchises) => dispatch({type: 'NOMINATE_PLAYER', rosterConfig, rPlayer: playerObj, franchises: franchises}),
         updateNominatingFranchise: (index) => dispatch({type: 'UPDATE_NOMINATING_FRANCHISE', index}),
         updateBids: bidData => dispatch({type: 'UPDATE_BIDS', bidData}),
+        endBids: winData => dispatch({type: 'END_BIDS', winData}),
         resetBids: () => dispatch({type: 'RESET_BIDS'})
     }
 }

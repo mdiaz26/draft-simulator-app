@@ -43,14 +43,14 @@ const Player = props => {
             
             {props.inNominationQueue && 
                 <React.Fragment>
-                    <p>Value: ${props.rPlayer.value} Tier: {props.rPlayer.tier}</p>
+                    <span>Value: ${props.rPlayer.value} Tier: {props.rPlayer.tier}</span>
                     <button disabled={!props.activeDraft} onClick={() => {
                         props.nominatePlayer(
                             props.currentDraft.roster_config, 
                             props.rPlayer, 
                             props.franchises
                         )
-                        props.resetBids()
+                        // props.resetBids()
                     }}>
                         Nominate
                     </button>

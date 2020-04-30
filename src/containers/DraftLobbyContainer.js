@@ -23,16 +23,8 @@ class DraftLobbyContainer extends React.Component {
     }
 
     startDraft = () => {
-        //kick off logic that nominates a player and starts bidding
-        this.props.assignNominator(this.props.draftFranchises[0])
         this.toggleActiveDraft()
     }
-
-    // draftFranchises = () => {
-    //     const draftId = this.props.match.params.id
-    //     const franchises = this.props.franchises.filter(franchise => franchise.draft_id === parseInt(draftId))
-    //     return franchises
-    // }
 
     draftName = () => {
         const draft = this.props.currentDraft
@@ -50,20 +42,17 @@ class DraftLobbyContainer extends React.Component {
                     :
                     <button className="activate-button" onClick={this.startDraft}>Start/Resume Draft</button>
                 }
-                {this.props.currentDraft === '' || this.props.draftFranchises.length < 10 ? 
+                {this.props.currentDraft === '' || this.props.draftFranchises.length < 9 ? 
                     <div>loading...</div>
                     :
                     <React.Fragment>
                         <h1 className="draft-title">Draft Lobby: {this.draftName()}</h1>
                         <button className="simulate-button" >Simulate Remainder</button>
                         <div className='draft-container-locator'>
-                        <DraftContainer 
-                        />
+                            <DraftContainer />
                         </div>
                         <div className='franchises-container-locator'>
-                            <FranchisesContainer 
-                                // draftId={this.props.match.params.id}
-                                />
+                            <FranchisesContainer />
                         </div>
                         <div className='single-team-container-locator'>
                             <SingleTeamContainer/>
@@ -96,8 +85,7 @@ const mapDispatchToProps = dispatch => {
     return {
     populatePlayers: () => dispatch({type: 'POPULATE_PLAYERS'}),
     fetchDraft: (draftId) => dispatch(fetchDraft(draftId)),
-    fetchFranchisePlayers: (draftId) => dispatch(fetchFranchisePlayers(draftId)),
-    assignNominator: (franchise) => dispatch({type: 'ASSIGN_NOMINATOR', franchise})
+    fetchFranchisePlayers: (draftId) => dispatch(fetchFranchisePlayers(draftId))
     }
 }
 

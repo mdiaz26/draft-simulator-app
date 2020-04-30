@@ -48,16 +48,16 @@ class Draft extends React.Component {
     // shorten the valuations array to only teams that are willing to spend more than the most recent bid
     filterFranchisesByBid = () => {
         let yourFranchise = this.findYourFranchise()
-        if (this.props.bids.length > 1) {
+        // if (this.props.bids.length > 1) {
             return this.props.valuations.filter(valueObj => {
                 if (valueObj.valuation > this.mostRecentBid().bidAmount || valueObj.franchiseId === yourFranchise.id) {
                     return true
                 }
                 return false
             })
-        } else {
-            return this.props.valuations.filter(valueObj => valueObj.valuation > 1)
-        }
+        // } else {
+        //     return this.props.valuations.filter(valueObj => valueObj.valuation > 1)
+        // }
     }
 
     //check to see if the user wants to bid
@@ -142,17 +142,31 @@ class Draft extends React.Component {
         this.props.updateBids({franchise: winningFranchise, bidAmount: this.mostRecentBid().bidAmount, winningBid: true})
         this.postFranchisePlayer()
         this.stopBidding()
-        this.newNominatorIndex()
+        this.newNominator()
         this.setStateToDefault()
     }
 
-    newNominatorIndex = () => {
-        const nominatorIndex = this.props.draftFranchises.findIndex(franchise => franchise.id === this.props.nominatingFranchise.id)
-        if (nominatorIndex >= this.props.draftFranchises.length - 1) {
-            this.props.updateNominatingFranchise(0)
+    newNominator = () => {
+        const nominatorIndex = this.props.draftFranchises.findIndex(franchise => franchise.is_nominating)
+        // const increasedIndex = nominatorIndex + 1
+        // console.log('inside newNominator', nominatorIndex, this.eligibleFranchises)
+        if (nominatorIndex >= this.eligibleFranchises().length - 1) {
+            this.patchNominatingFranchise(this.props.nominatingFranchise, this.eligibleFranchises()[0])
         } else {
-            this.props.updateNominatingFranchise(nominatorIndex + 1)
+            this.patchNominatingFranchise(this.props.nominatingFranchise, this.eligibleFranchises()[nominatorIndex + 1])
         }
+    }
+
+    eligibleFranchises = () => {
+        return this.props.draftFranchises.filter(franchise => franchise.franchise_players.length < totalRosterSpots(this.props.currentDraft.roster_config))
+    }
+
+    patchNominatingFranchise = (origNom, newNom) => {
+        console.log(origNom, newNom)
+        const adapter = new JSONAPIAdapter('http://localhost:3000/api/v1/')
+        adapter.update('franchises', origNom.id, {is_nominating: false})
+        adapter.update('franchises', newNom.id, {is_nominating: true})
+        .then(this.props.updateNominatingFranchise)
     }
 
     // POST for FranchisePlayer
@@ -194,7 +208,7 @@ class Draft extends React.Component {
                     </div>
                     }
                 <Bids/>
-                {/* <button onClick={() => console.log(this.props.draftFranchisePlayers)}>show franchise_players</button> */}
+                {/* <button onClick={this.newNominator}>cycle nominator</button> */}
             </div>
         )
     }
@@ -218,7 +232,7 @@ const mapDispatchToProps = dispatch => {
     return {
         addFranchisePlayer: (playerObj) => dispatch({type: 'ADD_FRANCHISE_PLAYER', playerObj}),
         // nominatePlayer: (rosterConfig, playerObj, franchises) => dispatch({type: 'NOMINATE_PLAYER', rosterConfig, rPlayer: playerObj, franchises: franchises}),
-        updateNominatingFranchise: (index) => dispatch({type: 'UPDATE_NOMINATING_FRANCHISE', index}),
+        updateNominatingFranchise: (franchise) => dispatch({type: 'UPDATE_NOMINATING_FRANCHISE', franchise}),
         updateBids: bidData => dispatch({type: 'UPDATE_BIDS', bidData}),
         yourTurn: () => dispatch({type: 'YOUR_TURN'})
     }

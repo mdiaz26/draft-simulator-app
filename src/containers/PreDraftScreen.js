@@ -56,7 +56,7 @@ class PreDraftScreen extends React.Component {
             budget: 300,
             draft_id: draftId,
             draft_position: idx + 1,
-            is_nominating: false
+            is_nominating: idx === 0 ? true : false
         }
         adapter.post('franchises', body)
         .then(franchiseObj => this.props.addFranchise(franchiseObj))

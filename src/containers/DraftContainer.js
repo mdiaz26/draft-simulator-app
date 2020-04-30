@@ -24,8 +24,6 @@ class Draft extends React.Component {
         this.setState({
             biddingTrigger: ""
         })
-        // this.props.nominatePlayer(this.props.currentDraft.draft_config, '', this.props.draftFranchises)
-        // this.props.resetBids()
     }
 
     mostRecentBid = () => {
@@ -38,7 +36,6 @@ class Draft extends React.Component {
 
     findYourFranchise = () => {
         const yourFranchise = this.props.draftFranchises.find(franchise => franchise.name === "Your Team")
-        console.log('inside find your franchise',this.props.draftFranchises, yourFranchise)
         return yourFranchise
     }
 
@@ -51,22 +48,21 @@ class Draft extends React.Component {
     // shorten the valuations array to only teams that are willing to spend more than the most recent bid
     filterFranchisesByBid = () => {
         let yourFranchise = this.findYourFranchise()
-        if (this.props.bids.length > 1) {
+        // if (this.props.bids.length > 1) {
             return this.props.valuations.filter(valueObj => {
                 if (valueObj.valuation > this.mostRecentBid().bidAmount || valueObj.franchiseId === yourFranchise.id) {
                     return true
                 }
                 return false
             })
-        } else {
-            return this.props.valuations.filter(valueObj => valueObj.valuation > 1)
-        }
+        // } else {
+        //     return this.props.valuations.filter(valueObj => valueObj.valuation > 1)
+        // }
     }
 
     //check to see if the user wants to bid
     askForInput = () => {
         clearInterval(this.state.biddingTrigger)
-        console.log('would you like to bid?')
         this.props.yourTurn()
         // setTimeout()
     }
@@ -92,13 +88,10 @@ class Draft extends React.Component {
         this.nextBidder()
         let valueObj = bidders[this.state.bidderIndex]
         let franchise = this.props.franchises.find(franchise => franchise.id === valueObj.franchiseId)
-        // if (franchise.id === this.findYourFranchise().id && !this.props.userHasPassed) {
-        //     console.log("inside first conditional")
-        //     this.askForInput()
-        // }
+
         console.log("bidders:", bidders)
         if (franchise.id === this.findYourFranchise().id && !this.props.userHasPassed) {
-            console.log("inside second conditional")
+            console.log("inside first conditional")
             // it's the user's turn to bid, if they haven't passed already
             // if the user is the only bidder left and they were the most recent bid, they win.
             // otherwise, they will be prompted to bid.
@@ -122,13 +115,13 @@ class Draft extends React.Component {
                 valueObj.franchiseId !== this.findYourFranchise().id
                 ) {
                     this.props.updateBids({franchise, bidAmount: this.mostRecentBid().bidAmount + 1})
-                    console.log("inside third conditional")
+                    console.log("inside second conditional")
                     if (bidders.length === 2){
                         this.props.userHasPassed ? this.declareWinner() : this.askForInput()
                     } 
 
             } else if (valueObj.franchiseId === this.mostRecentBid().franchise.id && bidders.length === 2) {
-                console.log("inside fourth conditional")
+                console.log("inside third conditional")
                 this.props.userHasPassed ? this.declareWinner() : this.askForInput()
             }
         }
@@ -146,22 +139,34 @@ class Draft extends React.Component {
     declareWinner = () => {
         const winningFranchise = this.props.franchises.find(franchise => (
             franchise.id === this.mostRecentBid().franchise.id))
-        // console.log(`${winningFranchise.name} has won with a bid of $${this.mostRecentBid().bidAmount}`)
-        console.log("winning franchise:",winningFranchise)
         this.props.updateBids({franchise: winningFranchise, bidAmount: this.mostRecentBid().bidAmount, winningBid: true})
         this.postFranchisePlayer()
         this.stopBidding()
-        this.newNominatorIndex()
+        this.newNominator()
         this.setStateToDefault()
     }
 
-    newNominatorIndex = () => {
-        const nominatorIndex = this.props.draftFranchises.findIndex(franchise => franchise.id === this.props.nominatingFranchise.id)
-        if (nominatorIndex >= this.props.draftFranchises.length - 1) {
-            this.props.updateNominatingFranchise(0)
+    newNominator = () => {
+        const nominatorIndex = this.props.draftFranchises.findIndex(franchise => franchise.is_nominating)
+        // const increasedIndex = nominatorIndex + 1
+        // console.log('inside newNominator', nominatorIndex, this.eligibleFranchises)
+        if (nominatorIndex >= this.eligibleFranchises().length - 1) {
+            this.patchNominatingFranchise(this.props.nominatingFranchise, this.eligibleFranchises()[0])
         } else {
-            this.props.updateNominatingFranchise(nominatorIndex + 1)
+            this.patchNominatingFranchise(this.props.nominatingFranchise, this.eligibleFranchises()[nominatorIndex + 1])
         }
+    }
+
+    eligibleFranchises = () => {
+        return this.props.draftFranchises.filter(franchise => franchise.franchise_players.length < totalRosterSpots(this.props.currentDraft.roster_config))
+    }
+
+    patchNominatingFranchise = (origNom, newNom) => {
+        console.log(origNom, newNom)
+        const adapter = new JSONAPIAdapter('http://localhost:3000/api/v1/')
+        adapter.update('franchises', origNom.id, {is_nominating: false})
+        adapter.update('franchises', newNom.id, {is_nominating: true})
+        .then(this.props.updateNominatingFranchise)
     }
 
     // POST for FranchisePlayer
@@ -203,7 +208,7 @@ class Draft extends React.Component {
                     </div>
                     }
                 <Bids/>
-                {/* <button onClick={() => console.log(this.props.draftFranchisePlayers)}>show franchise_players</button> */}
+                {/* <button onClick={this.newNominator}>cycle nominator</button> */}
             </div>
         )
     }
@@ -226,8 +231,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         addFranchisePlayer: (playerObj) => dispatch({type: 'ADD_FRANCHISE_PLAYER', playerObj}),
-        nominatePlayer: (rosterConfig, playerObj, franchises) => dispatch({type: 'NOMINATE_PLAYER', rosterConfig, rPlayer: playerObj, franchises: franchises}),
-        updateNominatingFranchise: (index) => dispatch({type: 'UPDATE_NOMINATING_FRANCHISE', index}),
+        // nominatePlayer: (rosterConfig, playerObj, franchises) => dispatch({type: 'NOMINATE_PLAYER', rosterConfig, rPlayer: playerObj, franchises: franchises}),
+        updateNominatingFranchise: (franchise) => dispatch({type: 'UPDATE_NOMINATING_FRANCHISE', franchise}),
         updateBids: bidData => dispatch({type: 'UPDATE_BIDS', bidData}),
         yourTurn: () => dispatch({type: 'YOUR_TURN'})
     }

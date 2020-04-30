@@ -27,11 +27,14 @@ export const draftActionsReducer = (state = {
                 requesting: false
             }
         case 'ASSIGN_DRAFT':
+            const sortedFranchises = action.draft.franchises.sort((franA, franB) => franA.draft_position - franB.draft_position)
+            const nominatingFranchise = action.draft.franchises.find(franchise => franchise.is_nominating)
             const yourTeam = action.draft.franchises.find(franchise => franchise.name === "Your Team")
-            console.log("assigning draft", action.draft)
+            console.log("assigning draft")
             return {...state,
                 currentDraft: action.draft,
-                draftFranchises: action.draft.franchises,
+                draftFranchises: sortedFranchises,
+                nominatingFranchise: nominatingFranchise,
                 franchiseFocus: yourTeam,
                 requesting: false
             }
@@ -45,21 +48,15 @@ export const draftActionsReducer = (state = {
                 draftFranchisePlayers: action.players,
                 requesting: false
             }
-        case 'ASSIGN_NOMINATOR':
-        return {
-                ...state,
-                nominatingFranchise: action.franchise
-            }
         case 'NOMINATE_PLAYER':
             let valuations
         if (action.rPlayer !== '') {
-                valuations = calculateValuations(action.rosterConfig, action.franchises, action.rPlayer)
+                valuations = calculateValuations(action.rosterConfig, action.franchises, action.rPlayer, action.rankingPlayers)
                 console.log('valuations:', valuations)
             } else {
                 valuations = []
             }
             // also this should be a trigger to start bidding
-            console.log(action.rPlayer)
             return {...state,
                 nominatedPlayer: action.rPlayer, 
                 valuations: valuations,
@@ -69,7 +66,7 @@ export const draftActionsReducer = (state = {
         case 'UPDATE_NOMINATING_FRANCHISE':
             return {
                 ...state,
-                nominatingFranchise: state.draftFranchises[action.index]
+                nominatingFranchise: action.franchise
             }
         case 'UPDATE_BIDS':
             return {

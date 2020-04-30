@@ -34,10 +34,4 @@ const mapStateToProps = state => {
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        nominatePlayer: (rosterConfig, playerObj, franchises) => dispatch({type: 'NOMINATE_PLAYER', rosterConfig, rPlayer: playerObj, franchises: franchises})
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PlayersContainer)
+export default connect(mapStateToProps)(PlayersContainer)

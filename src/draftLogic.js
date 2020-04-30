@@ -1,4 +1,5 @@
 export const calculateValuations = (rosterConfig, franchises, nominatedPlayer, rankingPlayers) => {
+    console.log('inside calculateValuations', nominatedPlayer)
     let valuations = franchises.map(franchise => {
         return {franchiseId: 
             franchise.id, 
@@ -103,3 +104,4 @@ const calculateStartingPositionSpots = (rosterConfig, position) => {
 const filterByPosition = (franchisePlayersArray, position) => {
     return franchisePlayersArray.filter(fPlayer => fPlayer.player.position === position)
 }
+

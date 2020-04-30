@@ -218,12 +218,12 @@ const mapStateToProps = state => {
     return {
         franchises: state.franchises.franchises,
         draftFranchises: state.nominationData.draftFranchises,
+        draftFranchisePlayers: state.nominationData.draftFranchisePlayers,
         nominatedPlayer: state.nominationData.nominatedPlayer,
         nominatingFranchise: state.nominationData.nominatingFranchise,
         valuations: state.nominationData.valuations,
         bids: state.nominationData.bids,
         currentDraft: state.nominationData.currentDraft,
-        draftFranchisePlayers: state.nominationData.draftFranchisePlayers,
         userHasPassed: state.nominationData.userHasPassed
     }
 }

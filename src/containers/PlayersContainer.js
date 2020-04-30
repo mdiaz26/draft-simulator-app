@@ -30,7 +30,8 @@ const PlayersContainer = props => {
 
 const mapStateToProps = state => {
     return {
-        draftFranchisePlayers: state.nominationData.draftFranchisePlayers
+        draftFranchisePlayers: state.nominationData.draftFranchisePlayers,
+        rankingPlayers: state.rankingPlayersInfo.rankingPlayers
     }
 }
 

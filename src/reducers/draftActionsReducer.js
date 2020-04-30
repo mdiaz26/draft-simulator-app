@@ -83,8 +83,16 @@ export const draftActionsReducer = (state = {
                 franchiseFocus: action.franchise
             }
         case 'ADD_FRANCHISE_PLAYER':
+            const updatedFranchises = state.draftFranchises.map(franchise => {
+                if (franchise.id === action.playerObj.franchise_id) {
+                    return {...franchise, franchise_players: [...franchise.franchise_players, action.playerObj]}
+                } else {
+                    return franchise
+                }
+            })
             return {
                 ...state,
+                draftFranchises: updatedFranchises,
                 draftFranchisePlayers: [...state.draftFranchisePlayers, action.playerObj]
             }
         case 'USER_HAS_PASSED':

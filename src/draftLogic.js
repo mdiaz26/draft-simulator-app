@@ -61,7 +61,7 @@ const franchiseNeedFactor = (rosterConfig, franchise, rPlayer, rankingPlayers) =
     const startingSpots = calculateStartingPositionSpots(rosterConfig, rosterConfig[rPlayer.player.position.toLowerCase()])
     // const franchisePlayersAtPosition = franchise.franchise_players.filter(fPlayer => fPlayer.player.position === rPlayer.player.position)
     // const remainingPositionSpots = maxPositionSpots - franchisePlayersAtPosition.length
-    const reducerFunction = (total, playerObj) => total + 1/(rankingPlayers.find(player => player.id === playerObj.player_id).tier + 0.0001)
+    const reducerFunction = (total, playerObj) => total + 1/(rankingPlayers.find(player => player.player_id === playerObj.player_id).tier + 0.0001)
     const playersAtPosition = filterByPosition(franchise.franchise_players, rPlayer.player.position)
     // console.log('inside franchiseNeedFactor', playersAtPosition, rankingPlayers)
     const startersScore = (playersAtPosition.length > 0) ? playersAtPosition.reduce(reducerFunction, 0) : 0

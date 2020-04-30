@@ -10,7 +10,6 @@ export const rankingPlayersReducer = (state = {rankingPlayers: [], requesting: f
         case 'POPULATE_RANKING_PLAYERS':
             return {
                 ...state,
-                // rankingPlayers: action.ranking_players,
                 rankingPlayers: action.ranking_players.sort((playerA, playerB) => playerB.value - playerA.value),
                 requesting: false
             }

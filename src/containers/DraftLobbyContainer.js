@@ -42,8 +42,11 @@ class DraftLobbyContainer extends React.Component {
 
     simulateRemainder = () => {
         console.log('simulating')
+        console.log('draftFranchisePlayers:', this.props.draftFranchisePlayers.length)
+        const maxPlayersDrafted = totalRosterSpots(this.props.currentDraft.roster_config) * 10
+        let i = this.props.draftFranchisePlayers.length
         // while draft_franchise_players.length < maxRosterSpots * 10
-        if (this.props.draftFranchisePlayers.length < totalRosterSpots(this.props.currentDraft.roster_config)) {
+        if (i <= maxPlayersDrafted) {
             // nominate the next highest-valued player
             const nominatedPlayer = this.filterRankingPlayers()[0]
             // calculate each team's valuation
@@ -70,6 +73,7 @@ class DraftLobbyContainer extends React.Component {
                 const winningBid = sortedValuations[1].valuation + 1
                 this.postFranchisePlayer(nominatedPlayer, sortedValuations[0], winningBid)
             }
+            i++
         }
     }
 

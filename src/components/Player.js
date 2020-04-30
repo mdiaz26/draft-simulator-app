@@ -35,6 +35,10 @@ const newPlayerObj = (playerObj, actionType) => {
     }
 }
 
+const filterFranchises = (franchises) => {
+    return franchises.filter(franchise => franchise.franchise_players.length < 19)
+}
+
 const Player = props => {
     return(
         <div className="player-tile">
@@ -48,7 +52,7 @@ const Player = props => {
                         props.nominatePlayer(
                             props.currentDraft.roster_config, 
                             props.rPlayer, 
-                            props.franchises,
+                            filterFranchises(props.franchises),
                             props.rankingPlayers
                         )
                         // props.resetBids()

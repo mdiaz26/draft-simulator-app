@@ -7,7 +7,7 @@ import SingleTeamContainer from './SingleTeamContainer'
 import FranchisesContainer from './FranchisesContainer'
 import { fetchDraft, fetchFranchisePlayers } from '../JSONAPIAdapter'
 import JSONAPIAdapter from '../JSONAPIAdapter'
-import { totalRosterSpots, calculateValuations } from  '../draftLogic'
+import { totalRosterSpots, calculateValuations, maxBid } from  '../draftLogic'
 
 class DraftLobbyContainer extends React.Component {
 
@@ -40,7 +40,7 @@ class DraftLobbyContainer extends React.Component {
         return newArray.sort((playerA, playerB) => playerB.value - playerA.value)
     }
 
-    simulateRemainder = () => {
+    simulateRemainder = async () => {
         console.log('simulating')
         const maxPlayersDrafted = totalRosterSpots(this.props.currentDraft.roster_config) * 10
         console.log('draftFranchisePlayers:', this.props.draftFranchisePlayers.length, maxPlayersDrafted)
@@ -48,7 +48,9 @@ class DraftLobbyContainer extends React.Component {
         const ownedPlayers = this.props.draftFranchisePlayers.length
         let i = 0
         // while draft_franchise_players.length < maxRosterSpots * 10
-        while (i <= maxPlayersDrafted - ownedPlayers) {
+        while (i <= 0) {
+        // while (i <= maxPlayersDrafted - ownedPlayers) {
+            // console.log(this.props.draftFranchisePlayers)
             // nominate the next highest-valued player
             const nominatedPlayer = availablePlayers[i]
             // calculate each team's valuation
@@ -58,24 +60,51 @@ class DraftLobbyContainer extends React.Component {
                 nominatedPlayer,
                 this.props.rankingPlayers
             )
-            console.log(valuations)
             // find the teams with the two highest valuations
-            let sortedValuations = valuations.sort((valueObjA, valueObjB) => valueObjB.valuation - valueObjA.valuation)
-            sortedValuations.splice(2)
-            console.log(sortedValuations)
-            if (sortedValuations[0].valuation === sortedValuations[1].valuation) {
+            let sortedValuations = valuations.sort(
+                (valueObjA, valueObjB) => {
+                    if (valueObjB.valuation > valueObjA.valuation) {
+                        return 1
+                    } 
+                    if (valueObjA.valuation > valueObjB.valuation) {
+                        return -1
+                    }
+                    if (
+                        maxBid(this.props.currentDraft.roster_config, valueObjB.franchise) 
+                        > 
+                        maxBid(this.props.currentDraft.roster_config, valueObjA.franchise)
+                        ) {
+                            console.log('success')
+                            return 1
+                    }
+                    // return 0
+                }
+            )
+            let test = maxBid(this.props.currentDraft.roster_config, sortedValuations[0].franchise)
+            let test2 = maxBid(this.props.currentDraft.roster_config, sortedValuations[1].franchise)
+            // debugger
+            console.log("sorted valuations",sortedValuations, test, test2)
+            // sortedValuations.splice(2)
+            // console.log(sortedValuations)
+            if (sortedValuations[0].valuation <= 1) {
+                let winningBid = sortedValuations[0].valuation
+                maxBid(this.props.currentDraft.roster_config, sortedValuations[0].franchise) > 1 && winningBid++
+                winningBid === 0 && winningBid++
+                await this.postFranchisePlayer(nominatedPlayer, sortedValuations[0], winningBid)
+            }
+            else if (sortedValuations[0].valuation === sortedValuations[1].valuation) {
                 // if two teams are tied, assign the player to the team with the lower ID
-                // once the sim is over, put a message on the screen
                 const winningBid = sortedValuations[1].valuation
                 const winningFranchise = sortedValuations.sort((valA, valB) => valA.franchiseId - valB.franchiseId)[0]
-                this.postFranchisePlayer(nominatedPlayer, winningFranchise, winningBid)
+                await this.postFranchisePlayer(nominatedPlayer, winningFranchise, winningBid)
             } else {
                 // create a franchise_player assigned to the team with the highest valuation with a salary of
                 // the second-highest valuation + 1
                 const winningBid = sortedValuations[1].valuation + 1
-                this.postFranchisePlayer(nominatedPlayer, sortedValuations[0], winningBid)
+                await this.postFranchisePlayer(nominatedPlayer, sortedValuations[0], winningBid)
             }
             i++
+            // once the sim is over, put a message on the screen
         }
     }
 
@@ -87,7 +116,7 @@ class DraftLobbyContainer extends React.Component {
             salary
         }
         const adapter = new JSONAPIAdapter('http://localhost:3000/api/v1/')
-        adapter.post('franchise_players', body)
+        return adapter.post('franchise_players', body)
         .then(this.props.addFranchisePlayer)
     }
 

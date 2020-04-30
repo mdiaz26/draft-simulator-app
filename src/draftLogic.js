@@ -1,11 +1,13 @@
 export const calculateValuations = (rosterConfig, franchises, nominatedPlayer, rankingPlayers) => {
-    console.log('inside calculateValuations', nominatedPlayer)
+    // console.log('inside calculateValuations', nominatedPlayer)
     let valuations = franchises.map(franchise => {
-        return {franchiseId: 
-            franchise.id, 
+        return {
+            franchiseId: franchise.id,
+            franchise: franchise,
             valuation: Math.floor(
                 bidLimiter(rosterConfig, franchise, 
-                    randomFactor(nominatedPlayer) * franchiseNeedFactor(rosterConfig, franchise, nominatedPlayer, rankingPlayers)
+                    Math.ceil(randomFactor(nominatedPlayer) * 
+                    franchiseNeedFactor(rosterConfig, franchise, nominatedPlayer, rankingPlayers))
                 )
             )
         }
@@ -14,27 +16,41 @@ export const calculateValuations = (rosterConfig, franchises, nominatedPlayer, r
 }
 
 export const randomFactor = (nominatedPlayer) => {
-    return Math.ceil(nominatedPlayer.value + (
+    return nominatedPlayer.value + (
         ((Math.floor(Math.random() * 34)) + 
+        (Math.floor(Math.random() * 34)) +
         (Math.floor(Math.random() * 34)) - 
-        34 )/ 
+        68 )/ 
         100 ) * 
-        nominatedPlayer.value)
+        nominatedPlayer.value
 }
 
 const bidLimiter = (rosterConfig, franchise, valuation) => {
     const peak = maxBid(rosterConfig, franchise)
-    if (peak < valuation) {
+    const adjustedValue = adjustedVal(rosterConfig, valuation, franchise)
+    if (franchise.franchise_players.length >= totalRosterSpots(rosterConfig)) {
+        console.log("franchise players:", franchise.name, franchise.franchise_players)
+        return 0
+    } else if (peak < adjustedValue) {
         return peak
     } else {
-        return valuation
+        return adjustedValue
     }
+}
+
+const adjustedVal = (rosterConfig, valuation, franchise) => {
+    // const remainingBudget = calculateBudget(franchise.budget, franchise.franchise_players)
+    const percentageOfRemainingBudget = valuation / maxBid(rosterConfig, franchise)
+    if (percentageOfRemainingBudget > 0.35) {
+        return valuation * (1 - (percentageOfRemainingBudget - 0.05))
+    }
+    return valuation
 }
 
 export const maxBid = (rosterConfig, franchise) => {
     const budgetRemaining = calculateBudget(franchise.budget, franchise.franchise_players)
     const availableRosterSpots = totalRosterSpots(rosterConfig) - franchise.franchise_players.length
-    return budgetRemaining - availableRosterSpots
+    return budgetRemaining - (availableRosterSpots - 1)
 }
 
 export const calculateBudget = (startingBudget, playersArray) => {
@@ -75,8 +91,8 @@ const franchiseNeedFactor = (rosterConfig, franchise, rPlayer, rankingPlayers) =
     
     const currentPositionGrade = startingSpots - startersScore + 1
     // console.log("starters score:", franchise.name, startersScore)
-    const demandFactor = (1.1 - (1 / 1 + Math.pow(2.7, (-1 * currentPositionGrade - 1)))) * 10
-    console.log("demand factor:", franchise.name, demandFactor)
+    const demandFactor = (1.1 - (1 /( 1 + Math.pow(2.7, (-1 * currentPositionGrade - 1))))) * 10
+    // console.log("demand factor:", franchise.name, demandFactor)
     return demandFactor
 }
 

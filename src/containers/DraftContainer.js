@@ -48,16 +48,12 @@ class Draft extends React.Component {
     // shorten the valuations array to only teams that are willing to spend more than the most recent bid
     filterFranchisesByBid = () => {
         let yourFranchise = this.findYourFranchise()
-        // if (this.props.bids.length > 1) {
             return this.props.valuations.filter(valueObj => {
                 if (valueObj.valuation > this.mostRecentBid().bidAmount || valueObj.franchiseId === yourFranchise.id) {
                     return true
                 }
                 return false
             })
-        // } else {
-        //     return this.props.valuations.filter(valueObj => valueObj.valuation > 1)
-        // }
     }
 
     //check to see if the user wants to bid
@@ -172,7 +168,7 @@ class Draft extends React.Component {
     // POST for FranchisePlayer
     postFranchisePlayer = () => {
         const body = {
-            player_id: this.props.nominatedPlayer.id,
+            player_id: this.props.nominatedPlayer.player_id,
             franchise_id: this.mostRecentBid().franchise.id,
             salary: this.mostRecentBid().bidAmount
         }
@@ -218,12 +214,12 @@ const mapStateToProps = state => {
     return {
         franchises: state.franchises.franchises,
         draftFranchises: state.nominationData.draftFranchises,
+        draftFranchisePlayers: state.nominationData.draftFranchisePlayers,
         nominatedPlayer: state.nominationData.nominatedPlayer,
         nominatingFranchise: state.nominationData.nominatingFranchise,
         valuations: state.nominationData.valuations,
         bids: state.nominationData.bids,
         currentDraft: state.nominationData.currentDraft,
-        draftFranchisePlayers: state.nominationData.draftFranchisePlayers,
         userHasPassed: state.nominationData.userHasPassed
     }
 }

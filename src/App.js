@@ -15,7 +15,7 @@ class App extends React.Component {
   componentDidMount(){
     this.props.fetchDrafts()
     this.props.fetchFranchises()
-    this.props.fetchRankingPlayers(1)
+    this.props.fetchRankingPlayers(2)
     this.props.fetchRankings()
   }
 

@@ -74,6 +74,7 @@ class Draft extends React.Component {
     }
 
     resumeBidding = (intervalAmout) => {
+        clearInterval(this.state.biddingTrigger)
         const biddingTrigger = setInterval(() => this.teamBids(), intervalAmout)
         this.setState({biddingTrigger})
     }
@@ -145,7 +146,8 @@ class Draft extends React.Component {
     newNominator = () => {
         const nominatorIndex = this.props.draftFranchises.findIndex(franchise => franchise.is_nominating)
         // const increasedIndex = nominatorIndex + 1
-        // console.log('inside newNominator', nominatorIndex, this.eligibleFranchises)
+        console.log('inside newNominator', nominatorIndex, this.eligibleFranchises())
+        // debugger
         if (nominatorIndex >= this.eligibleFranchises().length - 1) {
             this.patchNominatingFranchise(this.props.nominatingFranchise, this.eligibleFranchises()[0])
         } else {
@@ -157,12 +159,14 @@ class Draft extends React.Component {
         return this.props.draftFranchises.filter(franchise => franchise.franchise_players.length < totalRosterSpots(this.props.currentDraft.roster_config))
     }
 
-    patchNominatingFranchise = (origNom, newNom) => {
-        console.log(origNom, newNom)
+    patchNominatingFranchise = async (origNom, newNom) => {
+        console.log("inside patch",origNom, newNom)
         const adapter = new JSONAPIAdapter('http://localhost:3000/api/v1/')
-        adapter.update('franchises', origNom.id, {is_nominating: false})
-        adapter.update('franchises', newNom.id, {is_nominating: true})
-        .then(this.props.updateNominatingFranchise)
+        await Promise.all([
+            adapter.update('franchises', origNom.id, {is_nominating: false}),
+            adapter.update('franchises', newNom.id, {is_nominating: true})
+        ])
+        this.props.updateNominatingFranchise(newNom)
     }
 
     // POST for FranchisePlayer

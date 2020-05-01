@@ -77,6 +77,8 @@ class DraftLobbyContainer extends React.Component {
                     ) {
                         return 1
                     }
+                    // added this return function to satisfy linter.
+                    return 0
                 })
 
             let sortedByBidAmount = sortedByPlayerLength.sort(
@@ -87,6 +89,7 @@ class DraftLobbyContainer extends React.Component {
                 else if (valueObjA.valuation > valueObjB.valuation) {
                     return -1
                 }
+                return 0
             })
 
             let test = maxBid(this.props.currentDraft.roster_config, sortedByBidAmount[0].franchise)

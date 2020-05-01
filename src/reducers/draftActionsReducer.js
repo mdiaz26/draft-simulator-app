@@ -64,8 +64,16 @@ export const draftActionsReducer = (state = {
                 userHasPassed: false
             }
         case 'UPDATE_NOMINATING_FRANCHISE':
+            const newDraftFranchises = state.draftFranchises.map(franchise => {
+                if (franchise.id === action.franchise.id) {
+                    return {...franchise, is_nominating: true}
+                } else {
+                    return {...franchise, is_nominating: false}
+                }
+            })
             return {
                 ...state,
+                draftFranchises: newDraftFranchises,
                 nominatingFranchise: action.franchise
             }
         case 'UPDATE_BIDS':

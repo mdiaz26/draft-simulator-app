@@ -92,12 +92,8 @@ class DraftLobbyContainer extends React.Component {
                 return 0
             })
 
-            let test = maxBid(this.props.currentDraft.roster_config, sortedByBidAmount[0].franchise)
-            let test2 = maxBid(this.props.currentDraft.roster_config, sortedByBidAmount[1].franchise)
-            // debugger
-            console.log("sorted valuations",sortedByBidAmount, test, test2)
-            // sortedByBidAmount.splice(2)
-            // console.log(sortedByBidAmount)
+            console.log("sorted valuations",sortedByBidAmount)
+
             if (sortedByBidAmount[0].valuation <= 1) {
                 let winningBid = sortedByBidAmount[0].valuation
                 maxBid(this.props.currentDraft.roster_config, sortedByBidAmount[0].franchise) > 1 && winningBid++
@@ -140,7 +136,7 @@ class DraftLobbyContainer extends React.Component {
                     :
                     <button className="activate-button" onClick={this.startDraft}>Start/Resume Draft</button>
                 }
-                {this.props.currentDraft === '' || this.props.draftFranchises.length < 9 ? 
+                {this.props.currentDraft === '' ? 
                     <div>loading...</div>
                     :
                     <React.Fragment>

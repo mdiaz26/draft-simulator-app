@@ -9,16 +9,15 @@ class FranchisesContainer extends React.Component {
     render() {
         return (
             <div className='franchises-container'>
-                <ol className='franchises-list'>
-                    {this.props.draftFranchises.map(franchise => 
-                        <Franchise 
-                            key={franchise.id} 
-                            franchise={franchise} 
-                            budget={calculateBudget(franchise.budget, franchise.franchise_players)}
-                            maxBid={maxBid(this.props.currentDraft.roster_config, franchise)}
-                        />
-                    )}
-                </ol>
+                {this.props.draftFranchises.map((franchise, idx) => 
+                    <Franchise 
+                        key={franchise.id} 
+                        idx={idx}
+                        franchise={franchise} 
+                        budget={calculateBudget(franchise.budget, franchise.franchise_players)}
+                        maxBid={maxBid(this.props.currentDraft.roster_config, franchise)}
+                    />
+                )}
             </div>
         )
     }

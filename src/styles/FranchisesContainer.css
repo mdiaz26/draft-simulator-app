@@ -2,14 +2,32 @@
     /* background-color: #fed9ff; */
     border: solid black;
     width: 100%;
-    height: 70px;
+    /* height: 60px; */
+    display: grid;
+    grid-template-columns: repeat(10, 9%);
+    /* grid-template-rows: 5% 10% 10% auto; */
+    grid-gap: 10px;
 }
 
-.franchises-list {
-    list-style-type:none
+.franchises-container > div {
+    border: solid black;
+    margin: 5px;
 }
 
-.franchises-list li {
+.franchises-container > div > h3 {
+    margin: 0px
+}
+
+.franchises-container > div >p {
+    margin: 0px
+}
+
+.franchise-0 {
+    grid-column-start: 1;
+    /* position: absolute; */
+}
+
+/* .franchises-list li {
     float: left;
     padding: 10px;
-}
+} */

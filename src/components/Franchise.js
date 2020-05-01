@@ -1,14 +1,14 @@
 import React from 'react'
+import '../styles/FranchisesContainer.css'
 import { connect } from 'react-redux'
 
 const Franchise = props => {
     return (
-        <li onClick={() => props.franchiseFocus(props.franchise)}>
-            <span><strong>{props.franchise.name}</strong> 
-            {/* Budget: ${props.budget} MaxBid: ${props.maxBid} id: {props.franchise.id} */}
-            <p>${props.budget}/${props.maxBid}/id{props.franchise.id} </p>
-            </span>
-        </li>
+        <div className={`franchise-${props.idx}`} onClick={() => props.franchiseFocus(props.franchise)}>
+            <h3 >{props.franchise.name}</h3> 
+            <p>Remaining Budget/Max Bid</p>
+            <p>${props.budget}/${props.maxBid}</p>
+        </div>
     )
 }
 

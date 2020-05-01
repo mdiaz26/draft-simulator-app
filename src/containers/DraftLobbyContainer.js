@@ -30,7 +30,7 @@ class DraftLobbyContainer extends React.Component {
 
     draftName = () => {
         const draft = this.props.currentDraft
-        return draft ? draft.name : null
+        return draft ? draft.name.toString() : null
     }
 
     filterRankingPlayers = () => {

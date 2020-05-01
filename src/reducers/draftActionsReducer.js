@@ -13,7 +13,8 @@ export const draftActionsReducer = (state = {
     draftFranchises: [],
     requesting: false,
     yourTurn: false,
-    userHasPassed: false
+    userHasPassed: false,
+    maxBidView: false
 }, action) => {
     switch (action.type) {
         case 'START_POPULATING_DRAFT_REQUEST':
@@ -74,7 +75,8 @@ export const draftActionsReducer = (state = {
             return {
                 ...state,
                 draftFranchises: newDraftFranchises,
-                nominatingFranchise: action.franchise
+                nominatingFranchise: action.franchise,
+                nominatedPlayer: ''
             }
         case 'UPDATE_BIDS':
             return {
@@ -118,6 +120,11 @@ export const draftActionsReducer = (state = {
             return {
                 ...state,
                 yourTurn: false
+            }
+        case 'TOGGLE_BUDGET_VIEW':
+            return {
+                ...state,
+                maxBidView: !state.maxBidView
             }
         default:
             return state

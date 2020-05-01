@@ -22,16 +22,14 @@ const BidOptions = props => {
     return (
         <div>
             {props.yourTurn && <h2>Do you want to bid?</h2>}
-            <button onClick={userBids}>Bid</button>
-            <button 
-                // disabled={props.userHasPassed} 
-                onClick={userPasses}>Pass</button>
             {props.franchise && 
                 <React.Fragment>
                     <p>Budget Remaining: ${calculateBudget(props.franchise.budget, props.franchise.franchise_players)}</p>
                     <p>Max Bid: ${maxBid(props.currentDraft.roster_config, props.franchise)}</p>
                 </React.Fragment>
             }
+            <button onClick={userBids}>Bid</button>
+            <button onClick={userPasses}>Pass</button>
             
         </div>
     )

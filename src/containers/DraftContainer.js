@@ -70,7 +70,6 @@ class Draft extends React.Component {
         this.setState({biddingTrigger})
         const nominatorIndex = this.props.draftFranchises.findIndex(franchise => franchise.id === this.props.nominatingFranchise.id)
         this.setState({bidderIndex: nominatorIndex})
-        // this.props.updateBids({franchise: this.props.draftFranchises[nominatorIndex], bidAmount: 1, initialBid: true})
     }
 
     resumeBidding = (intervalAmout) => {
@@ -186,17 +185,20 @@ class Draft extends React.Component {
     }
     
     render() {
-        // const yourFranchise = this.findYourFranchise()
         return (
             <div className='draft-container'>
                 <button className='start-bidding-btn' disabled={this.props.nominatedPlayer === ''} onClick={this.startBidding}>Start Bidding</button>
                 <button className='stop-bidding-btn' onClick={this.stopBidding}>Stop Bidding</button>
                 {this.props.nominatedPlayer !== '' ? 
-                    <Player
-                    player={this.props.nominatedPlayer.player}
-                    rPlayer={this.props.nominatedPlayer}
-                    inNominationQueue={false}
-                    /> :
+                    <React.Fragment>
+                        <Player
+                        player={this.props.nominatedPlayer.player}
+                        rPlayer={this.props.nominatedPlayer}
+                        inNominationQueue={false}
+                        /> 
+                        <div>Current Bid: ${this.mostRecentBid().bidAmount}</div>
+                    </React.Fragment>
+                    :
                     'Nomination Pending'
                 }
                 {this.findYourFranchise() && 
@@ -206,9 +208,8 @@ class Draft extends React.Component {
                             mostRecentBid={this.mostRecentBid()}
                             resumeBidding={this.resumeBidding}/>
                     </div>
-                    }
+                }
                 <Bids/>
-                {/* <button onClick={this.newNominator}>cycle nominator</button> */}
             </div>
         )
     }
@@ -231,7 +232,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         addFranchisePlayer: (playerObj) => dispatch({type: 'ADD_FRANCHISE_PLAYER', playerObj}),
-        // nominatePlayer: (rosterConfig, playerObj, franchises) => dispatch({type: 'NOMINATE_PLAYER', rosterConfig, rPlayer: playerObj, franchises: franchises}),
         updateNominatingFranchise: (franchise) => dispatch({type: 'UPDATE_NOMINATING_FRANCHISE', franchise}),
         updateBids: bidData => dispatch({type: 'UPDATE_BIDS', bidData}),
         yourTurn: () => dispatch({type: 'YOUR_TURN'})

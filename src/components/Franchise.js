@@ -6,10 +6,15 @@ const Franchise = props => {
     return (
         <div className={`franchise-${props.idx}`} onClick={() => props.franchiseFocus(props.franchise)}>
             <h3 >{props.franchise.name}</h3> 
-            <p>Remaining Budget/Max Bid</p>
-            <p>${props.budget}/${props.maxBid}</p>
+            {props.maxBidView ? <p>${props.maxBid}</p> : <p>${props.budget}</p>}
         </div>
     )
+}
+
+const mapStateToProps = state => {
+    return {
+        maxBidView: state.nominationData.maxBidView
+    }
 }
 
 const mapDispatchToProps = dispatch => {
@@ -18,4 +23,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(Franchise)
+export default connect(mapStateToProps, mapDispatchToProps)(Franchise)

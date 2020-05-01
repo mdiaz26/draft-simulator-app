@@ -48,8 +48,8 @@ class DraftLobbyContainer extends React.Component {
         const ownedPlayers = this.props.draftFranchisePlayers.length
         let i = 0
         // while draft_franchise_players.length < maxRosterSpots * 10
-        while (i <= 0) {
-        // while (i <= maxPlayersDrafted - ownedPlayers) {
+        // while (i <= 0) {
+        while (i < maxPlayersDrafted - ownedPlayers) {
             // console.log(this.props.draftFranchisePlayers)
             // nominate the next highest-valued player
             const nominatedPlayer = availablePlayers[i]
@@ -61,47 +61,56 @@ class DraftLobbyContainer extends React.Component {
                 this.props.rankingPlayers
             )
             // find the teams with the two highest valuations
-            let sortedValuations = valuations.sort(
+            let sortedByPlayerLength = valuations.sort(
                 (valueObjA, valueObjB) => {
-                    if (valueObjB.valuation > valueObjA.valuation) {
-                        return 1
-                    } 
-                    if (valueObjA.valuation > valueObjB.valuation) {
+                    if (
+                        valueObjB.franchise.franchise_players.length 
+                        > 
+                        valueObjA.franchise.franchise_players.length
+                    ) {
                         return -1
                     }
-                    if (
-                        maxBid(this.props.currentDraft.roster_config, valueObjB.franchise) 
-                        > 
-                        maxBid(this.props.currentDraft.roster_config, valueObjA.franchise)
-                        ) {
-                            console.log('success')
-                            return 1
+                    else if (
+                        valueObjB.franchise.franchise_players.length 
+                        <
+                        valueObjA.franchise.franchise_players.length
+                    ) {
+                        return 1
                     }
-                    // return 0
+                })
+
+            let sortedByBidAmount = sortedByPlayerLength.sort(
+                (valueObjA, valueObjB) => {
+                    if (valueObjB.valuation > valueObjA.valuation) {
+                    return 1
+                } 
+                else if (valueObjA.valuation > valueObjB.valuation) {
+                    return -1
                 }
-            )
-            let test = maxBid(this.props.currentDraft.roster_config, sortedValuations[0].franchise)
-            let test2 = maxBid(this.props.currentDraft.roster_config, sortedValuations[1].franchise)
+            })
+
+            let test = maxBid(this.props.currentDraft.roster_config, sortedByBidAmount[0].franchise)
+            let test2 = maxBid(this.props.currentDraft.roster_config, sortedByBidAmount[1].franchise)
             // debugger
-            console.log("sorted valuations",sortedValuations, test, test2)
-            // sortedValuations.splice(2)
-            // console.log(sortedValuations)
-            if (sortedValuations[0].valuation <= 1) {
-                let winningBid = sortedValuations[0].valuation
-                maxBid(this.props.currentDraft.roster_config, sortedValuations[0].franchise) > 1 && winningBid++
+            console.log("sorted valuations",sortedByBidAmount, test, test2)
+            // sortedByBidAmount.splice(2)
+            // console.log(sortedByBidAmount)
+            if (sortedByBidAmount[0].valuation <= 1) {
+                let winningBid = sortedByBidAmount[0].valuation
+                maxBid(this.props.currentDraft.roster_config, sortedByBidAmount[0].franchise) > 1 && winningBid++
                 winningBid === 0 && winningBid++
-                await this.postFranchisePlayer(nominatedPlayer, sortedValuations[0], winningBid)
-            }
-            else if (sortedValuations[0].valuation === sortedValuations[1].valuation) {
-                // if two teams are tied, assign the player to the team with the lower ID
-                const winningBid = sortedValuations[1].valuation
-                const winningFranchise = sortedValuations.sort((valA, valB) => valA.franchiseId - valB.franchiseId)[0]
-                await this.postFranchisePlayer(nominatedPlayer, winningFranchise, winningBid)
+                await this.postFranchisePlayer(nominatedPlayer, sortedByBidAmount[0], winningBid)
+            // }
+            // else if (sortedByBidAmount[0].valuation === sortedByBidAmount[1].valuation) {
+            //     // if two teams are tied, they will have already
+            //     const winningBid = sortedByBidAmount[1].valuation
+            //     const winningFranchise = sortedByBidAmount.sort((valA, valB) => valA.franchiseId - valB.franchiseId)[0]
+            //     await this.postFranchisePlayer(nominatedPlayer, winningFranchise, winningBid)
             } else {
                 // create a franchise_player assigned to the team with the highest valuation with a salary of
                 // the second-highest valuation + 1
-                const winningBid = sortedValuations[1].valuation + 1
-                await this.postFranchisePlayer(nominatedPlayer, sortedValuations[0], winningBid)
+                const winningBid = sortedByBidAmount[1].valuation + 1
+                await this.postFranchisePlayer(nominatedPlayer, sortedByBidAmount[0], winningBid)
             }
             i++
             // once the sim is over, put a message on the screen

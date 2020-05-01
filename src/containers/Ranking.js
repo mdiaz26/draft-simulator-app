@@ -37,13 +37,17 @@ class Ranking extends React.Component {
                     <button onClick={this.saveRankings}>Save Rankings</button>
                     <h2>{this.props.ranking.name}</h2>
                     <SearchBar/>
-                    {this.withFilters(this.props.rankingPlayers).map(rPlayer =>
-                        <Player 
-                            key={rPlayer.id} 
-                            player={rPlayer.player} 
-                            rPlayer={rPlayer} 
-                            onEditPage={true}
-                        />)}
+                    <ol>
+                        {this.withFilters(this.props.rankingPlayers).map(rPlayer =>
+                            <li key={rPlayer.id}>
+                                <Player 
+                                    player={rPlayer.player} 
+                                    rPlayer={rPlayer} 
+                                    onEditPage={true}
+                                />
+                            </li>
+                        )}
+                    </ol>
                 </div>
                 :
                 <div>loading...</div>

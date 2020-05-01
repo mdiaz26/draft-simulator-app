@@ -32,8 +32,8 @@ class SingleTeamContainer extends React.Component {
                         <h2>{this.props.franchiseFocus.name}</h2>
                         <ol>
                             {this.props.franchiseFocus.franchise_players.map((fPlayer, idx) => (
-                                <li>
-                                    <FranchisePlayer key={idx} player={fPlayer.player} fPlayer={fPlayer}/>
+                                <li key={idx}>
+                                    <FranchisePlayer player={fPlayer.player} fPlayer={fPlayer}/>
                                 </li>
                             ))}
                         </ol>

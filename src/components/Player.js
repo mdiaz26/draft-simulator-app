@@ -55,7 +55,6 @@ const Player = props => {
                             filterFranchises(props.franchises),
                             props.rankingPlayers
                         )
-                        // props.resetBids()
                     }}>
                         Nominate
                     </button>

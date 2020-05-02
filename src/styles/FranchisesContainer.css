@@ -4,28 +4,39 @@
     width: 100%;
     /* height: 60px; */
     display: grid;
-    grid-template-columns: repeat(10, 9%);
+    grid-template-columns: repeat(11, 8%);
     /* grid-template-rows: 5% 10% 10% auto; */
     grid-gap: 10px;
+    background-color: royalblue;
 }
 
 .franchises-container > div {
     border: solid black;
     margin: 5px;
+    background-color: rgba(176, 224, 230, 0.657);
+    text-align: center;
+}
+
+.franchises-container > .nominating-franchise {
+    border: solid rgb(255, 196, 0);
 }
 
 .franchises-container > div > h3 {
     margin: 0px
 }
 
-.franchises-container > div >p {
+.franchises-container > div > p {
     margin: 0px
 }
 
-.franchise-0 {
-    grid-column-start: 1;
-    /* position: absolute; */
+.franchises-container > button {
+    margin: 10px;
+    background-color: rgba(176, 224, 230, 0.657);
 }
+
+/* .franchise-0 {
+    grid-column-start: 1;
+} */
 
 /* .franchises-list li {
     float: left;

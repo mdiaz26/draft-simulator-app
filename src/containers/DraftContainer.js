@@ -159,7 +159,7 @@ class Draft extends React.Component {
     }
 
     patchNominatingFranchise = async (origNom, newNom) => {
-        console.log("inside patch",origNom, newNom)
+        // console.log("inside patch",origNom, newNom)
         const adapter = new JSONAPIAdapter('http://localhost:3000/api/v1/')
         await Promise.all([
             adapter.update('franchises', origNom.id, {is_nominating: false}),
@@ -187,19 +187,27 @@ class Draft extends React.Component {
     render() {
         return (
             <div className='draft-container'>
-                <button className='start-bidding-btn' disabled={this.props.nominatedPlayer === ''} onClick={this.startBidding}>Start Bidding</button>
-                <button className='stop-bidding-btn' onClick={this.stopBidding}>Stop Bidding</button>
                 {this.props.nominatedPlayer !== '' ? 
-                    <React.Fragment>
-                        <Player
-                        player={this.props.nominatedPlayer.player}
-                        rPlayer={this.props.nominatedPlayer}
-                        inNominationQueue={false}
-                        /> 
-                        <div>Current Bid: ${this.mostRecentBid().bidAmount}</div>
-                    </React.Fragment>
+                    <div className='auction-information'>
+                        <div className='nominated-player-locator'>
+                            <Player
+                            player={this.props.nominatedPlayer.player}
+                            rPlayer={this.props.nominatedPlayer}
+                            isNominated={true}
+                            /> 
+                            <div className='current-bid-locator'>
+                                <h2>High Bid:</h2> <h2>${this.mostRecentBid().bidAmount}</h2>
+                            </div>
+                        </div>
+                        <div className='bid-buttons'>
+                            <button className='start-bidding-btn' disabled={this.props.nominatedPlayer === ''} onClick={this.startBidding}>Go!</button>
+                            <button className='stop-bidding-btn' onClick={this.stopBidding}>Pause</button>
+                        </div>
+                    </div>
                     :
-                    'Nomination Pending'
+                    <div className='auction-information'>
+                        <h1 className='pending-message'>Nomination Pending</h1>
+                    </div>
                 }
                 {this.findYourFranchise() && 
                     <div className='bid-options-locator'>
@@ -209,7 +217,9 @@ class Draft extends React.Component {
                             resumeBidding={this.resumeBidding}/>
                     </div>
                 }
-                <Bids/>
+                <div className='bids-history-locator'>
+                    <Bids/>
+                </div>
             </div>
         )
     }

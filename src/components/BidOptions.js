@@ -24,7 +24,7 @@ const BidOptions = props => {
             {props.yourTurn && <h2>Do you want to bid?</h2>}
             {props.franchise && 
                 <React.Fragment>
-                    <p>Budget Remaining: ${calculateBudget(props.franchise.budget, props.franchise.franchise_players)}</p>
+                    <p>Budget: ${calculateBudget(props.franchise.budget, props.franchise.franchise_players)}</p>
                     <p>Max Bid: ${maxBid(props.currentDraft.roster_config, props.franchise)}</p>
                 </React.Fragment>
             }

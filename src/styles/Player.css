@@ -1,7 +1,7 @@
 .player-tile {
     height: 14px;
     width: 100%;
-    padding: 12px;
+    padding: 6px;
 }
 
 .ranking-options {
@@ -11,4 +11,8 @@
 
 .ranking-btn {
     margin: 1px
+}
+
+.player-tile > h2 {
+    margin: 4px;
 }

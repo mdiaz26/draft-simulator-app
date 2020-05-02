@@ -19,7 +19,7 @@ class FranchisesContainer extends React.Component {
                     />
                 )}
                 {this.props.maxBidView ? 
-                    <button onClick={this.props.toggleBudgetView}>Show Remaining Budget</button> 
+                    <button onClick={this.props.toggleBudgetView}>Show Budgets</button> 
                     : 
                     <button onClick={this.props.toggleBudgetView}>Show Max Bids</button>
                 }

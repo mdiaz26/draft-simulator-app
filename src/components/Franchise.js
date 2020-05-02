@@ -4,7 +4,10 @@ import { connect } from 'react-redux'
 
 const Franchise = props => {
     return (
-        <div className={`franchise-${props.idx}`} onClick={() => props.franchiseFocus(props.franchise)}>
+        <div 
+            className={props.franchise.id === props.nominatingFranchise.id ? 'nominating-franchise' : ''}
+            onClick={() => props.franchiseFocus(props.franchise)}
+        >
             <h3 >{props.franchise.name}</h3> 
             {props.maxBidView ? <p>${props.maxBid}</p> : <p>${props.budget}</p>}
         </div>
@@ -13,7 +16,8 @@ const Franchise = props => {
 
 const mapStateToProps = state => {
     return {
-        maxBidView: state.nominationData.maxBidView
+        maxBidView: state.nominationData.maxBidView,
+        nominatingFranchise: state.nominationData.nominatingFranchise
     }
 }
 

@@ -1,6 +1,6 @@
 .draft-lobby {
     display: grid;
-    grid-template-columns: 28% 20% 20% 28%;
+    grid-template-columns: 30% 21% 21% 24%;
     grid-template-rows: 5% 10% 10% auto;
     grid-gap: 1rem;
 }

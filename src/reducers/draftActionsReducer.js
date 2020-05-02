@@ -100,8 +100,14 @@ export const draftActionsReducer = (state = {
                     return franchise
                 }
             })
+            let newFranchiseFocus = state.franchiseFocus
+            if (action.playerObj.franchise_id === state.franchiseFocus.id) {
+                newFranchiseFocus.franchise_players = [...newFranchiseFocus.franchise_players, action.playerObj]
+            }
+            console.log('new franchise focus:', newFranchiseFocus)
             return {
                 ...state,
+                franchiseFocus: newFranchiseFocus,
                 draftFranchises: updatedFranchises,
                 draftFranchisePlayers: [...state.draftFranchisePlayers, action.playerObj]
             }

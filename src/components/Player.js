@@ -42,11 +42,17 @@ const filterFranchises = (franchises) => {
 const Player = props => {
     return(
         <div className="player-tile">
-            <strong>{props.player.name}</strong> 
-            ({props.player.pro_team} - {props.player.position})
+            {props.isNominated &&
+            <React.Fragment>
+                <h2>{props.player.name}</h2> 
+                <h2>{props.player.pro_team} - {props.player.position}</h2> 
+            </React.Fragment>
+            }
             
             {props.inNominationQueue && 
                 <React.Fragment>
+                    <strong>{props.player.name}</strong> 
+                    ({props.player.pro_team} - {props.player.position})
                     <span>Value: ${props.rPlayer.value} Tier: {props.rPlayer.tier}</span>
                     <button disabled={!props.activeDraft} onClick={() => {
                         props.nominatePlayer(
@@ -61,14 +67,18 @@ const Player = props => {
                 </React.Fragment>
             }
             {props.onEditPage && 
-                <div className="ranking-options">
-                        Value: ${props.rPlayer.value}
-                        <button className="ranking-btn" onClick={() => props.changeRankingInfo(newPlayerObj(props.rPlayer, '+ value'))}>+</button>
-                        <button className="ranking-btn" onClick={() => props.changeRankingInfo(newPlayerObj(props.rPlayer, '- value'))}>-</button>
-                        Tier: {props.rPlayer.tier}
-                        <button className="ranking-btn" onClick={() => props.changeRankingInfo(newPlayerObj(props.rPlayer, '+ tier'))}>+</button>
-                        <button className="ranking-btn" onClick={() => props.changeRankingInfo(newPlayerObj(props.rPlayer, '- tier'))}>-</button>
-                </div>
+                <React.Fragment>
+                    <strong>{props.player.name}</strong> 
+                    ({props.player.pro_team} - {props.player.position})
+                    <div className="ranking-options">
+                            Value: ${props.rPlayer.value}
+                            <button className="ranking-btn" onClick={() => props.changeRankingInfo(newPlayerObj(props.rPlayer, '+ value'))}>+</button>
+                            <button className="ranking-btn" onClick={() => props.changeRankingInfo(newPlayerObj(props.rPlayer, '- value'))}>-</button>
+                            Tier: {props.rPlayer.tier}
+                            <button className="ranking-btn" onClick={() => props.changeRankingInfo(newPlayerObj(props.rPlayer, '+ tier'))}>+</button>
+                            <button className="ranking-btn" onClick={() => props.changeRankingInfo(newPlayerObj(props.rPlayer, '- tier'))}>-</button>
+                    </div>
+                </React.Fragment>
             }
         </div>
     )

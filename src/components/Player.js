@@ -1,5 +1,6 @@
 import React from 'react'
 import '../styles/Player.css'
+import '../styles/Ranking.css'
 import { connect } from 'react-redux'
 
 const newPlayerObj = (playerObj, actionType) => {
@@ -41,46 +42,60 @@ const filterFranchises = (franchises) => {
 
 const Player = props => {
     return(
-        <div className="player-tile">
-            {props.isNominated &&
-            <React.Fragment>
-                <h2>{props.player.name}</h2> 
-                <h2>{props.player.pro_team} - {props.player.position}</h2> 
-            </React.Fragment>
-            }
-            
-            {props.inNominationQueue && 
+        <React.Fragment>
+            <div className="player-tile">
+                {props.isNominated &&
                 <React.Fragment>
-                    <strong>{props.player.name}</strong> 
-                    ({props.player.pro_team} - {props.player.position})
-                    <span>Value: ${props.rPlayer.value} Tier: {props.rPlayer.tier}</span>
-                    <button disabled={!props.activeDraft} onClick={() => {
-                        props.nominatePlayer(
-                            props.currentDraft.roster_config, 
-                            props.rPlayer, 
-                            filterFranchises(props.franchises),
-                            props.rankingPlayers
-                        )
-                    }}>
-                        Nominate
-                    </button>
+                    <h2>{props.player.name}</h2> 
+                    <h2>{props.player.pro_team} - {props.player.position}</h2> 
                 </React.Fragment>
-            }
-            {props.onEditPage && 
-                <React.Fragment>
-                    <strong>{props.player.name}</strong> 
-                    ({props.player.pro_team} - {props.player.position})
-                    <div className="ranking-options">
-                            Value: ${props.rPlayer.value}
-                            <button className="ranking-btn" onClick={() => props.changeRankingInfo(newPlayerObj(props.rPlayer, '+ value'))}>+</button>
-                            <button className="ranking-btn" onClick={() => props.changeRankingInfo(newPlayerObj(props.rPlayer, '- value'))}>-</button>
-                            Tier: {props.rPlayer.tier}
+                }
+                
+                {props.inNominationQueue && 
+                    <React.Fragment>
+                        <strong>{props.player.name}</strong> 
+                        ({props.player.pro_team} - {props.player.position})
+                        <span>Value: ${props.rPlayer.value} Tier: {props.rPlayer.tier}</span>
+                        <button disabled={!props.activeDraft} onClick={() => {
+                            props.nominatePlayer(
+                                props.currentDraft.roster_config, 
+                                props.rPlayer, 
+                                filterFranchises(props.franchises),
+                                props.rankingPlayers
+                            )
+                        }}>
+                            Nominate
+                        </button>
+                    </React.Fragment>
+                }
+            </div>
+                {props.onEditPage && 
+                    <tr className='ranking-players-container'>
+                        <td className='player-info'>
+                            {props.player.name}
+                        </td>
+                        <td>
+                            {props.player.position}
+                        </td>
+                        <td>
+                            {props.player.pro_team}
+                        </td>
+                        <td>
+                            {props.index + 1}
+                        </td>
+                        <td className='value-buttons'>
+                            {props.rPlayer.tier}
                             <button className="ranking-btn" onClick={() => props.changeRankingInfo(newPlayerObj(props.rPlayer, '+ tier'))}>+</button>
                             <button className="ranking-btn" onClick={() => props.changeRankingInfo(newPlayerObj(props.rPlayer, '- tier'))}>-</button>
-                    </div>
-                </React.Fragment>
+                        </td>
+                        <td className='tier-buttons'>
+                            ${props.rPlayer.value}
+                            <button className="ranking-btn" onClick={() => props.changeRankingInfo(newPlayerObj(props.rPlayer, '+ value'))}>+</button>
+                            <button className="ranking-btn" onClick={() => props.changeRankingInfo(newPlayerObj(props.rPlayer, '- value'))}>-</button>
+                        </td>
+                    </tr>
             }
-        </div>
+        </React.Fragment>
     )
 }
 

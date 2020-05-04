@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 class SearchBar extends React.Component {
 
     state = {
-        showAdditionalFilters: true
+        showAdditionalFilters: false
     }
 
     filterChoices = ['QB', 'RB', 'WR', 'TE', 'DST', 'K', 'Tier 1', 'Tier 2', 'Tier 3', 'Tier 4', 'Tier 5', 'Tier 6', 'Tier 7', 'Tier 8', 'Tier 9', 'Tier 10']

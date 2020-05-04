@@ -1,4 +1,5 @@
 import React from 'react'
+import '../styles/PreDraft.css'
 import { Redirect } from "react-router-dom"
 import { connect } from 'react-redux'
 import JSONAPIAdapter from '../JSONAPIAdapter'
@@ -25,32 +26,32 @@ class PreDraftScreen extends React.Component {
     }
 
 
-    initiateDraft = () => {
+    initiateDraft = async () => {
             //create a new instance of Draft
-            this.createNewDraft()
+            let draftObj = await this.createNewDraft()
             //create ten new instances of Franchise
-            .then(draftObj => {
-                this.shuffleFranchises(franchiseNames).map((franchise, idx) => this.createFranchise(franchise, draftObj.id, idx))
-                return draftObj
+            let test = await this.shuffleFranchises(franchiseNames).map(async (franchise, idx) => {
+                console.log('inside initiate draft, before redirecting', franchise)
+                let newFranchise = await this.createFranchise(franchise, draftObj.id, idx)
+                await this.props.addFranchise(newFranchise)
             })
             //redirect to that draft's page
-            .then(draftObj => this.setState({redirect: `/draft/${draftObj.id}`}))
+            console.log('redirecting', test)
+            this.setState({redirect: `/draft/${draftObj.id}`})
     }
 
-    createNewDraft = () => {
+    createNewDraft = async () => {
         const body = {
             name: new Date(),
             roster_config_id: 1
         }
-        return adapter.post('drafts', body)
-        .then(draftObj => {
-            this.props.addDraft(draftObj)
-            this.setState({draftObj})
-            return draftObj
-        })
+        let draftObj = await adapter.post('drafts', body)
+        this.props.addDraft(draftObj)
+        this.setState({draftObj})
+        return draftObj
     }
 
-    createFranchise = (franchiseName, draftId, idx) => {
+    createFranchise = async (franchiseName, draftId, idx) => {
         const body = {
             name: franchiseName,
             budget: 300,
@@ -58,8 +59,7 @@ class PreDraftScreen extends React.Component {
             draft_position: idx + 1,
             is_nominating: idx === 0 ? true : false
         }
-        adapter.post('franchises', body)
-        .then(franchiseObj => this.props.addFranchise(franchiseObj))
+        return adapter.post('franchises', body)
     }
 
     shuffleFranchises = (franchises) => {
@@ -80,9 +80,19 @@ class PreDraftScreen extends React.Component {
             return <Redirect to={this.state.redirect}/>
         }
         return(
-            <div>
-                Draft Settings
-                <button onClick={this.initiateDraft}>Start Draft</button>
+            <div className='pre-draft-container'>
+                <h1>14 Million Futures</h1>
+                <p>
+                    As fantasy football evolves, it is becoming more difficult to mock draft.
+                    Leagues have unique rules, rosters, keepers and players that make standard simulators
+                    feel inadequate. These subtleties are magnified in an auction draft, where strategies diverge 
+                    even futher from the norms. Today, 14 Million Futures is a tool that will allow a user to 
+                    practice an auction draft with 9 automated opponents, or completely simulate a draft starting from 
+                    any point. It is my hope that updates will allow for more customization including league size, roster 
+                    configuration, budgets, keepers, and opponent tendencies.
+                </p>
+                <h3>Ready to start drafting?</h3>
+                <button onClick={this.initiateDraft}>Let's do it!</button>
             </div>
         )
     }

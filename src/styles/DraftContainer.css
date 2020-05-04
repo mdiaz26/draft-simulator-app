@@ -20,13 +20,16 @@
     grid-row-end: 4;
     display: grid;
     grid-template-columns: 65% 33%;
-    grid-template-rows: 34% 34% 25%;
+    grid-template-rows: 50% 20% 23%;
+    grid-gap: 2px;
     background-color: lightgrey;
-    border-radius: 20px;
+    border-radius: 15px;
+
 }
 
 .bid-buttons {
     grid-column-start: 1;
+    grid-column-end: 2;
     grid-row-start: 3;
     display: grid;
     grid-template-columns: 50% 50%;
@@ -57,9 +60,9 @@
 
 .nominated-player-locator {
     grid-column-start: 1;
-    grid-column-end: 4;
+    grid-column-end: 5;
     display: grid;
-    grid-template-columns: 60% 30%;
+    grid-template-columns: 60% 39%;
 }
 
 .current-bid-locator {
@@ -71,4 +74,16 @@
     grid-column-start: 1;
     grid-column-end: 6;
     grid-row-start: 4;
+}
+
+.bid-prompt {
+    background-color: royalblue;
+    grid-column-start: 2;
+    grid-row-start: 2;
+    grid-row-end: 4;
+    margin: 2px;
+    padding: 4px;
+    text-align: center;
+    color: rgb(255, 196, 0);
+    border-radius: 15px;
 }

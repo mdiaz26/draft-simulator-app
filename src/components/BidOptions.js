@@ -21,7 +21,6 @@ const BidOptions = props => {
     
     return (
         <div>
-            {props.yourTurn && <h2>Do you want to bid?</h2>}
             {props.franchise && 
                 <React.Fragment>
                     <p>Budget: ${calculateBudget(props.franchise.budget, props.franchise.franchise_players)}</p>

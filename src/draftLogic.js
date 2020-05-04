@@ -1,5 +1,4 @@
 export const calculateValuations = (rosterConfig, franchises, nominatedPlayer, rankingPlayers) => {
-    // console.log('inside calculateValuations', nominatedPlayer)
     let valuations = franchises.map(franchise => {
         return {
             franchiseId: franchise.id,
@@ -20,7 +19,7 @@ export const randomFactor = (nominatedPlayer) => {
         ((Math.floor(Math.random() * 34)) + 
         (Math.floor(Math.random() * 34)) +
         (Math.floor(Math.random() * 34)) - 
-        68 )/ 
+        66 )/ 
         100 ) * 
         nominatedPlayer.value
 }
@@ -39,7 +38,6 @@ const bidLimiter = (rosterConfig, franchise, valuation) => {
 }
 
 const adjustedVal = (rosterConfig, valuation, franchise) => {
-    // const remainingBudget = calculateBudget(franchise.budget, franchise.franchise_players)
     const percentageOfRemainingBudget = valuation / maxBid(rosterConfig, franchise)
     if (percentageOfRemainingBudget > 0.35) {
         return valuation * (1 - (percentageOfRemainingBudget - 0.05))
@@ -75,11 +73,8 @@ export const totalRosterSpots = rosterConfig => {
 // This function takes into account the players a franchise already has on their roster
 const franchiseNeedFactor = (rosterConfig, franchise, rPlayer, rankingPlayers) => {
     const startingSpots = calculateStartingPositionSpots(rosterConfig, rosterConfig[rPlayer.player.position.toLowerCase()])
-    // const franchisePlayersAtPosition = franchise.franchise_players.filter(fPlayer => fPlayer.player.position === rPlayer.player.position)
-    // const remainingPositionSpots = maxPositionSpots - franchisePlayersAtPosition.length
-    const reducerFunction = (total, playerObj) => total + 1/(rankingPlayers.find(player => player.player_id === playerObj.player_id).tier + 0.0001)
     const playersAtPosition = filterByPosition(franchise.franchise_players, rPlayer.player.position)
-    // console.log('inside franchiseNeedFactor', playersAtPosition, rankingPlayers)
+    const reducerFunction = (total, playerObj) => total + 1/(rankingPlayers.find(player => player.player_id === playerObj.player_id).tier)
     const startersScore = (playersAtPosition.length > 0) ? playersAtPosition.reduce(reducerFunction, 0) : 0
 
     // starters score represents the number of players at a position and their relative tier.
@@ -90,9 +85,8 @@ const franchiseNeedFactor = (rosterConfig, franchise, rPlayer, rankingPlayers) =
     // to spend elsewhere.
     
     const currentPositionGrade = startingSpots - startersScore + 1
-    // console.log("starters score:", franchise.name, startersScore)
+
     const demandFactor = (1.1 - (1 /( 1 + Math.pow(2.7, (-1 * currentPositionGrade - 1))))) * 10
-    // console.log("demand factor:", franchise.name, demandFactor)
     return demandFactor
 }
 

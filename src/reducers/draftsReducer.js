@@ -19,6 +19,7 @@ export const draftsReducer = (state = {drafts: [], requesting: false}, action) =
                 requesting: false
             }
         case 'ADD_FRANCHISE':
+            console.log('inside add_franchise',action.franchise.name)
             const newDrafts = state.drafts.map(draft => {
                 if (draft.id === action.franchise.draft_id) {
                     return {

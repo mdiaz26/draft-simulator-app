@@ -196,9 +196,10 @@ class Draft extends React.Component {
                             isNominated={true}
                             /> 
                             <div className='current-bid-locator'>
-                                <h2>High Bid:</h2> <h2>${this.mostRecentBid().bidAmount}</h2>
+                                <h2>High Bid: ${this.mostRecentBid().bidAmount}</h2>
                             </div>
                         </div>
+                        {this.props.yourTurnBoolean && <h3 className='bid-prompt'>YOUR TURN</h3>}
                         <div className='bid-buttons'>
                             <button className='start-bidding-btn' disabled={this.props.nominatedPlayer === ''} onClick={this.startBidding}>Go!</button>
                             <button className='stop-bidding-btn' onClick={this.stopBidding}>Pause</button>
@@ -235,6 +236,7 @@ const mapStateToProps = state => {
         valuations: state.nominationData.valuations,
         bids: state.nominationData.bids,
         currentDraft: state.nominationData.currentDraft,
+        yourTurnBoolean: state.nominationData.yourTurn,
         userHasPassed: state.nominationData.userHasPassed
     }
 }

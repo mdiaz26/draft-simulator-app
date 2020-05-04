@@ -42,15 +42,12 @@ class DraftLobbyContainer extends React.Component {
 
     simulateRemainder = async () => {
         console.log('simulating')
-        const maxPlayersDrafted = totalRosterSpots(this.props.currentDraft.roster_config) * 10
-        console.log('draftFranchisePlayers:', this.props.draftFranchisePlayers.length, maxPlayersDrafted)
         const availablePlayers = this.filterRankingPlayers()
+        const maxPlayersDrafted = totalRosterSpots(this.props.currentDraft.roster_config) * 10
         const ownedPlayers = this.props.draftFranchisePlayers.length
         let i = 0
-        // while draft_franchise_players.length < maxRosterSpots * 10
-        // while (i <= 0) {
+
         while (i < maxPlayersDrafted - ownedPlayers) {
-            // console.log(this.props.draftFranchisePlayers)
             // nominate the next highest-valued player
             const nominatedPlayer = availablePlayers[i]
             // calculate each team's valuation
@@ -60,7 +57,7 @@ class DraftLobbyContainer extends React.Component {
                 nominatedPlayer,
                 this.props.rankingPlayers
             )
-            // find the teams with the two highest valuations
+            // sort the teams in order of valuation
             let sortedByPlayerLength = valuations.sort(
                 (valueObjA, valueObjB) => {
                     if (
@@ -77,7 +74,6 @@ class DraftLobbyContainer extends React.Component {
                     ) {
                         return 1
                     }
-                    // added this return function to satisfy linter.
                     return 0
                 })
 
@@ -96,15 +92,9 @@ class DraftLobbyContainer extends React.Component {
 
             if (sortedByBidAmount[0].valuation <= 1) {
                 let winningBid = sortedByBidAmount[0].valuation
-                maxBid(this.props.currentDraft.roster_config, sortedByBidAmount[0].franchise) > 1 && winningBid++
                 winningBid === 0 && winningBid++
+                maxBid(this.props.currentDraft.roster_config, sortedByBidAmount[0].franchise) > 1 && winningBid++
                 await this.postFranchisePlayer(nominatedPlayer, sortedByBidAmount[0], winningBid)
-            // }
-            // else if (sortedByBidAmount[0].valuation === sortedByBidAmount[1].valuation) {
-            //     // if two teams are tied, they will have already
-            //     const winningBid = sortedByBidAmount[1].valuation
-            //     const winningFranchise = sortedByBidAmount.sort((valA, valB) => valA.franchiseId - valB.franchiseId)[0]
-            //     await this.postFranchisePlayer(nominatedPlayer, winningFranchise, winningBid)
             } else {
                 // create a franchise_player assigned to the team with the highest valuation with a salary of
                 // the second-highest valuation + 1
@@ -112,7 +102,6 @@ class DraftLobbyContainer extends React.Component {
                 await this.postFranchisePlayer(nominatedPlayer, sortedByBidAmount[0], winningBid)
             }
             i++
-            // once the sim is over, put a message on the screen
         }
     }
 

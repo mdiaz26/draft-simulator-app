@@ -2,7 +2,22 @@
     /* background-color: #fed9ff; */
     border: solid black;
     width: 100%;
-    height: 600px;
+    height: 70vh;
     overflow-x: hidden;
     overflow-y: auto;
+    display: grid;
+    grid-template-rows: 10% fit-content(100px) auto;
+}
+
+.players-container > h2 {
+    grid-row-start: 1;
+    text-align: center;
+}
+
+.search-bar-locator {
+    grid-row-start: 2;
+}
+
+.ranking-players-locator {
+    grid-row-start: 3;
 }

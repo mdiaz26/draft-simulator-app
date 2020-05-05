@@ -1,0 +1,24 @@
+.pre-draft-container {
+    text-align: center;
+}
+
+.pre-draft-container > h1 {
+    font-size: 6em;
+}
+
+.pre-draft-container > p {
+    font-size: 1.5em;
+}
+
+.pre-draft-container > h3 {
+    font-size: 3em;
+}
+
+.pre-draft-container > button {
+    font-size: 3em;
+    padding: 30px;
+    color: white;
+    background-color: seagreen;
+    border-radius: 15px;
+    cursor: pointer;
+}

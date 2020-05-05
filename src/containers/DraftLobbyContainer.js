@@ -18,6 +18,7 @@ class DraftLobbyContainer extends React.Component {
     componentDidMount(){
         this.props.fetchDraft(this.props.match.params.id)
         this.props.fetchFranchisePlayers(this.props.match.params.id)
+        this.props.redirectTo('')
     }
 
     toggleActiveDraft = () => {
@@ -30,7 +31,7 @@ class DraftLobbyContainer extends React.Component {
 
     draftName = () => {
         const draft = this.props.currentDraft
-        return draft ? draft.name : null
+        return draft ? draft.id : null
     }
 
     filterRankingPlayers = () => {
@@ -42,15 +43,12 @@ class DraftLobbyContainer extends React.Component {
 
     simulateRemainder = async () => {
         console.log('simulating')
-        const maxPlayersDrafted = totalRosterSpots(this.props.currentDraft.roster_config) * 10
-        console.log('draftFranchisePlayers:', this.props.draftFranchisePlayers.length, maxPlayersDrafted)
         const availablePlayers = this.filterRankingPlayers()
+        const maxPlayersDrafted = totalRosterSpots(this.props.currentDraft.roster_config) * 10
         const ownedPlayers = this.props.draftFranchisePlayers.length
         let i = 0
-        // while draft_franchise_players.length < maxRosterSpots * 10
-        // while (i <= 0) {
+
         while (i < maxPlayersDrafted - ownedPlayers) {
-            // console.log(this.props.draftFranchisePlayers)
             // nominate the next highest-valued player
             const nominatedPlayer = availablePlayers[i]
             // calculate each team's valuation
@@ -60,7 +58,7 @@ class DraftLobbyContainer extends React.Component {
                 nominatedPlayer,
                 this.props.rankingPlayers
             )
-            // find the teams with the two highest valuations
+            // sort the teams in order of valuation
             let sortedByPlayerLength = valuations.sort(
                 (valueObjA, valueObjB) => {
                     if (
@@ -77,7 +75,6 @@ class DraftLobbyContainer extends React.Component {
                     ) {
                         return 1
                     }
-                    // added this return function to satisfy linter.
                     return 0
                 })
 
@@ -92,23 +89,13 @@ class DraftLobbyContainer extends React.Component {
                 return 0
             })
 
-            let test = maxBid(this.props.currentDraft.roster_config, sortedByBidAmount[0].franchise)
-            let test2 = maxBid(this.props.currentDraft.roster_config, sortedByBidAmount[1].franchise)
-            // debugger
-            console.log("sorted valuations",sortedByBidAmount, test, test2)
-            // sortedByBidAmount.splice(2)
-            // console.log(sortedByBidAmount)
+            console.log("sorted valuations",sortedByBidAmount)
+
             if (sortedByBidAmount[0].valuation <= 1) {
                 let winningBid = sortedByBidAmount[0].valuation
-                maxBid(this.props.currentDraft.roster_config, sortedByBidAmount[0].franchise) > 1 && winningBid++
                 winningBid === 0 && winningBid++
+                maxBid(this.props.currentDraft.roster_config, sortedByBidAmount[0].franchise) > 1 && winningBid++
                 await this.postFranchisePlayer(nominatedPlayer, sortedByBidAmount[0], winningBid)
-            // }
-            // else if (sortedByBidAmount[0].valuation === sortedByBidAmount[1].valuation) {
-            //     // if two teams are tied, they will have already
-            //     const winningBid = sortedByBidAmount[1].valuation
-            //     const winningFranchise = sortedByBidAmount.sort((valA, valB) => valA.franchiseId - valB.franchiseId)[0]
-            //     await this.postFranchisePlayer(nominatedPlayer, winningFranchise, winningBid)
             } else {
                 // create a franchise_player assigned to the team with the highest valuation with a salary of
                 // the second-highest valuation + 1
@@ -116,7 +103,6 @@ class DraftLobbyContainer extends React.Component {
                 await this.postFranchisePlayer(nominatedPlayer, sortedByBidAmount[0], winningBid)
             }
             i++
-            // once the sim is over, put a message on the screen
         }
     }
 
@@ -140,11 +126,11 @@ class DraftLobbyContainer extends React.Component {
                     :
                     <button className="activate-button" onClick={this.startDraft}>Start/Resume Draft</button>
                 }
-                {this.props.currentDraft === '' || this.props.draftFranchises.length < 9 ? 
+                {this.props.currentDraft === '' ? 
                     <div>loading...</div>
                     :
                     <React.Fragment>
-                        <h1 className="draft-title">Draft Lobby: {this.draftName()}</h1>
+                        <h1 className="draft-title">Draft Lobby: Draft {this.draftName()}</h1>
                         <button className="simulate-button" onClick={this.simulateRemainder}>Simulate Remainder</button>
                         <div className='draft-container-locator'>
                             <DraftContainer />
@@ -184,7 +170,8 @@ const mapDispatchToProps = dispatch => {
     populatePlayers: () => dispatch({type: 'POPULATE_PLAYERS'}),
     fetchDraft: (draftId) => dispatch(fetchDraft(draftId)),
     fetchFranchisePlayers: (draftId) => dispatch(fetchFranchisePlayers(draftId)),
-    addFranchisePlayer: (playerObj) => dispatch({type: 'ADD_FRANCHISE_PLAYER', playerObj})
+    addFranchisePlayer: (playerObj) => dispatch({type: 'ADD_FRANCHISE_PLAYER', playerObj}),
+    redirectTo: (endpoint => dispatch({type: 'REDIRECT', endpoint}))
     }
 }
 

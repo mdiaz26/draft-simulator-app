@@ -4,8 +4,11 @@
 }
 
 .nav-link {
-    background-color: rgba(212, 0, 255, 0.438);
+    background-color: rgba(214, 40, 40);
     float: left;
     display: block;
     padding: 8px;
+    color: white;
+    text-decoration: none;
+    padding: 10px;
 }

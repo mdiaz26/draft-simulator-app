@@ -18,18 +18,12 @@ export const franchisesReducer = (state = {franchises: [], requesting: false}, a
                 franchises: [...state.franchises, action.franchise],
                 requesting: false
             }
-        // case 'ADD_FRANCHISE_PLAYER':
-        //     const newFranchises = state.franchises.map(franchise => {
-        //         if (franchise.id === action.playerObj.franchise_id) {
-        //             return {...franchise, franchise_players: [...franchise.franchise_players, action.playerObj]}
-        //         } else {
-        //             return franchise
-        //         }
-        //     })
-        //     return {
-        //         ...state,
-        //         franchises: newFranchises
-        //     }
+        case 'ADD_FRANCHISES':
+            return {
+                ...state,
+                franchises: action.franchises,
+                requesting: false
+            }
         default:
             return state
     }

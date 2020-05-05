@@ -1,8 +1,11 @@
 import React from 'react'
+import '../styles/Ranking.css'
 import { connect } from 'react-redux'
-import Player from '../components/Player'
+import RankingPlayer from '../components/RankingPlayer'
 import SearchBar from '../components/SearchBar'
 import { fetchRankingPlayers, fetchRanking, saveRankingsPlayer } from  '../JSONAPIAdapter'
+// import 'bootstrap/dist/css/bootstrap.css'
+// import Table from 'react-bootstrap/Table'
 
 class Ranking extends React.Component {
 
@@ -33,21 +36,33 @@ class Ranking extends React.Component {
         return (
             <div>
             {this.props.rankingPlayers !== [] && this.props.ranking !=='' ? 
-                <div>
-                    <button onClick={this.saveRankings}>Save Rankings</button>
-                    <h2>{this.props.ranking.name}</h2>
+                <div className='rankings-display'>
+                    <h1>{this.props.ranking.name}</h1>
+                    <button className='save-button' onClick={this.saveRankings}>Save Rankings</button>
                     <SearchBar/>
-                    <ol>
-                        {this.withFilters(this.props.rankingPlayers).map(rPlayer =>
-                            <li key={rPlayer.id}>
-                                <Player 
+                    <table className='ranking-page-players-container'>
+                        <thead>
+                            <tr className='rankings-header'>
+                                <th>Player</th>
+                                <th>Position</th>
+                                <th>Team</th>
+                                <th>Ranking</th>
+                                <th>Tier</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.withFilters(this.props.rankingPlayers).map((rPlayer, idx) =>
+                                <RankingPlayer 
+                                    key={rPlayer.id}
                                     player={rPlayer.player} 
                                     rPlayer={rPlayer} 
+                                    index={idx}
                                     onEditPage={true}
                                 />
-                            </li>
-                        )}
-                    </ol>
+                            )}
+                        </tbody>
+                    </table>
                 </div>
                 :
                 <div>loading...</div>

@@ -1,39 +1,7 @@
 import React from 'react'
 import '../styles/Player.css'
+import '../styles/Ranking.css'
 import { connect } from 'react-redux'
-
-const newPlayerObj = (playerObj, actionType) => {
-    switch (actionType) {
-        case '+ value':
-            return {
-                ...playerObj,
-                value: playerObj.value + 1
-            }
-        case '- value':
-            if (playerObj.value === 0) {
-                return playerObj
-            }
-            return {
-                ...playerObj,
-                value: playerObj.value - 1
-            }
-        case '+ tier':
-            return {
-                ...playerObj,
-                tier: playerObj.tier + 1
-            }
-        case '- tier':
-            if (playerObj.tier === 1) {
-                return playerObj
-            }
-            return {
-                ...playerObj,
-                tier: playerObj.tier - 1
-            }
-        default:
-            return playerObj
-    }
-}
 
 const filterFranchises = (franchises) => {
     return franchises.filter(franchise => franchise.franchise_players.length < 19)
@@ -41,36 +9,36 @@ const filterFranchises = (franchises) => {
 
 const Player = props => {
     return(
-        <div className="player-tile">
-            <strong>{props.player.name}</strong> 
-            ({props.player.pro_team} - {props.player.position})
-            
-            {props.inNominationQueue && 
+        <React.Fragment>
+            <div className="player-tile">
+                {props.isNominated &&
                 <React.Fragment>
-                    <span>Value: ${props.rPlayer.value} Tier: {props.rPlayer.tier}</span>
-                    <button disabled={!props.activeDraft} onClick={() => {
-                        props.nominatePlayer(
-                            props.currentDraft.roster_config, 
-                            props.rPlayer, 
-                            filterFranchises(props.franchises),
-                            props.rankingPlayers
-                        )
-                    }}>
-                        Nominate
-                    </button>
+                    <h2>{props.player.name}</h2> 
+                    <h2>{props.player.pro_team} - {props.player.position}</h2> 
                 </React.Fragment>
-            }
-            {props.onEditPage && 
-                <div className="ranking-options">
-                        Value: ${props.rPlayer.value}
-                        <button className="ranking-btn" onClick={() => props.changeRankingInfo(newPlayerObj(props.rPlayer, '+ value'))}>+</button>
-                        <button className="ranking-btn" onClick={() => props.changeRankingInfo(newPlayerObj(props.rPlayer, '- value'))}>-</button>
-                        Tier: {props.rPlayer.tier}
-                        <button className="ranking-btn" onClick={() => props.changeRankingInfo(newPlayerObj(props.rPlayer, '+ tier'))}>+</button>
-                        <button className="ranking-btn" onClick={() => props.changeRankingInfo(newPlayerObj(props.rPlayer, '- tier'))}>-</button>
-                </div>
-            }
-        </div>
+                }
+                
+                {props.inNominationQueue && 
+                    <div className='queued-player'>
+                        <strong>{props.player.name}</strong> 
+                        <button disabled={!props.activeDraft} onClick={() => {
+                            props.nominatePlayer(
+                                props.currentDraft.roster_config, 
+                                props.rPlayer, 
+                                filterFranchises(props.franchises),
+                                props.rankingPlayers
+                            )
+                        }}>
+                            Nominate
+                        </button>
+                            <div>
+                                ({props.player.pro_team} - {props.player.position})
+                                <span>Value: ${props.rPlayer.value} Tier: {props.rPlayer.tier}</span>
+                            </div>
+                    </div>
+                }
+            </div>
+        </React.Fragment>
     )
 }
 

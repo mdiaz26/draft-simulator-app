@@ -1,10 +1,16 @@
-.player-tile {
-    height: 14px;
-    width: 100%;
-    padding: 12px;
+.queued-player {
+    margin: 2px;
+    border:0.1em solid #000000;
+    border-radius:0.3em;
+    padding: 2px;
 }
 
-.ranking-options {
+.queued-player button:disabled {
+    background-color:rgba(211, 211, 211, 0.322);
+    border-radius: 0.3em;
+}
+
+/* .ranking-options {
     position: relative;
     top: 2px;
 }
@@ -12,3 +18,7 @@
 .ranking-btn {
     margin: 1px
 }
+
+.player-tile > h2 {
+    margin: 4px;
+} */

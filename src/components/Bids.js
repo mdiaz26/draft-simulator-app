@@ -25,13 +25,10 @@ class Bids extends React.Component {
                         }
                     </ul>
             }
-                    {this.props.nominatingFranchise && 
-                        <p>{this.props.nominatingFranchise.name} nominates next</p>
-                    }
                 <ul>
                     {this.props.bids.map((bidData, idx) => {
                         if (bidData.initialBid) {
-                            console.log(bidData)
+                            // console.log(bidData)
                             return <li key={idx}>{bidData.franchise.name} has nominated {bidData.player.name} for ${bidData.bidAmount}</li>
                         } else if (bidData.winningBid) {
                             return <li key={idx}>{bidData.franchise.name} has won with a bid of ${bidData.bidAmount}</li>

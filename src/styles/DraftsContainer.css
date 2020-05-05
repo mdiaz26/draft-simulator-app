@@ -1,0 +1,16 @@
+.drafts-container h1 {
+    font-size: 34px;
+}
+
+.drafts-container div {
+    font-size: 18px;
+    margin: 7px;
+    width: 60%;
+    border:0.1em solid #000000;
+    border-radius:0.3em;
+    padding: 2px;
+}
+
+.drafts-container div:hover {
+    background-color: lightgreen;
+}

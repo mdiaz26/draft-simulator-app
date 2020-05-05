@@ -122,15 +122,15 @@ class DraftLobbyContainer extends React.Component {
     render(){
         return(
             <div className="draft-lobby">
-                {this.state.activeDraft ? 
-                    <button className="activate-button" onClick={() => this.toggleActiveDraft()}>Pause Draft</button>
-                    :
-                    <button className="activate-button" onClick={this.startDraft}>Start/Resume Draft</button>
-                }
                 {this.props.currentDraft === '' ? 
-                    <div>loading...</div>
+                    <div className='loader'></div>
                     :
                     <React.Fragment>
+                        {this.state.activeDraft ? 
+                            <button className="activate-button" onClick={() => this.toggleActiveDraft()}>Pause Draft</button>
+                            :
+                            <button className="activate-button" onClick={this.startDraft}>Start/Resume Draft</button>
+                        }
                         <h1 className="draft-title">Draft Lobby: Draft {this.draftName()}</h1>
                         <button className="simulate-button" onClick={this.simulateRemainder}>Simulate Remainder</button>
                         <div className='draft-container-locator'>

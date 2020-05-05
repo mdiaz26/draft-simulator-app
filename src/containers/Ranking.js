@@ -36,9 +36,9 @@ class Ranking extends React.Component {
         return (
             <div>
             {this.props.rankingPlayers !== [] && this.props.ranking !=='' ? 
-                <div>
-                    <button onClick={this.saveRankings}>Save Rankings</button>
-                    <h2>{this.props.ranking.name}</h2>
+                <div className='rankings-display'>
+                    <h1>{this.props.ranking.name}</h1>
+                    <button className='save-button' onClick={this.saveRankings}>Save Rankings</button>
                     <SearchBar/>
                     <table className='ranking-page-players-container'>
                         <thead>

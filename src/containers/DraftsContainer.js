@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Redirect } from "react-router-dom"
+import { Redirect } from 'react-router-dom'
+import '../styles/DraftsContainer.css'
 
 
 class DraftsContainer extends React.Component {
@@ -21,11 +22,11 @@ class DraftsContainer extends React.Component {
         }
 
         return (
-            <div>
+            <div className='drafts-container'>
                 <h1>Drafts Container</h1>
                 {this.props.drafts.map(draft =>
                     <div key={draft.id} id={draft.id} onClick={this.redirectToDraftDetails}>
-                        Draft {draft.id} - {draft.name}
+                        <strong>Draft {draft.id}</strong> - {draft.name}
                     </div>
                 )}
             </div>

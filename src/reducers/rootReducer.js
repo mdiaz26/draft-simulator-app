@@ -6,9 +6,11 @@ import {franchisesReducer} from './franchisesReducer'
 import {draftActionsReducer} from './draftActionsReducer'
 import {rankingsReducer} from './rankingsReducer'
 import {filterReducer} from './filterReducer'
+import {redirectReducer} from './redirectReducer'
 
 const rootReducer = combineReducers({
     // players: playersReducer,
+    redirect: redirectReducer,
     drafts: draftsReducer,
     franchises: franchisesReducer,
     rankingPlayersInfo: rankingPlayersReducer,

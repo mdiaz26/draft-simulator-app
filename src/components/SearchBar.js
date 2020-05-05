@@ -51,9 +51,10 @@ class SearchBar extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="search-options">
                 <form>
                     <input 
+                        className="search"
                         type="text" 
                         value={this.props.searchBar} 
                         onChange={event => this.props.updateSearchBar(event)}
@@ -78,7 +79,7 @@ class SearchBar extends React.Component {
                             </div>
                         </React.Fragment>
                         :
-                        <button onClick={() => this.setState(prevState => ({showAdditionalFilters: !prevState.showAdditionalFilters}))}>Show Additional Filters</button>
+                        <button onClick={() => this.setState(prevState => ({showAdditionalFilters: !prevState.showAdditionalFilters}))}>Additional Filters</button>
                     }
                 </form>
             </div>

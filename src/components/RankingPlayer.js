@@ -52,17 +52,17 @@ const Player = props => {
             </td>
             <td>
                 {props.rPlayer.tier}
-                <span className='tier-buttons'>
+                <div className='tier-buttons'>
                     <button className="ranking-btn increase" onClick={() => props.changeRankingInfo(newPlayerObj(props.rPlayer, '+ tier'))}><div className= 'arrow up'></div></button>
                     <button className="ranking-btn decrease" onClick={() => props.changeRankingInfo(newPlayerObj(props.rPlayer, '- tier'))}><div className= 'arrow down'></div></button>
-                </span>
+                </div>
             </td>
             <td>
                 ${props.rPlayer.value}
-                <span className='value-buttons'>
+                <div className='value-buttons'>
                     <button className="ranking-btn increase" onClick={() => props.changeRankingInfo(newPlayerObj(props.rPlayer, '+ value'))}><div className= 'arrow up'></div></button>
                     <button className="ranking-btn decrease" onClick={() => props.changeRankingInfo(newPlayerObj(props.rPlayer, '- value'))}><div className= 'arrow down'></div></button>
-                </span>
+                </div>
             </td>
         </tr>
     )

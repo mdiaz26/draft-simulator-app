@@ -6,7 +6,7 @@
     overflow-x: hidden;
     overflow-y: auto;
     display: grid;
-    grid-template-rows: 10% fit-context(100px) auto;
+    grid-template-rows: 10% fit-content(100px) auto;
 }
 
 .players-container > h2 {

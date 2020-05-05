@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 class FranchisesContainer extends React.Component {
 
     render() {
-        return (
+        return (this.props.draftFranchises.length === 10 &&
             <div className='franchises-container'>
                 {this.props.draftFranchises.map((franchise, idx) => 
                     <Franchise 

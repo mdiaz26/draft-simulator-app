@@ -1,3 +1,7 @@
+.rankings-display > h1 {
+    font-size: 34px;
+}
+
 .ranking-page-players-container {
     font-size: 18px;
 }
@@ -29,6 +33,16 @@ th, td {
     -webkit-transform: rotate(45deg);
 }
 
+.save-button {
+    padding:0.46em 1.6em;
+    border-radius: 0.12em;
+    box-sizing: border-box;
+    font-size: 20px;
+    font-weight: 300;
+    background-color:rgb(155, 255, 177);
+    margin-bottom: 4px;
+}
+
 /* .ranking-btn {
     width: 3px;
     height: 1px;
@@ -37,19 +51,21 @@ th, td {
 
 /* .increase {
     vertical-align: top;
-}
+} */
 
-.decrease {
+/* .decrease {
+    padding-top: 0;
     vertical-align: bottom;
 } */
 
-.value-buttons {
+/* .value-buttons {
     width: 3px;
     height: 1px;
     margin: 0px;
     display: inline-block;
-    /* float: right; */
-}
+    padding: 0px;
+    float: right;
+} */
 
 /* 
 

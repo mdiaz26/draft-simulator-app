@@ -5,7 +5,7 @@ import PlayersContainer from './PlayersContainer'
 import DraftContainer from './DraftContainer'
 import SingleTeamContainer from './SingleTeamContainer'
 import FranchisesContainer from './FranchisesContainer'
-import { fetchDraft, fetchFranchisePlayers } from '../JSONAPIAdapter'
+import { fetchDraft, fetchFranchisePlayers, fetchRankingPlayers } from '../JSONAPIAdapter'
 import JSONAPIAdapter from '../JSONAPIAdapter'
 import { totalRosterSpots, calculateValuations, maxBid } from  '../draftLogic'
 
@@ -18,6 +18,7 @@ class DraftLobbyContainer extends React.Component {
     componentDidMount(){
         this.props.fetchDraft(this.props.match.params.id)
         this.props.fetchFranchisePlayers(this.props.match.params.id)
+        this.props.fetchRankingPlayers(2)
         this.props.redirectTo('')
     }
 
@@ -155,7 +156,7 @@ class DraftLobbyContainer extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        franchises: state.franchises.franchises,
+        // franchises: state.franchises.franchises,
         draftFranchises: state.nominationData.draftFranchises,
         draftFranchisePlayers: state.nominationData.draftFranchisePlayers,
         valuations: state.nominationData.valuations,
@@ -171,6 +172,7 @@ const mapDispatchToProps = dispatch => {
     fetchDraft: (draftId) => dispatch(fetchDraft(draftId)),
     fetchFranchisePlayers: (draftId) => dispatch(fetchFranchisePlayers(draftId)),
     addFranchisePlayer: (playerObj) => dispatch({type: 'ADD_FRANCHISE_PLAYER', playerObj}),
+    fetchRankingPlayers: (rankingId) => dispatch(fetchRankingPlayers(rankingId)),
     redirectTo: (endpoint => dispatch({type: 'REDIRECT', endpoint}))
     }
 }

@@ -4,8 +4,6 @@ import { connect } from 'react-redux'
 import RankingPlayer from '../components/RankingPlayer'
 import SearchBar from '../components/SearchBar'
 import { fetchRankingPlayers, fetchRanking, saveRankingsPlayer } from  '../JSONAPIAdapter'
-// import 'bootstrap/dist/css/bootstrap.css'
-// import Table from 'react-bootstrap/Table'
 
 class Ranking extends React.Component {
 
@@ -38,8 +36,10 @@ class Ranking extends React.Component {
             {this.props.rankingPlayers !== [] && this.props.ranking !=='' ? 
                 <div className='rankings-display'>
                     <h1>{this.props.ranking.name}</h1>
-                    <button className='save-button' onClick={this.saveRankings}>Save Rankings</button>
-                    <SearchBar/>
+                    <div className='ranking-options'>
+                        <SearchBar/>
+                        <button className='save-button' onClick={this.saveRankings}>Save Rankings</button>
+                    </div>
                     <table className='ranking-page-players-container'>
                         <thead>
                             <tr className='rankings-header'>

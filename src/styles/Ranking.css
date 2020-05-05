@@ -3,7 +3,7 @@
 }
 
 .ranking-page-players-container {
-    font-size: 18px;
+    font-size: 14px;
 }
 
 .rankings-header > th {
@@ -18,7 +18,7 @@ th, td {
 .arrow {
     border: solid black;
     border-width: 0 1px 1px 0;
-    display: inline-block;
+    /* display: inline-block; */
     padding: 1px;
     /* margin: 0px; */
 }
@@ -35,13 +35,32 @@ th, td {
 
 .save-button {
     padding:0.46em 1.6em;
-    border-radius: 0.12em;
+    border-radius: 0.3em;
     box-sizing: border-box;
     font-size: 20px;
     font-weight: 300;
-    background-color:rgb(155, 255, 177);
-    margin-bottom: 4px;
+    background-color:rgb(252, 191, 73);
+    margin-left: 4em;
 }
+
+.save-button:hover {
+    background-color: white;
+    border-color: rgb(252, 191, 73);
+    color: black;
+    cursor: pointer;
+}
+
+.ranking-players-container {
+    text-align: center;
+}
+
+.player-info {
+    text-align: left;
+}
+
+/* .ranking-options > div {
+    float: left;
+} */
 
 /* .ranking-btn {
     width: 3px;

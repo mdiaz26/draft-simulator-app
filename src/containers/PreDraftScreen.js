@@ -41,18 +41,19 @@ class PreDraftScreen extends React.Component {
                 }
             })
             //redirect to that draft's page
-            // let draftFranchises = await this.createFranchises(body)
-            // this.props.redirectTo(`/draft/${draftFranchises[0].draft_id}`)
+            const franchises = await this.createFranchises(body)
+            this.props.addFranchises(franchises)
+            this.props.redirectTo(`/draft/${draftObj.id}`)
 
             // OR just loop through all the franchises and make one call to DB for each
-            let test = await this.shuffleFranchises(franchiseNames).map(async (franchise, idx) => {
-                console.log('inside initiate draft, before redirecting', franchise)
-                let newFranchise = await this.createFranchise(franchise, draftObj.id, idx)
-                await this.props.addFranchise(newFranchise)
-            })
-            //redirect to that draft's page
-            console.log('redirecting', test)
-            this.props.redirectTo(`/draft/${draftObj.id}`)
+            // let test = await this.shuffleFranchises(franchiseNames).map(async (franchise, idx) => {
+            //     console.log('inside initiate draft, before redirecting', franchise)
+            //     let newFranchise = await this.createFranchise(franchise, draftObj.id, idx)
+            //     await this.props.addFranchise(newFranchise)
+            // })
+            // //redirect to that draft's page
+            // console.log('redirecting', test)
+            // this.props.redirectTo(`/draft/${draftObj.id}`)
 
     }
 
@@ -67,16 +68,16 @@ class PreDraftScreen extends React.Component {
         return draftObj
     }
 
-    createFranchise = async (franchiseName, draftId, idx) => {
-        const body = {
-            name: franchiseName,
-            budget: 300,
-            draft_id: draftId,
-            draft_position: idx + 1,
-            is_nominating: idx === 0 ? true : false
-        }
-        return adapter.post('franchises', body)
-    }
+    // createFranchise = async (franchiseName, draftId, idx) => {
+    //     const body = {
+    //         name: franchiseName,
+    //         budget: 300,
+    //         draft_id: draftId,
+    //         draft_position: idx + 1,
+    //         is_nominating: idx === 0 ? true : false
+    //     }
+    //     return adapter.post('franchises', body)
+    // }
 
     createFranchises = async (body) => {
         let response = await fetch('http://localhost:3000/api/v1/draft_franchises', {
@@ -85,10 +86,10 @@ class PreDraftScreen extends React.Component {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(body)
+            body: JSON.stringify({franchises: body})
         })
         console.log(body)
-        return response
+        return response.json()
     }
 
     shuffleFranchises = (franchises) => {
@@ -136,7 +137,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         addDraft: (draft) => dispatch({type: 'ADD_DRAFT', draft}),
-        addFranchise: (franchise) => dispatch({type: 'ADD_FRANCHISE', franchise}),
+        // addFranchise: (franchise) => dispatch({type: 'ADD_FRANCHISE', franchise}),
+        addFranchises: (franchises) => dispatch({type: 'ADD_FRANCHISES', franchises}),
         redirectTo: (endpoint => dispatch({type: 'REDIRECT', endpoint}))
     }
 }

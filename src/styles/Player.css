@@ -1,8 +1,14 @@
-/* .player-tile {
-    height: 14px;
-    width: 100%;
-    padding: 6px;
-} */
+.queued-player {
+    margin: 2px;
+    border:0.1em solid #000000;
+    border-radius:0.3em;
+    padding: 2px;
+}
+
+.queued-player button:disabled {
+    background-color:rgba(211, 211, 211, 0.322);
+    border-radius: 0.3em;
+}
 
 /* .ranking-options {
     position: relative;

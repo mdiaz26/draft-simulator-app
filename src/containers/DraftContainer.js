@@ -83,7 +83,7 @@ class Draft extends React.Component {
         let bidders = this.filterFranchisesByBid()
         this.nextBidder()
         let valueObj = bidders[this.state.bidderIndex]
-        let franchise = this.props.franchises.find(franchise => franchise.id === valueObj.franchiseId)
+        let franchise = this.props.draftFranchises.find(franchise => franchise.id === valueObj.franchiseId)
 
         console.log("bidders:", bidders)
         if (franchise.id === this.findYourFranchise().id && !this.props.userHasPassed) {
@@ -133,7 +133,7 @@ class Draft extends React.Component {
     }
 
     declareWinner = () => {
-        const winningFranchise = this.props.franchises.find(franchise => (
+        const winningFranchise = this.props.draftFranchises.find(franchise => (
             franchise.id === this.mostRecentBid().franchise.id))
         this.props.updateBids({franchise: winningFranchise, bidAmount: this.mostRecentBid().bidAmount, winningBid: true})
         this.postFranchisePlayer()
@@ -228,7 +228,7 @@ class Draft extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        franchises: state.franchises.franchises,
+        // franchises: state.franchises.franchises,
         draftFranchises: state.nominationData.draftFranchises,
         draftFranchisePlayers: state.nominationData.draftFranchisePlayers,
         nominatedPlayer: state.nominationData.nominatedPlayer,

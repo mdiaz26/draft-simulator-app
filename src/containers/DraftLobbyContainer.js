@@ -18,6 +18,7 @@ class DraftLobbyContainer extends React.Component {
     componentDidMount(){
         this.props.fetchDraft(this.props.match.params.id)
         this.props.fetchFranchisePlayers(this.props.match.params.id)
+        this.props.redirectTo('')
     }
 
     toggleActiveDraft = () => {
@@ -30,7 +31,7 @@ class DraftLobbyContainer extends React.Component {
 
     draftName = () => {
         const draft = this.props.currentDraft
-        return draft ? draft.name.toString() : null
+        return draft ? draft.id : null
     }
 
     filterRankingPlayers = () => {
@@ -129,7 +130,7 @@ class DraftLobbyContainer extends React.Component {
                     <div>loading...</div>
                     :
                     <React.Fragment>
-                        <h1 className="draft-title">Draft Lobby: {this.draftName()}</h1>
+                        <h1 className="draft-title">Draft Lobby: Draft {this.draftName()}</h1>
                         <button className="simulate-button" onClick={this.simulateRemainder}>Simulate Remainder</button>
                         <div className='draft-container-locator'>
                             <DraftContainer />
@@ -169,7 +170,8 @@ const mapDispatchToProps = dispatch => {
     populatePlayers: () => dispatch({type: 'POPULATE_PLAYERS'}),
     fetchDraft: (draftId) => dispatch(fetchDraft(draftId)),
     fetchFranchisePlayers: (draftId) => dispatch(fetchFranchisePlayers(draftId)),
-    addFranchisePlayer: (playerObj) => dispatch({type: 'ADD_FRANCHISE_PLAYER', playerObj})
+    addFranchisePlayer: (playerObj) => dispatch({type: 'ADD_FRANCHISE_PLAYER', playerObj}),
+    redirectTo: (endpoint => dispatch({type: 'REDIRECT', endpoint}))
     }
 }
 

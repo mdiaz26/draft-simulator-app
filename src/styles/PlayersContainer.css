@@ -10,7 +10,8 @@
 }
 
 .players-container > h2 {
-    grid-row-start: 1
+    grid-row-start: 1;
+    text-align: center;
 }
 
 .search-bar-locator {

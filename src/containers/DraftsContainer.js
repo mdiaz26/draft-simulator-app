@@ -2,12 +2,16 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import '../styles/DraftsContainer.css'
-
+import { fetchDrafts } from '../JSONAPIAdapter'
 
 class DraftsContainer extends React.Component {
 
     state = {
         redirect: ''
+    }
+
+    componentDidMount() {
+        this.props.fetchDrafts()
     }
 
     redirectToDraftDetails = (event) => {
@@ -40,4 +44,10 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(DraftsContainer)
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchDrafts: () => dispatch(fetchDrafts())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DraftsContainer)

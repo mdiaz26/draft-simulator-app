@@ -4,40 +4,48 @@ import { connect } from  'react-redux'
 class Bids extends React.Component {
     
     state = {
-        showDraftHistory: false
+        showHistory: 'bid'
     }
 
     render(){
         return (
-            <div>
-                <h3 onClick={() => this.setState(prevState => ({showDraftHistory: !prevState.showDraftHistory}))}>
-                    {this.state.showDraftHistory ? 
-                    'Hide Draft History'
-                    :
-                    'Show Draft History'
-                    }
+            <div className='bids-container'>
+                {/* <div className='history-options'> */}
+                    <h3 
+                        className={`draft-history-selector ${this.state.showHistory === 'draft' ? 'active' : ''}`} 
+                        onClick={() => this.setState({showHistory: 'draft'})}
+                    >
+                        Draft History
                     </h3>
-                {this.state.showDraftHistory &&
+                    <h3 
+                        className={`bid-history-selector ${this.state.showHistory === 'bid' ? 'active' : ''}`} 
+                        onClick={() => this.setState({showHistory: 'bid'})}
+                    >
+                        Bid History
+                    </h3>
+                {/* </div> */}
+                {this.state.showHistory === 'draft' &&
                     <ul>
                         {this.props.draftFranchisePlayers.map(player => (
                             <li key={player.id}>{player.franchise.name} has won {player.player.name} with a bid of ${player.salary}</li>
                         ))
                         }
                     </ul>
-            }
-                <ul>
-                    {this.props.bids.map((bidData, idx) => {
-                        if (bidData.initialBid) {
-                            // console.log(bidData)
-                            return <li key={idx}>{bidData.franchise.name} has nominated {bidData.player.name} for ${bidData.bidAmount}</li>
-                        } else if (bidData.winningBid) {
-                            return <li key={idx}>{bidData.franchise.name} has won with a bid of ${bidData.bidAmount}</li>
-                        } else {
-                            return <li key={idx}>{bidData.franchise.name} has bid ${bidData.bidAmount}</li>
+                }
+                {this.state.showHistory === 'bid' &&
+                    <ul>
+                        {this.props.bids.map((bidData, idx) => {
+                            if (bidData.initialBid) {
+                                return <li key={idx}>{bidData.franchise.name} has nominated {bidData.player.name} for ${bidData.bidAmount}</li>
+                            } else if (bidData.winningBid) {
+                                return <li key={idx}>{bidData.franchise.name} has won with a bid of ${bidData.bidAmount}</li>
+                            } else {
+                                return <li key={idx}>{bidData.franchise.name} has bid ${bidData.bidAmount}</li>
+                            }
                         }
-                    }
-                        )}
-                </ul>
+                            )}
+                    </ul>
+                }
             </div>
         )
     }

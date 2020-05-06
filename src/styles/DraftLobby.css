@@ -2,6 +2,25 @@
     background-color: rgba(252, 192, 73, 0.671);
 } */
 
+.loader {
+    grid-row-start: 3;
+    grid-column-start: 2;
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid rgb(0, 48, 73);
+    border-radius: 50%;
+    width: 75px;
+    height: 75px;
+    animation: spin 2s linear infinite;
+    position: relative;
+    margin-top: 50%;
+    margin-left: 50%;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg) }
+    100% { transform: rotate(360deg) }
+}
+
 .draft-lobby {
     display: grid;
     grid-template-columns: 30% 21% 21% 24%;

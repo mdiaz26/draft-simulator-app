@@ -5,7 +5,7 @@ import PlayersContainer from './PlayersContainer'
 import DraftContainer from './DraftContainer'
 import SingleTeamContainer from './SingleTeamContainer'
 import FranchisesContainer from './FranchisesContainer'
-import { fetchDraft, fetchFranchisePlayers } from '../JSONAPIAdapter'
+import { fetchDraft, fetchFranchisePlayers, fetchRankingPlayers } from '../JSONAPIAdapter'
 import JSONAPIAdapter from '../JSONAPIAdapter'
 import { totalRosterSpots, calculateValuations, maxBid } from  '../draftLogic'
 
@@ -18,6 +18,7 @@ class DraftLobbyContainer extends React.Component {
     componentDidMount(){
         this.props.fetchDraft(this.props.match.params.id)
         this.props.fetchFranchisePlayers(this.props.match.params.id)
+        this.props.fetchRankingPlayers(2)
         this.props.redirectTo('')
     }
 
@@ -89,7 +90,7 @@ class DraftLobbyContainer extends React.Component {
                 return 0
             })
 
-            console.log("sorted valuations",sortedByBidAmount)
+            // console.log("sorted valuations",sortedByBidAmount)
 
             if (sortedByBidAmount[0].valuation <= 1) {
                 let winningBid = sortedByBidAmount[0].valuation
@@ -104,6 +105,7 @@ class DraftLobbyContainer extends React.Component {
             }
             i++
         }
+        alert('Simulation Complete')
     }
 
         // POST for FranchisePlayer
@@ -121,15 +123,15 @@ class DraftLobbyContainer extends React.Component {
     render(){
         return(
             <div className="draft-lobby">
-                {this.state.activeDraft ? 
-                    <button className="activate-button" onClick={() => this.toggleActiveDraft()}>Pause Draft</button>
-                    :
-                    <button className="activate-button" onClick={this.startDraft}>Start/Resume Draft</button>
-                }
                 {this.props.currentDraft === '' ? 
-                    <div>loading...</div>
+                    <div className='loader'></div>
                     :
                     <React.Fragment>
+                        {this.state.activeDraft ? 
+                            <button className="activate-button" onClick={() => this.toggleActiveDraft()}>Pause Draft</button>
+                            :
+                            <button className="activate-button" onClick={this.startDraft}>Start/Resume Draft</button>
+                        }
                         <h1 className="draft-title">Draft Lobby: Draft {this.draftName()}</h1>
                         <button className="simulate-button" onClick={this.simulateRemainder}>Simulate Remainder</button>
                         <div className='draft-container-locator'>
@@ -155,7 +157,7 @@ class DraftLobbyContainer extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        franchises: state.franchises.franchises,
+        // franchises: state.franchises.franchises,
         draftFranchises: state.nominationData.draftFranchises,
         draftFranchisePlayers: state.nominationData.draftFranchisePlayers,
         valuations: state.nominationData.valuations,
@@ -171,6 +173,7 @@ const mapDispatchToProps = dispatch => {
     fetchDraft: (draftId) => dispatch(fetchDraft(draftId)),
     fetchFranchisePlayers: (draftId) => dispatch(fetchFranchisePlayers(draftId)),
     addFranchisePlayer: (playerObj) => dispatch({type: 'ADD_FRANCHISE_PLAYER', playerObj}),
+    fetchRankingPlayers: (rankingId) => dispatch(fetchRankingPlayers(rankingId)),
     redirectTo: (endpoint => dispatch({type: 'REDIRECT', endpoint}))
     }
 }

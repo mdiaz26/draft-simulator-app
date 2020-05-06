@@ -31,11 +31,13 @@ export const draftActionsReducer = (state = {
             const sortedFranchises = action.draft.franchises.sort((franA, franB) => franA.draft_position - franB.draft_position)
             const nominatingFranchise = action.draft.franchises.find(franchise => franchise.is_nominating)
             const yourTeam = action.draft.franchises.find(franchise => franchise.name === "Your Team")
-            console.log("assigning draft")
+            console.log("assigning draft", action.draft)
             return {...state,
                 currentDraft: action.draft,
                 draftFranchises: sortedFranchises,
+                nominatedPlayer: '',
                 nominatingFranchise: nominatingFranchise,
+                bids: [],
                 franchiseFocus: yourTeam,
                 requesting: false
             }
@@ -79,9 +81,11 @@ export const draftActionsReducer = (state = {
                 nominatedPlayer: ''
             }
         case 'UPDATE_BIDS':
+            const updatedBids = [action.bidData].concat([...state.bids])
             return {
                 ...state,
-                bids: [...state.bids, action.bidData]
+                bids: updatedBids
+                // bids: [...state.bids, action.bidData]
             }
         case 'RESET_BIDS':
             return {

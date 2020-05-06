@@ -1,14 +1,16 @@
 .search {
     height: 35px;
     font-size: 14px;
+    border-radius: 0.3em;
 }
 
 .search-options button {
     font-size: 20px;
     background-color: lightgray;
-    border-radius:0.12em;
+    border-radius:0.3em;
     border:0.1em solid #000000;
     font-weight: 300;
+    padding: 8px;
 }
 
 .filters {

@@ -28,7 +28,8 @@ class Draft extends React.Component {
 
     mostRecentBid = () => {
         if (this.props.bids.length > 0) {
-            return this.props.bids[this.props.bids.length - 1]
+            // return this.props.bids[this.props.bids.length - 1]
+            return this.props.bids[0]
         } else {
             return {franchise: this.props.nominatingFranchise, bidAmount: 1}
         }
@@ -228,7 +229,6 @@ class Draft extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        // franchises: state.franchises.franchises,
         draftFranchises: state.nominationData.draftFranchises,
         draftFranchisePlayers: state.nominationData.draftFranchisePlayers,
         nominatedPlayer: state.nominationData.nominatedPlayer,

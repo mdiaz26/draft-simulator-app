@@ -12,5 +12,6 @@
 }
 
 .drafts-container div:hover {
-    background-color: lightgreen;
+    background-color: rgba(252, 191, 73);
+    cursor: pointer;
 }

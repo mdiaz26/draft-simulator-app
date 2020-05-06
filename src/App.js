@@ -1,23 +1,16 @@
 import React from 'react';
 import './styles/DraftLobby.css'
-import { fetchRankingPlayers, fetchRankings, fetchFranchises, fetchDrafts } from './JSONAPIAdapter'
+// import { fetchRankingPlayers, fetchRankings, fetchFranchises, fetchDrafts } from './JSONAPIAdapter'
 import DraftLobbyContainer from './containers/DraftLobbyContainer'
 import PreDraftScreen from './containers/PreDraftScreen'
 import RankingsContainer from './containers/RankingsContainer'
 import DraftsContainer from './containers/DraftsContainer'
 import Ranking from './containers/Ranking'
 import Navbar from './components/Navbar'
-import { connect } from 'react-redux'
+// import { connect } from 'react-redux'
 import {Switch, Route} from 'react-router-dom'
 
-class App extends React.Component {
-
-  componentDidMount(){
-    this.props.fetchDrafts()
-    this.props.fetchFranchises()
-    this.props.fetchRankingPlayers(2)
-    this.props.fetchRankings()
-  }
+export default class App extends React.Component {
 
   render(){
     return (
@@ -54,15 +47,15 @@ class App extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    populatePlayers: () => dispatch({type: 'POPULATE_PLAYERS'}),
-    updateQueue: (newQueue) => dispatch({type: 'UPDATE_QUEUE', payload: newQueue}),
-    fetchFranchises: () => dispatch(fetchFranchises()),
-    fetchRankingPlayers: (rankingId) => dispatch(fetchRankingPlayers(rankingId)),
-    fetchRankings: () => dispatch(fetchRankings()),
-    fetchDrafts: () => dispatch(fetchDrafts())
-  }
-}
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     populatePlayers: () => dispatch({type: 'POPULATE_PLAYERS'}),
+//     updateQueue: (newQueue) => dispatch({type: 'UPDATE_QUEUE', payload: newQueue}),
+//     fetchFranchises: () => dispatch(fetchFranchises()),
+//     fetchRankingPlayers: (rankingId) => dispatch(fetchRankingPlayers(rankingId)),
+//     fetchRankings: () => dispatch(fetchRankings()),
+//     fetchDrafts: () => dispatch(fetchDrafts())
+//   }
+// }
 
-export default connect(null, mapDispatchToProps)(App);
+// export default connect(null, mapDispatchToProps)(App);

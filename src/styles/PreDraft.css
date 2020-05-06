@@ -18,7 +18,7 @@
     font-size: 3em;
     padding: 30px;
     color: white;
-    background-color: seagreen;
-    border-radius: 15px;
+    background-color: rgb(252, 191, 73);
+    border-radius: 0.3em;
     cursor: pointer;
 }

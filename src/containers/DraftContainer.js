@@ -229,7 +229,6 @@ class Draft extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        // franchises: state.franchises.franchises,
         draftFranchises: state.nominationData.draftFranchises,
         draftFranchisePlayers: state.nominationData.draftFranchisePlayers,
         nominatedPlayer: state.nominationData.nominatedPlayer,

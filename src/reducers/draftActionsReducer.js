@@ -35,7 +35,9 @@ export const draftActionsReducer = (state = {
             return {...state,
                 currentDraft: action.draft,
                 draftFranchises: sortedFranchises,
+                nominatedPlayer: '',
                 nominatingFranchise: nominatingFranchise,
+                bids: [],
                 franchiseFocus: yourTeam,
                 requesting: false
             }

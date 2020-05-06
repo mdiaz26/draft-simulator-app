@@ -9,15 +9,21 @@ class Bids extends React.Component {
 
     render(){
         return (
-            <div>
-                <div className='history-options'>
-                    <h3 onClick={() => this.setState({showHistory: 'draft'})}>
+            <div className='bids-container'>
+                {/* <div className='history-options'> */}
+                    <h3 
+                        className={`draft-history-selector ${this.state.showHistory === 'draft' ? 'active' : ''}`} 
+                        onClick={() => this.setState({showHistory: 'draft'})}
+                    >
                         Draft History
                     </h3>
-                    <h3 onClick={() => this.setState({showHistory: 'bid'})}>
+                    <h3 
+                        className={`bid-history-selector ${this.state.showHistory === 'bid' ? 'active' : ''}`} 
+                        onClick={() => this.setState({showHistory: 'bid'})}
+                    >
                         Bid History
                     </h3>
-                </div>
+                {/* </div> */}
                 {this.state.showHistory === 'draft' &&
                     <ul>
                         {this.props.draftFranchisePlayers.map(player => (

@@ -90,7 +90,7 @@ class DraftLobbyContainer extends React.Component {
                 return 0
             })
 
-            console.log("sorted valuations",sortedByBidAmount)
+            // console.log("sorted valuations",sortedByBidAmount)
 
             if (sortedByBidAmount[0].valuation <= 1) {
                 let winningBid = sortedByBidAmount[0].valuation
@@ -105,6 +105,7 @@ class DraftLobbyContainer extends React.Component {
             }
             i++
         }
+        alert('Simulation Complete')
     }
 
         // POST for FranchisePlayer

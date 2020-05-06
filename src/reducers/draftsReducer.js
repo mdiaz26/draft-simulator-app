@@ -7,6 +7,7 @@ export const draftsReducer = (state = {drafts: [], requesting: false}, action) =
                 requesting: true
             }
         case 'POPULATE_DRAFTS':
+            // const orderedDrafts = action.drafts.sort((a, b) => a.id - b.id)
             return {
                 ...state,
                 drafts: action.drafts,

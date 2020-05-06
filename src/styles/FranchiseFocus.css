@@ -1,0 +1,13 @@
+.single-team-container {
+    border: solid black;
+    border-radius: 0.3em;
+    height: 70vh;
+}
+
+.single-team-container h2 {
+    text-align: center;
+}
+
+.single-team-container ol {
+    font-size: 14px;
+}

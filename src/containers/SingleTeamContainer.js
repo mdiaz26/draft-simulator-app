@@ -1,4 +1,5 @@
 import React from 'react'
+import '../styles/FranchiseFocus.css'
 import { connect } from 'react-redux'
 import FranchisePlayer from '../components/FranchisePlayer'
 
@@ -26,7 +27,7 @@ class SingleTeamContainer extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className='single-team-container'>
                 {this.props.franchiseFocus !== "" ? 
                     <React.Fragment>
                         <h2>{this.props.franchiseFocus.name}</h2>

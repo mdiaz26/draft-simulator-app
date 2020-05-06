@@ -51,7 +51,7 @@ class Ranking extends React.Component {
                                 <th>Value</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody className='rankings-table-body'>
                             {this.withFilters(this.props.rankingPlayers).map((rPlayer, idx) =>
                                 <RankingPlayer 
                                     key={rPlayer.id}
@@ -65,7 +65,7 @@ class Ranking extends React.Component {
                     </table>
                 </div>
                 :
-                <div>loading...</div>
+                <div className='loader'></div>
             }
             </div>
         )

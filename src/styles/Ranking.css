@@ -4,6 +4,18 @@
 
 .ranking-page-players-container {
     font-size: 14px;
+    table-layout: fixed;
+}
+
+.ranking-page-players-container tbody {
+    /* display: block;
+    overflow: auto;
+    height: 70vh;
+    width: 100% */
+}
+
+.ranking-page-players-container thead tr {
+    /* display: block; */
 }
 
 .rankings-header > th {
@@ -58,60 +70,34 @@ th, td {
     text-align: left;
 }
 
-/* .ranking-options > div {
-    float: left;
-} */
-
-/* .ranking-btn {
-    width: 3px;
-    height: 1px;
-    display: inline-block;
-} */
-
-/* .increase {
-    vertical-align: top;
-} */
-
-/* .decrease {
-    padding-top: 0;
-    vertical-align: bottom;
-} */
-
-/* .value-buttons {
-    width: 3px;
-    height: 1px;
-    margin: 0px;
-    display: inline-block;
-    padding: 0px;
-    float: right;
-} */
-
-/* 
-
-.tier-buttons {
-    width: 3px;
-}  */
-
-/* .ranking-page-players-container {
-    width: 100%;
+.ranking-options {
+    display: grid;
+    grid-template-columns: 66% 34%;
 }
 
-.ranking-page-player {
-    margin: 12px;
-    border: solid black;
-} */
-
-/* 
-.rankings-header {
-    grid-row-start: 1;
+.ranking-options > .search-options {
+    grid-column: 1;
 }
 
-.player-info {
-    grid-column-start: 1;
-    grid-row-start: 2;
-}
-.player-info > strong {
-    font-size: 20px;
+.ranking-options > .save-button {
+    grid-column: 2;
 }
 
-*/
+.loader {
+    grid-row-start: 3;
+    grid-column-start: 2;
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid rgb(0, 48, 73);
+    border-radius: 50%;
+    width: 75px;
+    height: 75px;
+    animation: spin 2s linear infinite;
+    position: relative;
+    margin-top: 10%;
+    margin-left: 40%;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg) }
+    100% { transform: rotate(360deg) }
+}

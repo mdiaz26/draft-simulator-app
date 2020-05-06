@@ -12,10 +12,10 @@ const Player = props => {
         <React.Fragment>
             <div className="player-tile">
                 {props.isNominated &&
-                <React.Fragment>
+                <div className='nominated-player'>
                     <h2>{props.player.name}</h2> 
                     <h2>{props.player.pro_team} - {props.player.position}</h2> 
-                </React.Fragment>
+                </div>
                 }
                 
                 {props.inNominationQueue && 

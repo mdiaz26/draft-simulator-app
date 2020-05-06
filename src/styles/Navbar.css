@@ -1,14 +1,19 @@
 .navbar {
     margin: 0;
     padding: 0;
+    /* border: solid black; */
+    border-radius: 0.3em;
 }
 
 .nav-link {
-    background-color: rgba(214, 40, 40);
+    background-color: rgba(0, 48, 73);
     float: left;
     display: block;
-    padding: 8px;
+    /* padding: 8px; */
+    font-size: 14px;
     color: white;
     text-decoration: none;
     padding: 10px;
+    /* border: solid black; */
+    /* border-radius: 0.3em; */
 }

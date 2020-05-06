@@ -1,4 +1,5 @@
 import React from 'react'
+import '../styles/DraftContainer.css'
 import { connect } from 'react-redux'
 import { calculateBudget, maxBid } from '../draftLogic'
 
@@ -20,15 +21,15 @@ const BidOptions = props => {
     }
     
     return (
-        <div>
+        <div className='bid-options'>
             {props.franchise && 
                 <React.Fragment>
                     <p>Budget: ${calculateBudget(props.franchise.budget, props.franchise.franchise_players)}</p>
                     <p>Max Bid: ${maxBid(props.currentDraft.roster_config, props.franchise)}</p>
                 </React.Fragment>
             }
-            <button onClick={userBids}>Bid</button>
-            <button onClick={userPasses}>Pass</button>
+            <button className='bid-btn' onClick={userBids}>Bid</button>
+            <button className='pass-btn' onClick={userPasses}>Pass</button>
             
         </div>
     )

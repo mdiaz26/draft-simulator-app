@@ -23,7 +23,8 @@
     grid-template-rows: 50% 20% 23%;
     grid-gap: 2px;
     background-color: lightgrey;
-    border-radius: 15px;
+    border-radius: 0.3em;
+    margin: 0.5em;
 
 }
 
@@ -36,16 +37,18 @@
 }
 
 .bid-buttons > button {
-    border-radius: 25px;
+    border-radius: 0.3em;
     margin: 1px
 }
 
 .start-bidding-btn {
     grid-column-start: 1;
+    background-color: rgb(252, 191, 73);
 }
 
 .stop-bidding-btn {
     grid-column-start: 2;
+    background-color: rgb(214, 40, 40);
 }
 
 .bid-options-locator {
@@ -77,13 +80,25 @@
 }
 
 .bid-prompt {
-    background-color: royalblue;
+    background-color: rgba(247, 127, 0);
     grid-column-start: 2;
     grid-row-start: 2;
     grid-row-end: 4;
     margin: 2px;
     padding: 4px;
     text-align: center;
-    color: rgb(255, 196, 0);
-    border-radius: 15px;
+    color: rgb(234, 226, 183);
+    border-radius: 0.3em;
+}
+
+.bid-options {
+    font-size: 14px;
+}
+
+.bid-btn {
+    background-color: rgb(252, 191, 73);
+}
+
+.pass-btn {
+    background-color: rgb(214, 40, 40);
 }

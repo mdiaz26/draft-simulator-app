@@ -79,9 +79,11 @@ export const draftActionsReducer = (state = {
                 nominatedPlayer: ''
             }
         case 'UPDATE_BIDS':
+            const updatedBids = [action.bidData].concat([...state.bids])
             return {
                 ...state,
-                bids: [...state.bids, action.bidData]
+                bids: updatedBids
+                // bids: [...state.bids, action.bidData]
             }
         case 'RESET_BIDS':
             return {

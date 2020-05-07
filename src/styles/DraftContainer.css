@@ -128,8 +128,6 @@
     border-top-left-radius: 0.3em;
     border-top-right-radius: 0.3em;
     z-index: 1;
-        /* margin-left: 6px;
-    margin-bottom: -2px; */
 }
 
 .bids-container {
@@ -148,8 +146,6 @@
     grid-row-start: 1;
     grid-row-end: 2;
     margin-left: 6px;
-    /* border-bottom: solid black;
-    border-left: solid black; */
 }
 
 .bid-history-selector {
@@ -161,9 +157,7 @@
     grid-row-start: 2;
     grid-column-start: 1;
     grid-column-end: 4;
-    border-bottom: solid grey;
-    border-left: solid grey;
-    border-right: solid grey;
+    border: solid grey;
     border-top-right-radius: 0.3em;
     border-bottom-left-radius: 0.3em;
     border-bottom-right-radius: 0.3em;
@@ -171,16 +165,8 @@
     height: 90%;
     width: 100%;
     margin-left: 6px;
+    padding-top: 6px;
     margin-top: 0px;
-}
-
-.bids-container ul::after {
-    content: '';
-    display: block;
-    border-top: solid grey;
-    position: relative;
-    width: 45%;
-    left: 55%;
 }
 
 .bids-container .active {

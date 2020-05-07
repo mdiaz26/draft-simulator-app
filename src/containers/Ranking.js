@@ -10,6 +10,12 @@ class Ranking extends React.Component {
     componentDidMount(){
         this.props.fetchRankingPlayers(this.props.match.params.id)
         this.props.fetchRanking(this.props.match.params.id)
+        this.props.emptySearchBar()
+    }
+
+    componentWillUnmount(){
+        this.props.emptySearchBar()
+        this.props.resetFilters()
     }
 
     saveRankings = () => {
@@ -86,7 +92,9 @@ class Ranking extends React.Component {
         return {
             fetchRankingPlayers: (rankingId) => dispatch(fetchRankingPlayers(rankingId)),
             fetchRanking: (rankingId) => dispatch(fetchRanking(rankingId)),
-            orderRankingPlayers: () => dispatch({type: 'ORDER_RANKING_PLAYERS'})
+            orderRankingPlayers: () => dispatch({type: 'ORDER_RANKING_PLAYERS'}),
+            emptySearchBar: () => dispatch({type: 'UPDATE_SEARCH_BAR', content: ''}),
+            resetFilters: () => dispatch({type: 'RESET_FILTERS'})
         }
     }
 

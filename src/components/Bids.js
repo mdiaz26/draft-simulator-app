@@ -10,20 +10,18 @@ class Bids extends React.Component {
     render(){
         return (
             <div className='bids-container'>
-                {/* <div className='history-options'> */}
-                    <h3 
-                        className={`draft-history-selector ${this.state.showHistory === 'draft' ? 'active' : ''}`} 
-                        onClick={() => this.setState({showHistory: 'draft'})}
-                    >
-                        Draft History
-                    </h3>
-                    <h3 
-                        className={`bid-history-selector ${this.state.showHistory === 'bid' ? 'active' : ''}`} 
-                        onClick={() => this.setState({showHistory: 'bid'})}
-                    >
-                        Bid History
-                    </h3>
-                {/* </div> */}
+                <h3 
+                    className={`draft-history-selector ${this.state.showHistory === 'draft' ? 'active' : ''}`} 
+                    onClick={() => this.setState({showHistory: 'draft'})}
+                >
+                    Draft History
+                </h3>
+                <h3 
+                    className={`bid-history-selector ${this.state.showHistory === 'bid' ? 'active' : ''}`} 
+                    onClick={() => this.setState({showHistory: 'bid'})}
+                >
+                    Bid History
+                </h3>
                 {this.state.showHistory === 'draft' &&
                     <ul>
                         {this.props.draftFranchisePlayers.map(player => (

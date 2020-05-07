@@ -11,10 +11,31 @@
 .franchises-container > div {
     border: solid grey;
     margin: 5px;
-    /* background-color: rgba(176, 224, 230, 0.657); */
     background-color:rgba(234, 226, 183);
     text-align: center;
     border-radius: 0.3em;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+    transition: all 0.3s ease-in-out;
+}
+
+.franchises-container > div::after {
+    /* content: '';
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    border-radius: 5px; */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    transition: opacity 0.3s ease-in-out;
+}
+
+.franchises-container > div:hover {
+    transform: scale(1.2, 1.2);
+}
+
+.franchises-container > div:hover::after {
+    opacity: 1;
 }
 
 .franchises-container > .nominating-franchise {
@@ -36,4 +57,8 @@
     margin: 10px;
     /* border: solid white; */
     color: black;
+}
+
+.franchises-container > button:hover {
+    cursor: pointer;
 }

@@ -98,6 +98,25 @@ export const filterReducer = (state = {
             ...state,
             'Tier 10': !state['Tier 10']
         }
+        case 'RESET_FILTERS':
+            return {
+                QB: true, 
+                RB: true,
+                WR: true,
+                TE: true,
+                DST: true,
+                K: true,
+                'Tier 1': true,
+                'Tier 2': true,
+                'Tier 3': true,
+                'Tier 4': true,
+                'Tier 5': true,
+                'Tier 6': true,
+                'Tier 7': true,
+                'Tier 8': true,
+                'Tier 9': true,
+                'Tier 10': true
+                }
         default:
             return state
     }

@@ -99,17 +99,19 @@
     font-size: 14px;
 }
 
-.bid-btn {
-    background-color: rgb(252, 191, 73);
+.btn {
     border-radius: 0.3em;
     font-size: 14px;
-    margin: 6px;
+    margin: 3px;
 }
 
-.pass-btn {
+.bid{
+    background-color: rgb(252, 191, 73);
+    
+}
+
+.pass{
     background-color: rgb(0, 48, 73);
-    border-radius: 0.3em;
-    font-size: 14px;
     color: white;
 }
 
@@ -117,14 +119,16 @@
     margin: 6px;
 }
 
-/* .history-options h3{
-    display: inline;
-    margin-top: 6px;
-    margin-left: 6px;
-    border-top: solid grey;
-    border-left: solid grey;
-    border-right: solid grey;
-} */
+.bids-container h3{
+    margin-bottom: -3px;
+    margin-top: 0px;
+    padding: 0px;
+    border: solid grey;
+    background-color: lightgray;
+    border-top-left-radius: 0.3em;
+    border-top-right-radius: 0.3em;
+    z-index: 1;
+}
 
 .bids-container {
     grid-column-start: 1;
@@ -134,15 +138,14 @@
     grid-template-rows: 10% auto;
     height: 50vh;
     width: 80%;
+    
 }
 
 .draft-history-selector {
     grid-column-start: 1;
     grid-row-start: 1;
     grid-row-end: 2;
-    padding-left: 6px;
-    /* border-bottom: solid black;
-    border-left: solid black; */
+    margin-left: 6px;
 }
 
 .bid-history-selector {
@@ -155,13 +158,18 @@
     grid-column-start: 1;
     grid-column-end: 4;
     border: solid grey;
-    border-radius: 0.3em;
+    border-top-right-radius: 0.3em;
+    border-bottom-left-radius: 0.3em;
+    border-bottom-right-radius: 0.3em;
     background-color: lightgrey;
     height: 90%;
     width: 100%;
     margin-left: 6px;
+    padding-top: 6px;
+    margin-top: 0px;
 }
 
 .bids-container .active {
-    color: rgb(0, 48, 73)
+    color: rgb(0, 48, 73);
+    border-bottom: lightgray;
 }

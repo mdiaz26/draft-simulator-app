@@ -203,7 +203,7 @@ class Draft extends React.Component {
                         {this.props.yourTurnBoolean && <h3 className='bid-prompt'>YOUR TURN</h3>}
                         <div className='bid-buttons'>
                             <button className='start-bidding-btn' disabled={this.props.nominatedPlayer === ''} onClick={this.startBidding}>Go!</button>
-                            <button className='stop-bidding-btn' onClick={this.stopBidding}>Pause</button>
+                            {/* <button className='stop-bidding-btn' onClick={this.stopBidding}>Pause</button> */}
                         </div>
                     </div>
                     :

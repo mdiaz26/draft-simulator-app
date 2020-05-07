@@ -20,6 +20,12 @@ class DraftLobbyContainer extends React.Component {
         this.props.fetchFranchisePlayers(this.props.match.params.id)
         this.props.fetchRankingPlayers(2)
         this.props.redirectTo('')
+        // this.props.emptySearchBar()
+    }
+
+    componentWillUnmount(){
+        this.props.emptySearchBar()
+        this.props.resetFilters()
     }
 
     toggleActiveDraft = () => {
@@ -174,7 +180,9 @@ const mapDispatchToProps = dispatch => {
     fetchFranchisePlayers: (draftId) => dispatch(fetchFranchisePlayers(draftId)),
     addFranchisePlayer: (playerObj) => dispatch({type: 'ADD_FRANCHISE_PLAYER', playerObj}),
     fetchRankingPlayers: (rankingId) => dispatch(fetchRankingPlayers(rankingId)),
-    redirectTo: (endpoint => dispatch({type: 'REDIRECT', endpoint}))
+    redirectTo: (endpoint => dispatch({type: 'REDIRECT', endpoint})),
+    emptySearchBar: () => dispatch({type: 'UPDATE_SEARCH_BAR', content: ''}),
+    resetFilters: () => dispatch({type: 'RESET_FILTERS'})
     }
 }
 

@@ -28,8 +28,16 @@ const BidOptions = props => {
                     <p>Max Bid: ${maxBid(props.currentDraft.roster_config, props.franchise)}</p>
                 </React.Fragment>
             }
-            <button className='bid-btn' onClick={userBids}>Bid</button>
-            <button className='pass-btn' onClick={userPasses}>Pass</button>
+            <button 
+                disabled={props.bids.length < 1} 
+                className={props.bids.length > 0 ? 'bid btn' : 'btn'} 
+                onClick={userBids}
+            >Bid</button>
+            <button 
+                disabled={props.bids.length < 1} 
+                className={props.bids.length > 0 ? 'pass btn' : 'btn'} 
+                onClick={userPasses}
+            >Pass</button>
             
         </div>
     )

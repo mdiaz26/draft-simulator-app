@@ -10,6 +10,11 @@
     border-radius: 0.3em;
 }
 
+.nominated-player h3 {
+    margin-left: 6px;
+    margin-top: 2px;
+}
+
 /* .ranking-options {
     position: relative;
     top: 2px;

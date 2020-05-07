@@ -14,7 +14,8 @@ const Player = props => {
                 {props.isNominated &&
                 <div className='nominated-player'>
                     <h2>{props.player.name}</h2> 
-                    <h2>{props.player.pro_team} - {props.player.position}</h2> 
+                    <h2>{props.player.pro_team} - {props.player.position}</h2>
+                    <h3>Your valuation: ${props.rPlayer.value}</h3>
                 </div>
                 }
                 

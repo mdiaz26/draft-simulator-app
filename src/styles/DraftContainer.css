@@ -99,17 +99,19 @@
     font-size: 14px;
 }
 
-.bid-btn {
-    background-color: rgb(252, 191, 73);
+.btn {
     border-radius: 0.3em;
     font-size: 14px;
-    margin: 6px;
+    margin: 3px;
 }
 
-.pass-btn {
+.bid{
+    background-color: rgb(252, 191, 73);
+    
+}
+
+.pass{
     background-color: rgb(0, 48, 73);
-    border-radius: 0.3em;
-    font-size: 14px;
     color: white;
 }
 

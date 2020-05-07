@@ -101,3 +101,8 @@ th, td {
     0% { transform: rotate(0deg) }
     100% { transform: rotate(360deg) }
 }
+
+.drop-down {
+    font-size: 14px;
+    border-radius: 0.3em;
+}

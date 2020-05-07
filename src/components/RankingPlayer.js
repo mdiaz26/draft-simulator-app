@@ -56,7 +56,10 @@ const Player = props => {
                     <button className="ranking-btn increase" onClick={() => props.changeRankingInfo(newPlayerObj(props.rPlayer, '+ tier'))}><div className= 'arrow up'></div></button>
                     <button className="ranking-btn decrease" onClick={() => props.changeRankingInfo(newPlayerObj(props.rPlayer, '- tier'))}><div className= 'arrow down'></div></button>
                 </div> */}
-                <select value={props.rPlayer.tier} onChange={event => props.changeRankingInfo({...props.rPlayer, tier: event.target.value})}>
+                <select 
+                    className='drop-down'
+                    value={props.rPlayer.tier} 
+                    onChange={event => props.changeRankingInfo({...props.rPlayer, tier: event.target.value})}>
                     <option value='1'>1</option>
                     <option value='2'>2</option>
                     <option value='3'>3</option>

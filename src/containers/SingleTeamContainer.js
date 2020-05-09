@@ -156,6 +156,7 @@ class SingleTeamContainer extends React.Component {
             } 
         }
         console.log(rosterObj)
+        return rosterObj
     }
 
     addToBench = (rosterArray, player) => {
@@ -170,11 +171,11 @@ class SingleTeamContainer extends React.Component {
                 {this.props.franchiseFocus !== "" ? 
                     <React.Fragment>
                         <h2>{this.props.franchiseFocus.name}</h2>
-                        <button onClick={() => this.populateRosterObject(this.props.franchiseFocus.franchise_players)}>test roster array</button>
+                        {/* <button onClick={() => this.populateRosterObject(this.props.franchiseFocus.franchise_players)}>test roster array</button> */}
                         <ol>
-                            {this.props.franchiseFocus.franchise_players.map((fPlayer, idx) => (
+                            {this.populateRosterObject(this.props.franchiseFocus.franchise_players).map((rosterLine, idx) => (
                                 <li key={idx}>
-                                    <FranchisePlayer player={fPlayer.player} fPlayer={fPlayer}/>
+                                    <FranchisePlayer rosterLine={rosterLine}/>
                                 </li>
                             ))}
                         </ol>

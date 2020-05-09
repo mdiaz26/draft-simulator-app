@@ -11,4 +11,6 @@
 
 .single-team-container ol {
     font-size: 14px;
+    list-style: none;
+    padding-inline-start: 6px;
 }

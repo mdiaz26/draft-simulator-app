@@ -7,7 +7,7 @@ import BidOptions from '../components/BidOptions'
 import JSONAPIAdapter from '../JSONAPIAdapter'
 import { totalRosterSpots } from  '../draftLogic'
 
-const adapter = new JSONAPIAdapter('http://localhost:3000/api/v1/')
+const adapter = new JSONAPIAdapter('https://draft-simulator-api.herokuapp.com/api/v1/')
 
 class Draft extends React.Component {
     
@@ -161,7 +161,7 @@ class Draft extends React.Component {
 
     patchNominatingFranchise = async (origNom, newNom) => {
         // console.log("inside patch",origNom, newNom)
-        const adapter = new JSONAPIAdapter('http://localhost:3000/api/v1/')
+        const adapter = new JSONAPIAdapter('https://draft-simulator-api.herokuapp.com/api/v1/')
         await Promise.all([
             adapter.update('franchises', origNom.id, {is_nominating: false}),
             adapter.update('franchises', newNom.id, {is_nominating: true})

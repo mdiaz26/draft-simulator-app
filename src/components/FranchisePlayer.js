@@ -3,7 +3,7 @@ import React from 'react'
 const FranchisePlayer = props => {
     return (
         <div>
-            {props.player.position} - {props.player.name} - ${props.fPlayer.salary}
+            {props.rosterLine.rosterPosition} - {props.rosterLine.playerName} - ${props.rosterLine.playerSal}
         </div>
     )
 }

@@ -1,5 +1,26 @@
+function assignRankings (playersArray) {
+    let currentRanking = {
+        QB: 0,
+        RB: 0,
+        WR: 0,
+        TE: 0,
+        DST: 0,
+        K: 0
+    }
+    console.log(playersArray)
+    let sortedPlayers = playersArray.sort((playerA, playerB) => playerB.value - playerA.value)
+    let rankedPlayers = sortedPlayers.map(player => {
+        const playerPosition = player.player.position
+        player.posRanking = `${playerPosition}${++currentRanking[playerPosition]}`
+        console.log(player)
+        return player
+    })
+    return rankedPlayers
+}
 
 export const rankingPlayersReducer = (state = {rankingPlayers: [], requesting: false, updatedPlayers: []}, action) => {
+    
+
     switch (action.type) {
         case 'START_POPULATING_PLAYERS_REQUEST':
             return {
@@ -9,32 +30,46 @@ export const rankingPlayersReducer = (state = {rankingPlayers: [], requesting: f
             }
         case 'POPULATE_RANKING_PLAYERS':
             
-            let currentRanking = {
-                QB: 0,
-                RB: 0,
-                WR: 0,
-                TE: 0,
-                DST: 0,
-                K: 0
-            }
-            let sortedPlayers = action.ranking_players.sort((playerA, playerB) => playerB.value - playerA.value)
-            let rankedPlayers = sortedPlayers.map(player => {
-                const playerPosition = player.player.position
-                player.posRanking = `${playerPosition}${++currentRanking[playerPosition]}`
-                console.log(player)
-                return player
-            })
-            
+            // let currentRanking = {
+            //     QB: 0,
+            //     RB: 0,
+            //     WR: 0,
+            //     TE: 0,
+            //     DST: 0,
+            //     K: 0
+            // }
+            // let sortedPlayers = action.ranking_players.sort((playerA, playerB) => playerB.value - playerA.value)
+            // let rankedPlayers = sortedPlayers.map(player => {
+            //     const playerPosition = player.player.position
+            //     player.posRanking = `${playerPosition}${++currentRanking[playerPosition]}`
+            //     console.log(player)
+            //     return player
+            // })
+            console.log(action.ranking_players)
             return {
                 ...state,
-                rankingPlayers: rankedPlayers,
-                // rankingPlayers: action.ranking_players.sort((playerA, playerB) => playerB.value - playerA.value),
+                rankingPlayers: assignRankings(action.ranking_players),
                 requesting: false
             }
         case 'ORDER_RANKING_PLAYERS':
+            // currentRanking = {
+            //     QB: 0,
+            //     RB: 0,
+            //     WR: 0,
+            //     TE: 0,
+            //     DST: 0,
+            //     K: 0
+            // }
+            // sortedPlayers = [...state.rankingPlayers].sort((playerA, playerB) => playerB.value - playerA.value)
+            // rankedPlayers = sortedPlayers.map(player => {
+            //     const playerPosition = player.player.position
+            //     player.posRanking = `${playerPosition}${++currentRanking[playerPosition]}`
+            //     console.log(player)
+            //     return player
+            // })
             return {
                 ...state,
-                rankingPlayers: [...state.rankingPlayers].sort((playerA, playerB) => playerB.value - playerA.value)
+                rankingPlayers: assignRankings([...state.rankingPlayers])
             }
         case 'CHANGE_VALUE':
             let newArray = state.rankingPlayers.map(rPlayer => {

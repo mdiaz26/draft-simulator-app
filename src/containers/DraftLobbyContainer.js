@@ -18,7 +18,7 @@ class DraftLobbyContainer extends React.Component {
     componentDidMount(){
         this.props.fetchDraft(this.props.match.params.id)
         this.props.fetchFranchisePlayers(this.props.match.params.id)
-        this.props.fetchRankingPlayers(2)
+        this.props.fetchRankingPlayers(4)
         this.props.redirectTo('')
         // this.props.emptySearchBar()
     }
@@ -121,7 +121,7 @@ class DraftLobbyContainer extends React.Component {
             franchise_id: winningFranchise.franchiseId,
             salary
         }
-        const adapter = new JSONAPIAdapter('http://localhost:3000/api/v1/')
+        const adapter = new JSONAPIAdapter('https://draft-simulator-api.herokuapp.com/api/v1/')
         return adapter.post('franchise_players', body)
         .then(this.props.addFranchisePlayer)
     }

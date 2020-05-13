@@ -51,7 +51,7 @@ export const fetchRankingPlayers = (rankingId) => {
   console.log("fetching ranking players")
   return (dispatch) => {
     dispatch({ type: 'START_POPULATING_PLAYERS_REQUEST'})
-    fetch(`http://localhost:3000/api/v1/rankings/${rankingId}/ranking_players`)
+    fetch(`https://draft-simulator-api.herokuapp.com/api/v1/rankings/${rankingId}/ranking_players`)
     .then(response => response.json())
     .then(ranking_players => dispatch({
       type: 'POPULATE_RANKING_PLAYERS', ranking_players
@@ -61,7 +61,7 @@ export const fetchRankingPlayers = (rankingId) => {
 
   export const fetchRankings = () => {
     console.log("fetching rankings")
-    const adapter = new JSONAPIAdapter('http://localhost:3000/api/v1/')
+    const adapter = new JSONAPIAdapter('https://draft-simulator-api.herokuapp.com/api/v1/')
     return (dispatch) => {
       dispatch({ type: 'START_POPULATING_RANKINGS_REQUEST'})
       adapter.getAll('rankings')
@@ -73,7 +73,7 @@ export const fetchRankingPlayers = (rankingId) => {
 
   export const fetchRanking = (rankingId) => {
     console.log("fetching ranking")
-    const adapter = new JSONAPIAdapter('http://localhost:3000/api/v1/')
+    const adapter = new JSONAPIAdapter('https://draft-simulator-api.herokuapp.com/api/v1/')
     return (dispatch) => {
       dispatch({ type: 'START_FETCHING_RANKING_REQUEST'})
       adapter.getOne('rankings', rankingId)
@@ -84,13 +84,13 @@ export const fetchRankingPlayers = (rankingId) => {
   }
 
   export const saveRankingsPlayer = (rPlayer) => {
-    const adapter = new JSONAPIAdapter('http://localhost:3000/api/v1/')
+    const adapter = new JSONAPIAdapter('https://draft-simulator-api.herokuapp.com/api/v1/')
     adapter.update('ranking_players', rPlayer.id, rPlayer)
   }
 
   export const fetchDrafts = () => {
     console.log("fetching drafts")
-    const adapter = new JSONAPIAdapter('http://localhost:3000/api/v1/')
+    const adapter = new JSONAPIAdapter('https://draft-simulator-api.herokuapp.com/api/v1/')
     return (dispatch) => {
       dispatch({ type: 'START_POPULATING_DRAFTS_REQUEST'})
       adapter.getAll('drafts')
@@ -102,7 +102,7 @@ export const fetchRankingPlayers = (rankingId) => {
 
   export const fetchFranchises = () => {
     console.log("fetching franchises")
-    const adapter = new JSONAPIAdapter('http://localhost:3000/api/v1/')
+    const adapter = new JSONAPIAdapter('https://draft-simulator-api.herokuapp.com/api/v1/')
     return (dispatch) => {
       dispatch({ type: 'START_POPULATING_FRANCHISES_REQUEST'})
       adapter.getAll('franchises')
@@ -114,7 +114,7 @@ export const fetchRankingPlayers = (rankingId) => {
 
   export const fetchFranchise = (franchiseId) => {
     console.log("fetching franchise")
-    const adapter = new JSONAPIAdapter('http://localhost:3000/api/v1/')
+    const adapter = new JSONAPIAdapter('https://draft-simulator-api.herokuapp.com/api/v1/')
     return (dispatch) => {
       dispatch({type: 'START_POPULATING_FRANCHISES_REQUEST'})
       adapter.getOne('franchises', franchiseId)
@@ -126,7 +126,7 @@ export const fetchRankingPlayers = (rankingId) => {
 
   export const fetchDraft = (draftId) => {
     console.log("fetching draft")
-    const adapter = new JSONAPIAdapter('http://localhost:3000/api/v1/')
+    const adapter = new JSONAPIAdapter('https://draft-simulator-api.herokuapp.com/api/v1/')
     return (dispatch) => {
       dispatch({ type: 'START_POPULATING_DRAFT_REQUEST'})
       adapter.getOne('drafts', draftId)
@@ -140,7 +140,7 @@ export const fetchRankingPlayers = (rankingId) => {
     console.log("fetching players")
     return (dispatch) => {
       dispatch({ type: 'START_POPULATING_DRAFT_FRANCHISE_PLAYERS'})
-      fetch(`http://localhost:3000/api/v1/drafts/${draftId}/franchise_players`)
+      fetch(`https://draft-simulator-api.herokuapp.com/api/v1/drafts/${draftId}/franchise_players`)
       .then(response => response.json())
       .then(players => dispatch({
         type: 'POPULATE_DRAFT_FRANCHISE_PLAYERS', players

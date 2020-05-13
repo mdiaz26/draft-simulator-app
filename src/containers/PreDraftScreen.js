@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom"
 import { connect } from 'react-redux'
 import JSONAPIAdapter from '../JSONAPIAdapter'
 
-const adapter = new JSONAPIAdapter('http://localhost:3000/api/v1/')
+const adapter = new JSONAPIAdapter('https://draft-simulator-api.herokuapp.com/api/v1/')
 const franchiseNames = [
     'Your Team',
     'Oakland', 
@@ -80,7 +80,7 @@ class PreDraftScreen extends React.Component {
     // }
 
     createFranchises = async (body) => {
-        let response = await fetch('http://localhost:3000/api/v1/draft_franchises', {
+        let response = await fetch('https://draft-simulator-api.herokuapp.com/api/v1/draft_franchises', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

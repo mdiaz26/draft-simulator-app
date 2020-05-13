@@ -64,6 +64,7 @@ class Ranking extends React.Component {
                                     player={rPlayer.player} 
                                     rPlayer={rPlayer} 
                                     index={idx}
+                                    // posRanking={this.posRanking}
                                     onEditPage={true}
                                 />
                             )}

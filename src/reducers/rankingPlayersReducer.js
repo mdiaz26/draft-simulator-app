@@ -8,9 +8,27 @@ export const rankingPlayersReducer = (state = {rankingPlayers: [], requesting: f
                 requesting: true
             }
         case 'POPULATE_RANKING_PLAYERS':
+            
+            let currentRanking = {
+                QB: 0,
+                RB: 0,
+                WR: 0,
+                TE: 0,
+                DST: 0,
+                K: 0
+            }
+            let sortedPlayers = action.ranking_players.sort((playerA, playerB) => playerB.value - playerA.value)
+            let rankedPlayers = sortedPlayers.map(player => {
+                const playerPosition = player.player.position
+                player.posRanking = `${playerPosition}${++currentRanking[playerPosition]}`
+                console.log(player)
+                return player
+            })
+            
             return {
                 ...state,
-                rankingPlayers: action.ranking_players.sort((playerA, playerB) => playerB.value - playerA.value),
+                rankingPlayers: rankedPlayers,
+                // rankingPlayers: action.ranking_players.sort((playerA, playerB) => playerB.value - playerA.value),
                 requesting: false
             }
         case 'ORDER_RANKING_PLAYERS':

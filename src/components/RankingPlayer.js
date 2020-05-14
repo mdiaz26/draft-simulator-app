@@ -48,14 +48,9 @@ const Player = props => {
                 {props.player.pro_team}
             </td>
             <td>
-                {props.index + 1}
+                {props.rPlayer.posRanking}
             </td>
             <td>
-                {/* {props.rPlayer.tier}
-                <div className='tier-buttons'>
-                    <button className="ranking-btn increase" onClick={() => props.changeRankingInfo(newPlayerObj(props.rPlayer, '+ tier'))}><div className= 'arrow up'></div></button>
-                    <button className="ranking-btn decrease" onClick={() => props.changeRankingInfo(newPlayerObj(props.rPlayer, '- tier'))}><div className= 'arrow down'></div></button>
-                </div> */}
                 <select 
                     className='drop-down'
                     value={props.rPlayer.tier} 

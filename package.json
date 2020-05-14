@@ -39,6 +39,7 @@
     ]
   },
   "devDependencies": {
-    "case-sensitive-paths-webpack-plugin": "^2.3.0"
+    "case-sensitive-paths-webpack-plugin": "^2.3.0",
+    "react-test-renderer": "^16.13.1"
   }
 }

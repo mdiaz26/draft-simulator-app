@@ -119,7 +119,8 @@ class DraftLobbyContainer extends React.Component {
         const body = {
             player_id: rPlayer.player_id,
             franchise_id: winningFranchise.franchiseId,
-            salary
+            salary,
+            tier: rPlayer.tier
         }
         const adapter = new JSONAPIAdapter('https://draft-simulator-api.herokuapp.com/api/v1/')
         return adapter.post('franchise_players', body)

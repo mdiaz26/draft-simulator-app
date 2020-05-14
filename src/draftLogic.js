@@ -84,10 +84,12 @@ export const totalRosterSpots = rosterConfig => {
 }
 
 // This function takes into account the players a franchise already has on their roster
-export const franchiseNeedFactor = (rosterConfig, franchise, rPlayer, rankingPlayers) => {
+export const franchiseNeedFactor = (rosterConfig, franchise, rPlayer) => {
+    console.log('inside franchiseNeedFactor', 'franchise:', franchise, 'rPlayer:', rPlayer, 'rankingPlayer')
     const startingSpots = calculateStartingPositionSpots(rosterConfig, rosterConfig[rPlayer.player.position.toLowerCase()])
     const playersAtPosition = filterByPosition(franchise.franchise_players, rPlayer.player.position)
-    const reducerFunction = (total, playerObj) => total + 1/(rankingPlayers.find(player => player.player_id === playerObj.player_id).tier)
+    const reducerFunction = (total, playerObj) => total + 1/playerObj.tier
+    // const reducerFunction = (total, playerObj) => total + 1/(rankingPlayers.find(player => player.player_id === playerObj.player_id).tier)
     const startersScore = (playersAtPosition.length > 0) ? playersAtPosition.reduce(reducerFunction, 0) : 0
 
     // starters score represents the number of players at a position and their relative tier.
@@ -109,7 +111,7 @@ export const franchiseNeedFactor = (rosterConfig, franchise, rPlayer, rankingPla
 // increase all valuations by 15%.
 // Last year
 
-const calculateStartingPositionSpots = (rosterConfig, position) => {
+export const calculateStartingPositionSpots = (rosterConfig, position) => {
     switch (position) {
         case 'qb':
             const startingQBs =  rosterConfig['qb'] + rosterConfig['superflex']
@@ -136,4 +138,4 @@ const filterByPosition = (franchisePlayersArray, position) => {
     return franchisePlayersArray.filter(fPlayer => fPlayer.player.position === position)
 }
 
-export default calculateStartingPositionSpots
+// export default calculateStartingPositionSpots

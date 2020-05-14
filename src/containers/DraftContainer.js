@@ -174,7 +174,8 @@ class Draft extends React.Component {
         const body = {
             player_id: this.props.nominatedPlayer.player_id,
             franchise_id: this.mostRecentBid().franchise.id,
-            salary: this.mostRecentBid().bidAmount
+            salary: this.mostRecentBid().bidAmount,
+            tier: this.props.nominatedPlayer.tier
         }
         adapter.post('franchise_players', body)
         .then(this.props.addFranchisePlayer)

@@ -6,6 +6,7 @@ export const calculateValuations = (rosterConfig, franchises, nominatedPlayer, r
             valuation: Math.floor(
                 bidLimiter(rosterConfig, franchise, 
                     Math.ceil(randomFactor(nominatedPlayer) * 
+                    // 1)
                     franchiseNeedFactor(rosterConfig, franchise, nominatedPlayer, rankingPlayers))
                 )
             )
@@ -15,14 +16,24 @@ export const calculateValuations = (rosterConfig, franchises, nominatedPlayer, r
 }
 
 export const randomFactor = (nominatedPlayer) => {
-    return nominatedPlayer.value + (
-        ((Math.floor(Math.random() * 34)) + 
-        (Math.floor(Math.random() * 34)) +
-        (Math.floor(Math.random() * 34)) - 
-        66 )/ 
-        100 ) * 
-        nominatedPlayer.value
+    return nominatedPlayer.value + 
+        Math.floor(Math.random() * 31) -15
+        // + 
+        // (Math.floor(Math.random() * 34)) +
+        // (Math.floor(Math.random() * 34)) - 
+        // 66 )/ 
+        // 100 ) * 
+        // nominatedPlayer.value
 }
+// export const randomFactor = (nominatedPlayer) => {
+//     return nominatedPlayer.value + (
+//         ((Math.floor(Math.random() * 34)) + 
+//         (Math.floor(Math.random() * 34)) +
+//         (Math.floor(Math.random() * 34)) - 
+//         66 )/ 
+//         100 ) * 
+//         nominatedPlayer.value
+// }
 
 const bidLimiter = (rosterConfig, franchise, valuation) => {
     const peak = maxBid(rosterConfig, franchise)
@@ -39,8 +50,10 @@ const bidLimiter = (rosterConfig, franchise, valuation) => {
 
 const adjustedVal = (rosterConfig, valuation, franchise) => {
     const percentageOfRemainingBudget = valuation / maxBid(rosterConfig, franchise)
-    if (percentageOfRemainingBudget > 0.35) {
-        return valuation * (1 - (percentageOfRemainingBudget - 0.05))
+    if (valuation < 1) {
+        return 1
+    }else if (percentageOfRemainingBudget > 0.35) {
+        return valuation * (1 - (percentageOfRemainingBudget - 0.15))
     }
     return valuation
 }
@@ -71,7 +84,7 @@ export const totalRosterSpots = rosterConfig => {
 }
 
 // This function takes into account the players a franchise already has on their roster
-const franchiseNeedFactor = (rosterConfig, franchise, rPlayer, rankingPlayers) => {
+export const franchiseNeedFactor = (rosterConfig, franchise, rPlayer, rankingPlayers) => {
     const startingSpots = calculateStartingPositionSpots(rosterConfig, rosterConfig[rPlayer.player.position.toLowerCase()])
     const playersAtPosition = filterByPosition(franchise.franchise_players, rPlayer.player.position)
     const reducerFunction = (total, playerObj) => total + 1/(rankingPlayers.find(player => player.player_id === playerObj.player_id).tier)
@@ -86,9 +99,15 @@ const franchiseNeedFactor = (rosterConfig, franchise, rPlayer, rankingPlayers) =
     
     const currentPositionGrade = startingSpots - startersScore + 1
 
-    const demandFactor = (1.1 - (1 /( 1 + Math.pow(2.7, (-1 * currentPositionGrade - 1))))) * 10
+    // const demandFactor = (1.1 - (1 /( 1 + Math.pow(2.7, (-1 * currentPositionGrade - 1))))) * 10
+    const demandFactor = (1 /( 1 + Math.pow(2.7, (-1 * currentPositionGrade + 1))))
     return demandFactor
 }
+
+////////TIER SCARCITY??
+// I'm thinking if their value is more than $10 more than the next best available player at their position,
+// increase all valuations by 15%.
+// Last year
 
 const calculateStartingPositionSpots = (rosterConfig, position) => {
     switch (position) {
@@ -102,7 +121,7 @@ const calculateStartingPositionSpots = (rosterConfig, position) => {
             const startingWRs = rosterConfig['wr'] + rosterConfig['rb_wr'] + rosterConfig['wr_te']
             return startingWRs
         case 'te':
-            const startingTEs = rosterConfig['te'] + rosterConfig['wr_te']
+            const startingTEs = rosterConfig['te'] + rosterConfig['wr_te'] + rosterConfig['flex']
             return startingTEs
         case 'def':
             return 1
@@ -117,3 +136,4 @@ const filterByPosition = (franchisePlayersArray, position) => {
     return franchisePlayersArray.filter(fPlayer => fPlayer.player.position === position)
 }
 
+export default calculateStartingPositionSpots

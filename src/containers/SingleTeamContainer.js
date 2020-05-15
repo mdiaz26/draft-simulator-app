@@ -12,17 +12,19 @@ class SingleTeamContainer extends React.Component {
         let i = 2
         let newArray = []
         while (i < keys.length - 2) {
-            if (!rosterConfig[keys[i]] || rosterConfig[keys[i]] === 0 || keys[i] === 'bench') {
+            const position = keys[i]
+            if (!rosterConfig[position] || rosterConfig[position] === 0 || position === 'bench') {
                 i++
-            } else if (rosterConfig[keys[i]] === 1) {
-                newArray.push(this.keyToObject(keys[i], '', '', false))
+            } else if (rosterConfig[position] === 1) {
+                newArray.push(this.keyToObject(position, '', '', false))
                 i++
-            } else if (rosterConfig[keys[i]] > 1) {
-                newArray.push(this.keyToObject(keys[i], '', '', false))
-                rosterConfig[keys[i]] = rosterConfig[keys[i]] - 1
+            } else if (rosterConfig[position] > 1) {
+                newArray.push(this.keyToObject(position, '', '', false))
+                rosterConfig[position] = rosterConfig[position] - 1
             }
         }
-        console.log(newArray)
+        console.log('roster_config', this.props.currentDraft.roster_config)
+        console.log('creating positions array', rosterConfig, keys, newArray)
         return newArray
     }
 

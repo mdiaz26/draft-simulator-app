@@ -130,9 +130,11 @@ export const fetchRankingPlayers = (rankingId) => {
     return (dispatch) => {
       dispatch({ type: 'START_POPULATING_DRAFT_REQUEST'})
       adapter.getOne('drafts', draftId)
-      .then(draft => dispatch({
+      .then(draft => {
+        console.log('we just fetched the draft:', draft)
+        dispatch({
         type: 'ASSIGN_DRAFT', draft
-      }))
+      })})
     }
   }
 

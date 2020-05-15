@@ -85,8 +85,8 @@ export const totalRosterSpots = rosterConfig => {
 
 // This function takes into account the players a franchise already has on their roster
 export const franchiseNeedFactor = (rosterConfig, franchise, rPlayer) => {
-    console.log('inside franchiseNeedFactor', 'franchise:', franchise, 'rPlayer:', rPlayer, 'rankingPlayer')
-    const startingSpots = calculateStartingPositionSpots(rosterConfig, rosterConfig[rPlayer.player.position.toLowerCase()])
+    const startingSpots = calculateStartingPositionSpots(rosterConfig, rPlayer.player.position.toLowerCase())
+    // console.log('inside franchiseNeedFactor', 'rosterConfig:', rosterConfig, 'startingSpots:', startingSpots, 'position:', rPlayer.player.position.toLowerCase())
     const playersAtPosition = filterByPosition(franchise.franchise_players, rPlayer.player.position)
     const reducerFunction = (total, playerObj) => total + 1/playerObj.tier
     // const reducerFunction = (total, playerObj) => total + 1/(rankingPlayers.find(player => player.player_id === playerObj.player_id).tier)

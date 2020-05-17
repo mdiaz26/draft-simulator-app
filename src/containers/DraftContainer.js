@@ -185,10 +185,17 @@ class Draft extends React.Component {
         clearInterval(this.state.biddingTrigger)
         this.setState({biddingTrigger: ""})
     }
+
+    fetchDraftInfo = () => {
+        fetch('https://draft-simulator-api.herokuapp.com/api/v1/drafts/5')
+        .then(responses => responses.json())
+        .then(console.log)
+    }
     
     render() {
         return (
             <div className='draft-container'>
+                <button onClick={this.fetchDraftInfo}>Fetch Roster Config</button>
                 {this.props.nominatedPlayer !== '' ? 
                     <div className='auction-information'>
                         <div className='nominated-player-locator'>

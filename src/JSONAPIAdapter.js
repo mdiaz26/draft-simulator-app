@@ -14,8 +14,10 @@ class JSONAPIAdapter {
     }
 
     async getOne(endpoint, id){
+      let url = `${this.baseURL}${endpoint}/${id}`
       const response = await fetch(`${this.baseURL}${endpoint}/${id}`)
       const result = await response.json()
+      console.log('inside getOne', url, result)
       return result
   }
 
@@ -124,16 +126,31 @@ export const fetchRankingPlayers = (rankingId) => {
     }
   }
 
+  // export const fetchDraft = (draftId) => {
+  //   return (dispatch) => {
+  //     dispatch({ type: 'START_POPULATING_DRAFT_REQUEST'})
+  //     fetch('https://draft-simulator-api.herokuapp.com/api/v1/drafts/5')
+  //     .then(response => response.json())
+  //     .then(draft => {
+  //       console.log('did this change?:', draft)
+  //       dispatch({ type: 'ASSIGN_DRAFT', draft})
+  //     })
+  //   }
+  // }
+
   export const fetchDraft = (draftId) => {
     console.log("fetching draft")
     const adapter = new JSONAPIAdapter('https://draft-simulator-api.herokuapp.com/api/v1/')
     return (dispatch) => {
       dispatch({ type: 'START_POPULATING_DRAFT_REQUEST'})
       adapter.getOne('drafts', draftId)
-      .then(draft => {
-        console.log('we just fetched the draft:', draft)
+      .then( async draft => {
+        debugger
+        const variable = await draft 
+        console.log('we just fetched the draft:', variable)
+        debugger
         dispatch({
-        type: 'ASSIGN_DRAFT', draft
+        type: 'ASSIGN_DRAFT', draft: variable
       })})
     }
   }

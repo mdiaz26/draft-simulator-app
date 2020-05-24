@@ -5,24 +5,29 @@ import { connect } from 'react-redux'
 import JSONAPIAdapter from '../JSONAPIAdapter'
 
 const adapter = new JSONAPIAdapter('https://draft-simulator-api.herokuapp.com/api/v1/')
-const franchiseNames = [
-    'Your Team',
-    'Oakland', 
-    'Great Kills', 
-    'Virginia', 
-    'Flushing', 
-    'Yonkers', 
-    'Capital Region',
-    'New England',
-    'Mars',
-    'LIC'
+const neutralOpponents = [
+    {id: 0, name: 'User', team_name: 'Your Team', penalties: 0, strategy: 5},
+    {id: 0, name: 'Jack', team_name: 'Team 1', penalties: 0, strategy: 5},
+    {id: 0, name: 'Angie', team_name: 'Team 2', penalties: 0, strategy: 5},
+    {id: 0, name: 'Carlos', team_name: 'Team 3', penalties: 0, strategy: 5},
+    {id: 0, name: 'Manuela', team_name: 'Team 4', penalties: 0, strategy: 5},
+    {id: 0, name: 'Jamaal', team_name: 'Team 5', penalties: 0, strategy: 5},
+    {id: 0, name: 'Lilly', team_name: 'Team 6', penalties: 0, strategy: 5},
+    {id: 0, name: 'Franz', team_name: 'Team 7', penalties: 0, strategy: 5},
+    {id: 0, name: 'Christine', team_name: 'Team 8', penalties: 0, strategy: 5},
+    {id: 0, name: 'Jin', team_name: 'Team 9', penalties: 0, strategy: 5},
+    {id: 0, name: 'Francesca', team_name: 'Team 10', penalties: 0, strategy: 5},
+    {id: 0, name: 'Lauren', team_name: 'Team 11', penalties: 0, strategy: 5},
 ]
 
 class PreDraftScreen extends React.Component {
 
     state = {
         draftObj: {},
-        // redirect: ''
+        draftSettings: false,
+        budget: 300,
+        numberOfTeams: 10,
+        opponents: neutralOpponents,
     }
 
 
@@ -31,10 +36,11 @@ class PreDraftScreen extends React.Component {
             let draftObj = await this.createNewDraft()
             //use custom route to create ten new instances of Franchise
 
-            const body = this.shuffleFranchises(franchiseNames).map((franchiseName, idx) => {
+            const body = this.shuffleFranchises(this.state.opponents).map((opponentInfo, idx) => {
                 return {
-                        name: franchiseName,
-                        budget: 300,
+                        name: opponentInfo.team_name,
+                        budget: this.state.budget - opponentInfo.penalties,
+                        opponent_id: opponentInfo.id,
                         draft_id: draftObj.id,
                         draft_position: idx + 1,
                         is_nominating: idx === 0 ? true : false
@@ -105,10 +111,19 @@ class PreDraftScreen extends React.Component {
         return franchises
     }
 
+    handleSubmit = () => {
+        this.setState()
+    }
+
+    handleChange = (event) => {
+        this.setState({})
+    }
+
     render(){
         if (this.props.redirect) {
             return <Redirect to={this.props.redirect}/>
         }
+        let teams = this.state.opponents.slice(0, this.state.numberOfTeams - 1)
         return(
             <div className='pre-draft-container'>
                 <h1>14 Million Futures</h1>
@@ -123,6 +138,37 @@ class PreDraftScreen extends React.Component {
                 </p>
                 <h3>Ready to start drafting?</h3>
                 <button onClick={this.initiateDraft}>Let's do it!</button>
+                <button onClick={() => this.setState({draftSettings: !this.state.draftSettings})}>Edit Draft Settings</button>
+                {this.state.draftSettings && 
+                    <form onSubmit={this.handleSubmit}>
+                        <label>
+                            Starting Budget: 
+                            <input type="text" value={this.state.startingBudget} onChange={this.handleChange}></input>
+                        </label>
+                        <label>
+                            Number of Teams:
+                            <select 
+                                className='drop-down' 
+                                value={this.state.numberOfTeams} 
+                                onChange={event => this.setState({numberOfTeams: event.target.value})}
+                            >
+                                <option value='8'>8</option>
+                                <option value='10'>10</option>
+                                <option value='12'>12</option>
+                            </select>
+                        </label>
+                        {teams.map(team => (
+                            <div>{team.name}</div>
+                            // <select
+                            //     className='drop-down'
+                            //     value={team.name}
+                            // >
+
+                            // </select>
+                        ))}
+                        /* Generate drop downs equal to number of teams selected */
+                        <input type="submit" value="Submit" />
+                    </form>}
             </div>
         )
     }

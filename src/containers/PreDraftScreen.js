@@ -6,18 +6,18 @@ import JSONAPIAdapter from '../JSONAPIAdapter'
 
 const adapter = new JSONAPIAdapter('https://draft-simulator-api.herokuapp.com/api/v1/')
 const neutralOpponents = [
-    {id: 0, name: 'User', team_name: 'Your Team', penalties: 0, strategy: 5},
-    {id: 0, name: 'Jack', team_name: 'Team 1', penalties: 0, strategy: 5},
-    {id: 0, name: 'Angie', team_name: 'Team 2', penalties: 0, strategy: 5},
-    {id: 0, name: 'Carlos', team_name: 'Team 3', penalties: 0, strategy: 5},
-    {id: 0, name: 'Manuela', team_name: 'Team 4', penalties: 0, strategy: 5},
-    {id: 0, name: 'Jamaal', team_name: 'Team 5', penalties: 0, strategy: 5},
-    {id: 0, name: 'Lilly', team_name: 'Team 6', penalties: 0, strategy: 5},
-    {id: 0, name: 'Franz', team_name: 'Team 7', penalties: 0, strategy: 5},
-    {id: 0, name: 'Christine', team_name: 'Team 8', penalties: 0, strategy: 5},
-    {id: 0, name: 'Jin', team_name: 'Team 9', penalties: 0, strategy: 5},
-    {id: 0, name: 'Francesca', team_name: 'Team 10', penalties: 0, strategy: 5},
-    {id: 0, name: 'Lauren', team_name: 'Team 11', penalties: 0, strategy: 5},
+    {id: -1, name: 'Your Team', team_name: 'Your Team', penalties: 0, strategy: 5},
+    {id: -2, name: 'Jack', team_name: 'Team 1', penalties: 0, strategy: 5},
+    {id: -3, name: 'Angie', team_name: 'Team 2', penalties: 0, strategy: 5},
+    {id: -4, name: 'Carlos', team_name: 'Team 3', penalties: 0, strategy: 5},
+    {id: -5, name: 'Manuela', team_name: 'Team 4', penalties: 0, strategy: 5},
+    {id: -6, name: 'Jamaal', team_name: 'Team 5', penalties: 0, strategy: 5},
+    {id: -7, name: 'Lilly', team_name: 'Team 6', penalties: 0, strategy: 5},
+    {id: -8, name: 'Franz', team_name: 'Team 7', penalties: 0, strategy: 5},
+    {id: -9, name: 'Christine', team_name: 'Team 8', penalties: 0, strategy: 5},
+    {id: -10, name: 'Jin', team_name: 'Team 9', penalties: 0, strategy: 5},
+    {id: -11, name: 'Francesca', team_name: 'Team 10', penalties: 0, strategy: 5},
+    {id: -12, name: 'Lauren', team_name: 'Team 11', penalties: 0, strategy: 5},
 ]
 
 class PreDraftScreen extends React.Component {
@@ -27,7 +27,8 @@ class PreDraftScreen extends React.Component {
         draftSettings: false,
         budget: 300,
         numberOfTeams: 10,
-        opponents: neutralOpponents,
+        opponentOptions: neutralOpponents,
+        opponents: neutralOpponents
     }
 
 
@@ -123,7 +124,8 @@ class PreDraftScreen extends React.Component {
         if (this.props.redirect) {
             return <Redirect to={this.props.redirect}/>
         }
-        let teams = this.state.opponents.slice(0, this.state.numberOfTeams - 1)
+        const teams = this.state.opponentOptions.slice(0, this.state.numberOfTeams)
+        let mutableTeams = this.state.opponents.slice(0, this.state.numberOfTeams)
         return(
             <div className='pre-draft-container'>
                 <h1>14 Million Futures</h1>
@@ -157,16 +159,24 @@ class PreDraftScreen extends React.Component {
                                 <option value='12'>12</option>
                             </select>
                         </label>
-                        {teams.map(team => (
-                            <div>{team.name}</div>
-                            // <select
-                            //     className='drop-down'
-                            //     value={team.name}
-                            // >
-
-                            // </select>
+                        {mutableTeams.map((team, index) => (
+                            <select
+                                className='drop-down'
+                                key={index}
+                                value={mutableTeams[index].id}
+                                // onChange={event => console.log(teams)}
+                                onChange={event => {
+                                    const selectedTeam = teams.find(team => team.id.toString() === event.target.value)
+                                    mutableTeams[index] = selectedTeam
+                                    this.setState({opponents: mutableTeams})
+                                    console.log(teams, selectedTeam, mutableTeams)
+                                }}
+                            >
+                                {teams.map((team, index) => (
+                                    <option key={index} value={team.id}>{team.name}</option>
+                                ))}
+                            </select>
                         ))}
-                        /* Generate drop downs equal to number of teams selected */
                         <input type="submit" value="Submit" />
                     </form>}
             </div>
